@@ -5,7 +5,7 @@ import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
 import '../models/deal_model.dart';
 
 class DealService {
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/v1';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1';
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();

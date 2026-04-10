@@ -4,7 +4,7 @@ import 'package:aloo_sbji_mandi/core/service/token_service.dart';
 import 'package:http/http.dart' as http;
 
 class TransactionService {
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/v1/transactions';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1/transactions';
 
   // Get user's transaction history
   static Future<Map<String, dynamic>> getTransactionHistory({

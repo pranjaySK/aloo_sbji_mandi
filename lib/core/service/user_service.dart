@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
 
 class UserService {
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/v1';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1';
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();

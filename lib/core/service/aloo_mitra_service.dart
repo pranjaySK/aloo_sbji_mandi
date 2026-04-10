@@ -4,7 +4,7 @@ import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
 import 'package:aloo_sbji_mandi/core/service/auth_service.dart';
 
 class AlooMitraService {
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/v1';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1';
   final AuthService _authService = AuthService();
 
   /// Get Aloo Mitra profile details

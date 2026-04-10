@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/v1';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1';
   static const int _maxRetries = 0; // Changed from 2 to 0 (only 1 attempt)
   static const Duration _retryDelay = Duration(seconds: 1);
   static const Duration _requestTimeout = Duration(seconds: 5); // Reduced from 8 to 5

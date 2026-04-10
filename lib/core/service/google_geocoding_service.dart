@@ -14,7 +14,7 @@ class GoogleGeocodingService {
   factory GoogleGeocodingService() => _instance;
   GoogleGeocodingService._internal();
 
-  static const String _baseUrl = '${ApiConstants.baseUrl}/api/v1/geocode';
+  static String get _baseUrl => '${ApiConstants.baseUrl}/api/v1/geocode';
 
   // Cached API key (fetched once from server)
   String? _cachedApiKey;

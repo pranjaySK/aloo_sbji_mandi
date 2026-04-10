@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WeatherService {
-  // OpenWeatherMap API - Free tier
-  // You can get your API key from https://openweathermap.org/api
-  static const String _apiKey = '22a41d3f7f171811dd8149ca3aa42625';
+  // OpenWeatherMap API key from environment
+  static String get _apiKey => dotenv.get('OPENWEATHER_API_KEY', fallback: '');
   static const String _baseUrl =
       'https://api.openweathermap.org/data/2.5/weather';
 

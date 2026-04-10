@@ -1,4 +1,5 @@
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:aloo_sbji_mandi/core/service/local_notification_service.dart';
 import 'package:aloo_sbji_mandi/core/service/socket_service.dart';
 // Firebase imports — uncomment when google-services.json is added
@@ -59,6 +60,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Allow google_fonts to fetch fonts over HTTP (for web)
   GoogleFonts.config.allowRuntimeFetching = true;
+  await dotenv.load(fileName: ".env");
   await AppLocalizations.init();
 
   // ── Firebase & FCM (disabled until google-services.json is added) ──

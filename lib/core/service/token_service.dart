@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenService {
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/v1/tokens';
-  static const String counterBaseUrl = '${ApiConstants.baseUrl}/api/v1/counters';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1/tokens';
+  static String get counterBaseUrl => '${ApiConstants.baseUrl}/api/v1/counters';
 
   /// Static method to get access token for use in other services
   static Future<String?> getAccessToken() async {

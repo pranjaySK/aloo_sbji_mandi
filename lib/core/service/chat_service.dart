@@ -11,7 +11,7 @@ import 'socket_service.dart';
 
 class ChatService {
   // Backend URL - using production server
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/v1';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1';
 
   // Socket service for real-time messaging
   final SocketService _socketService = SocketService();

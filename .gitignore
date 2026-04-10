@@ -48,3 +48,18 @@ app.*.map.json
 android/key.properties
 android/*.jks
 *.jks
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.staging
+
+# Firebase configuration (contains API keys)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+firebase.json
+
+# IDE / Workspace
+.gemini/

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NewsArticle {
   final String title;
@@ -54,8 +55,8 @@ class NewsArticle {
 }
 
 class NewsService {
-  // NewsAPI Key
-  static const String _newsApiKey = 'adeca749b6064f91b1af2d5fcc2e118d';
+  // NewsAPI Key from environment
+  static String get _newsApiKey => dotenv.get('NEWS_API_KEY', fallback: '');
   
   // Cache news to avoid too many API calls
   static List<NewsArticle>? _cachedNews;

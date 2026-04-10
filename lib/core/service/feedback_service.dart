@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FeedbackService {
-  static const String baseUrl = '${ApiConstants.baseUrl}/api';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api';
 
   /// Submit feedback to backend and store locally
   Future<Map<String, dynamic>> submitFeedback({

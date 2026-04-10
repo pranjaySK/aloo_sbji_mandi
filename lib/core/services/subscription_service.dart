@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/api_constant.dart';
 
 class SubscriptionService {
-  static const String baseUrl = '${ApiConstants.baseUrl}/api/v1/subscriptions';
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1/subscriptions';
 
   static Future<String?> _getAccessToken() async {
     final prefs = await SharedPreferences.getInstance();

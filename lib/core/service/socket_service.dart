@@ -26,7 +26,7 @@ class SocketService {
   factory SocketService() => _instance;
   SocketService._internal();
 
-  static const String baseUrl = ApiConstants.baseUrl;
+  static String get baseUrl => ApiConstants.baseUrl;
 
   io.Socket? _socket;
   bool _isConnected = false;
