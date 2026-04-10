@@ -1,4 +1,5 @@
 import 'package:aloo_sbji_mandi/core/service/google_geocoding_service.dart';
+import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -161,7 +162,7 @@ class _LocationMapWidgetState extends State<LocationMapWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Photo Capture Location',
+                  tr('photo_captured_location'),
                   style: GoogleFonts.inter(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
@@ -203,7 +204,7 @@ class _LocationMapWidgetState extends State<LocationMapWidget> {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    'Navigate',
+                    tr('navigate'),
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       color: Colors.white,
@@ -267,7 +268,7 @@ class _LocationMapWidgetState extends State<LocationMapWidget> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        'Tap to view on Google Maps',
+                        tr('tap_to_view_on_map'),
                         style: GoogleFonts.inter(
                           fontSize: 11,
                           color: Colors.white,
@@ -312,7 +313,7 @@ class _LocationMapWidgetState extends State<LocationMapWidget> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Loading map...',
+              tr('loading_map'),
               style: GoogleFonts.inter(
                 fontSize: 12,
                 color: Colors.grey[600],
@@ -387,7 +388,7 @@ class _LocationMapWidgetState extends State<LocationMapWidget> {
                 Icon(Icons.navigation_rounded, size: 14, color: Colors.green.shade600),
                 const SizedBox(width: 4),
                 Text(
-                  'Tap to navigate',
+                  tr('tap_to_navigate'),
                   style: GoogleFonts.inter(
                     fontSize: 12,
                     color: Colors.green.shade600,

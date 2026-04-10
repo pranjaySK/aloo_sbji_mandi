@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:aloo_sbji_mandi/core/models/receipt_model.dart';
+import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -71,7 +73,7 @@ class ReceiptPhotoService {
     final photo = ReceiptPhoto(
       id: _uuid.v4(),
       imagePath: imagePath,
-      title: title ?? 'Receipt ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+      title: title ?? '${tr('receipt')} ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
       description: description,
       amount: amount,
       vendor: vendor,

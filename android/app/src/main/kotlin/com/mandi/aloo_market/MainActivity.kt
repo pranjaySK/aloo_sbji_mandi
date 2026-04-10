@@ -1,4 +1,4 @@
-package `in`.aloomarket.app
+package com.mandi.aloo_market
 
 import android.os.Bundle
 import androidx.core.view.WindowCompat

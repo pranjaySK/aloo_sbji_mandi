@@ -289,9 +289,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const SizedBox(height: 16),
 
                     _buildDropdownField(
-                      label: 'State',
+                      label: tr('select_state'),
                       icon: Icons.map_outlined,
-                      value: _selectedState,
+                      value: _selectedState, 
                       items: _availableStates,
                       onChanged: _onStateChanged,
                       hint: tr('select_state'),
@@ -299,7 +299,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const SizedBox(height: 16),
 
                     _buildDropdownField(
-                      label: 'District',
+                      label: tr('select_district'),
                       icon: Icons.location_city_outlined,
                       value: _selectedDistrict,
                       items: _availableDistricts,
@@ -310,7 +310,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const SizedBox(height: 16),
 
                     _buildDropdownField(
-                      label: 'City/Village',
+                      label: tr('city_village'),
                       icon: Icons.location_on_outlined,
                       value: _selectedVillage,
                       items: _availableVillages,

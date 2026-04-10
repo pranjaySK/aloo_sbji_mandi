@@ -121,10 +121,19 @@ class AppLocalizations extends ChangeNotifier {
   // ENGLISH
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _en = {
-    'sign_in': 'SIGN IN', 'sign_in_with_phone': 'with phone number',
+    'days_left': 'days left',
+    'hours_left': 'hours left',
+    'minutes_left': 'minutes left',
+    'capture_location': 'Capture Location',
+    'photo_captured_location': 'Photo Captured Location',
+    'listed_on': 'Listed on',
+    'sign_in': 'SIGN IN',
+    'sign_in_with_phone': 'with phone number',
     'create_account_phone': 'Create Account with phone number',
-    'phone_number': 'Phone Number', 'phone_hint': '+91 Phone Number',
-    'enter_name': 'Enter Name', 'verify_otp': 'Verify number with OTP',
+    'phone_number': 'Phone Number',
+    'phone_hint': '+91 Phone Number',
+    'enter_name': 'Enter Name',
+    'verify_otp': 'Verify number with OTP',
     'generate_otp': 'Generate OTP',
     'fill_location_then_send_otp_hint':
         'Fill pincode and state / district / village above, then tap Send OTP.',
@@ -132,9 +141,13 @@ class AppLocalizations extends ChangeNotifier {
     'send_otp_first_signup':
         'Please tap Send OTP after filling location (real SMS OTP, like login).',
     'enter_gaon': 'Enter Gaaon',
-    'enter_district': 'Enter District', 'enter_state': 'Enter State',
-    'create': 'Create', 'login': 'Login', 'logout': 'Logout',
-    'already_account': 'Already have an account? ', 'login_link': 'Login',
+    'enter_district': 'Enter District',
+    'enter_state': 'Enter State',
+    'create': 'Create',
+    'login': 'Login',
+    'logout': 'Logout',
+    'already_account': 'Already have an account? ',
+    'login_link': 'Login',
     'enter_phone': 'Please enter phone number',
     'phone_10_digits': 'Phone number must be exactly 10 digits',
     'enter_your_name': 'Please enter your name',
@@ -149,67 +162,91 @@ class AppLocalizations extends ChangeNotifier {
     'server_unreachable':
         'Server is not reachable. Please check your internet connection.',
     'otp_sent': '✅ OTP sent: 1234',
-    'choose_language': 'Choose your language', 'done': 'Done',
+    'choose_language': 'Choose your language',
+    'done': 'Done',
     'select_language': 'Select Language',
     'what_defines_role': 'What defines your role?',
-    'farmer': 'Farmer', 'trader': 'Trader', 'cold_storage': 'Cold Storage',
-    'aloo_mitra': 'Aloo Mitra', 'service_provider': 'Service Provider',
+    'farmer': 'Farmer',
+    'trader': 'Trader',
+    'cold_storage': 'Cold Storage',
+    'aloo_mitra': 'Aloo Mitra',
+    'service_provider': 'Service Provider',
     'service_provider_bracket': '(Service Provider)',
     'failed_update_role': 'Failed to update role',
-    'home': 'Home', 'chaupal': 'Chaupal', 'profile': 'Profile',
+    'home': 'Home',
+    'chaupal': 'Chaupal',
+    'profile': 'Profile',
     'exit_app': 'Exit App',
     'exit_confirm': 'Are you sure you want to exit the app?',
-    'yes': 'Yes', 'no': 'No',
+    'yes': 'Yes',
+    'no': 'No',
     'coming_soon': 'Coming Soon!',
     'under_development': 'is under development.\nStay tuned!',
     'ok': 'OK',
-    'buy_seed': 'Buy Seed', 'sell_potato': 'Sell Potato',
-    'other_services': 'Other Services', 'my_listings': 'My Listings',
+    'buy_seed': 'Buy Seed',
+    'sell_potato': 'Sell Potato',
+    'other_services': 'Other Services',
+    'my_listings': 'My Listings',
     'trader_requests': 'Potato Needed by Vyapari',
     'mandi_prices': 'Mandi Prices',
     'cold_storage_service': 'Cold Storage',
     'rent_storage': 'Rent a Storage',
     'search_cold_storage_hint': 'Search by name, city...',
     'aloo_calculator': 'Aloo Calculator',
-    'ai_crop_advisor': 'AI Crop\nAdvisor', 'my_token': 'My Token',
-    'loan': 'Loan', 'ai_price_prediction': 'AI Price Prediction',
-    'my_bookings': 'Cold Storage Booking', 'my_chats': 'My Chats',
-    'buy_potato': 'Buy Potato', 'ai_analytics': 'AI Analytics',
+    'ai_crop_advisor': 'AI Crop\nAdvisor',
+    'my_token': 'My Token',
+    'loan': 'Loan',
+    'ai_price_prediction': 'AI Price Prediction',
+    'my_bookings': 'Cold Storage Booking',
+    'my_chats': 'My Chats',
+    'buy_potato': 'Buy Potato',
+    'ai_analytics': 'AI Analytics',
     'buy_request': 'My Potato Request',
     'manage_storage': 'Manage My Storage',
     'manage_storage_sub': 'Add, edit or update your cold storage details',
     'booking_requests': 'Booking Requests',
     'booking_requests_sub': 'View and respond to storage booking requests',
-    'services': 'Services', 'boli_alert': 'Boli Alert',
-    'token_system': 'Token System', 'ai_analysis': 'AI Analysis',
+    'services': 'Services',
+    'boli_alert': 'Boli Alert',
+    'token_system': 'Token System',
+    'ai_analysis': 'AI Analysis',
     'token_requests': 'Token Requests',
     'token_requests_sub': 'View and manage farmer token requests',
     'token_dashboard': 'Token Dashboard',
     'token_dashboard_sub': 'Monitor counters and queue status',
     'bulk_desk': 'Bulk Desk',
-    'welcome': 'Welcome!', 'quick_actions': 'Quick Actions',
-    'edit_profile': 'Edit Profile', 'add_service': 'Add Service',
-    'view_messages': 'View Messages', 'transactions': 'Transactions',
+    'welcome': 'Welcome!',
+    'quick_actions': 'Quick Actions',
+    'edit_profile': 'Edit Profile',
+    'add_service': 'Add Service',
+    'view_messages': 'View Messages',
+    'transactions': 'Transactions',
     'seed_listings': 'My Seed Listings',
     'seed_listings_sub': 'Create and manage seed listings',
-    'recent_enquiries': 'Recent Enquiries', 'view_all': 'View All',
+    'recent_enquiries': 'Recent Enquiries',
+    'view_all': 'View All',
     'no_enquiries': 'No new enquiries',
-    'directory': 'Directory', 'potato_seeds': 'Potato Seeds',
+    'directory': 'Directory',
+    'potato_seeds': 'Potato Seeds',
     'potato_seed_short': 'Potato\nSeed',
     'fertilizers': 'Fertilizers',
     'fertilizer_pesticides': 'Fertilizer/\nPesticides',
     'fertilizers_medicines': 'Fertilizers/Medicines',
-    'machinery': 'Machinery', 'machinery_rent': 'Machinery (Rent)',
+    'machinery': 'Machinery',
+    'machinery_rent': 'Machinery (Rent)',
     'machinery_new_rent': 'Machinery (New/Rent)',
     'farm_machinery': 'Farm\nMachinery',
     'transportation': 'Transportation',
     'transport_services': 'Transport\nServices',
-    'gunny_bag': 'Gunny Bag', 'gunny_bags': 'Gunny\nBags',
-    'majdoor': 'Majdoor', 'farming_labour': 'Farming\nLabour',
+    'gunny_bag': 'Gunny Bag',
+    'gunny_bags': 'Gunny\nBags',
+    'majdoor': 'Majdoor',
+    'farming_labour': 'Farming\nLabour',
     'transport_service_title': 'Transport Service',
     'potato_needed': 'Potato Needed',
     'what_would_you_like': 'What would you like to do?',
-    'buy_potato_seed': 'Buy POTATO SEED', 'sell_potato_crop': 'Sell POTATO',
+    'buy_potato_seed': 'Buy POTATO SEED',
+    'sell_potato_crop': 'Sell POTATO',
     'sell_potato_seed': 'Sell Potato Seed',
     'what_would_you_like_to_do': 'What would you like to do?',
     'from_farmer_or_producer': 'From farmer or seed producer',
@@ -224,19 +261,26 @@ class AppLocalizations extends ChangeNotifier {
     'from_cold_storage_option': 'From Cold Storage',
     'buy_from_farmer': 'From Farmer',
     'buy_from_seed_producer': 'From Seed Producers',
-    'sell_seed': 'Sell Seed', 'sell_crop': 'Sell Crop',
+    'sell_seed': 'Sell Seed',
+    'sell_crop': 'Sell Crop',
     'from_field': 'From Field (Live Location)',
     'from_cold_storage': 'From Cold Storage',
     'create_new_listing': 'Create New Listing',
     'where_is_potato': 'Where is potato stored?',
     'with_live_location': 'With live location',
     'with_cold_storage_details': 'With cold storage details',
-    'variety': 'Variety', 'quantity': 'Quantity', 'price': 'Price',
-    'per_quintal': 'per quintal', 'location': 'Location',
-    'contact': 'Contact', 'call_now': 'Call Now', 'chat': 'Chat',
+    'variety': 'Variety',
+    'quantity': 'Quantity',
+    'price': 'Price',
+    'per_quintal': 'per quintal',
+    'location': 'Location',
+    'contact': 'Contact',
+    'call_now': 'Call Now',
+    'chat': 'Chat',
     'view_details': 'View Details',
     'create_sell_request': 'Create Sell Request',
-    'potato_variety': 'Potato Variety', 'select_variety': 'Select Variety',
+    'potato_variety': 'Potato Variety',
+    'select_variety': 'Select Variety',
     'enter_quantity': 'Quantity (in quintals)',
     'expected_price': 'Expected Price (₹/quintal)',
     'unit_required': 'Unit Required',
@@ -274,7 +318,8 @@ class AppLocalizations extends ChangeNotifier {
     'listing_created': 'Listing Created!',
     'listing_created_message': 'Your listing has been created successfully.',
     'view_my_listings': 'View My Listings',
-    'add_photos': 'Add Photos', 'submit': 'Submit',
+    'add_photos': 'Add Photos',
+    'submit': 'Submit',
     'post_buy_request': 'Post Buy Request',
     'buy_request_info':
         'Post what potatoes you need. Farmers will see your request and can offer their produce.',
@@ -292,34 +337,53 @@ class AppLocalizations extends ChangeNotifier {
     'potato_type': 'Potato Type',
     'hire_cold_storage': 'Hire Cold Storage',
     'rent_cold_storage': 'Rent Cold Storage',
-    'available_space': 'Available Space', 'rent_per_bag': 'Rent per Bag',
+    'available_space': 'Available Space',
+    'rent_per_bag': 'Rent per Bag',
     'book_now': 'Book Now',
-    'today_prices': "Today's Prices", 'select_mandi': 'Select Mandi',
-    'min_price': 'Min Price', 'max_price': 'Max Price',
+    'select_mandi': 'Select Mandi',
+    'min_price': 'Min Price',
+    'max_price': 'Max Price',
     'modal_price': 'Modal Price',
-    'settings': 'Settings', 'notifications': 'Notifications',
-    'help': 'Help', 'help_support': 'Help & Support',
-    'about': 'About', 'search': 'Search', 'filter': 'Filter',
-    'sort': 'Sort', 'cancel': 'Cancel', 'confirm': 'Confirm',
-    'save': 'Save', 'edit': 'Edit', 'delete': 'Delete', 'view': 'View',
+    'settings': 'Settings',
+    'notifications': 'Notifications',
+    'help': 'Help',
+    'help_support': 'Help & Support',
+    'about': 'About',
+    'search': 'Search',
+    'filter': 'Filter',
+    'sort': 'Sort',
+    'cancel': 'Cancel',
+    'confirm': 'Confirm',
+    'save': 'Save',
+    'edit': 'Edit',
+    'delete': 'Delete',
+    'view': 'View',
     'listing_details': 'Listing Details',
-    'back': 'Back', 'next': 'Next', 'loading': 'Loading...',
-    'no_data': 'No Data', 'error': 'Something went wrong',
-    'retry': 'Retry', 'success': 'Success',
-    'my_receipts': 'My Receipts', 'transaction_history': 'Transaction History',
+    'back': 'Back',
+    'next': 'Next',
+    'loading': 'Loading...',
+    'no_data': 'No Data',
+    'error': 'Something went wrong',
+    'retry': 'Retry',
+    'success': 'Success',
+    'my_receipts': 'My Receipts',
+    'transaction_history': 'Transaction History',
     'change_language': 'Language (भाषा)',
-    'share_app': 'Share App', 'share_app_sub': 'Share with friends & family',
+    'share_app': 'Share App',
+    'share_app_sub': 'Share with friends & family',
     'phone': 'Phone',
     'village': 'Village',
     'district': 'District',
     'state': 'State',
     'logout_confirm': 'Are you sure you want to logout?',
-    'personal_info': 'Personal Information', 'first_name': 'First Name',
+    'personal_info': 'Personal Information',
+    'first_name': 'First Name',
     'last_name': 'Last Name',
     'enter_first_name': 'Please enter your first name',
     'enter_last_name': 'Please enter your last name',
     'address_info': 'Address Information',
-    'select_state': 'Select State', 'select_district': 'Select District',
+    'select_state': 'Select State',
+    'select_district': 'Select District',
     'select_village': 'Select City/Village',
     'other_write': 'Other (Write)',
     'enter_state_name': 'Enter state name',
@@ -329,48 +393,72 @@ class AppLocalizations extends ChangeNotifier {
     'profile_updated': 'Profile updated successfully',
     'failed_update_profile': 'Failed to update profile',
     'location_updated': '📍 Location updated',
-    'location_details': 'Location Details', 'detect': 'Detect',
-    'preferences': 'Preferences', 'push_notifications': 'Push Notifications',
+    'location_details': 'Location Details',
+    'detect': 'Detect',
+    'preferences': 'Preferences',
+    'push_notifications': 'Push Notifications',
     'push_notifications_sub': 'Receive notifications for updates',
-    'dark_mode': 'Dark Mode', 'dark_mode_sub': 'Enable dark theme',
-    'general': 'General', 'language': 'Language',
-    'clear_cache': 'Clear Cache', 'clear_cache_sub': 'Free up storage space',
+    'dark_mode': 'Dark Mode',
+    'dark_mode_sub': 'Enable dark theme',
+    'general': 'General',
+    'language': 'Language',
+    'clear_cache': 'Clear Cache',
+    'clear_cache_sub': 'Free up storage space',
     'cache_cleared': 'Cache cleared successfully',
-    'app_version': 'App Version', 'terms_of_service': 'Terms of Service',
+    'app_version': 'App Version',
+    'terms_of_service': 'Terms of Service',
     'privacy_policy': 'Privacy Policy',
     'language_changed': 'Language changed to',
-    'my_plan': 'My Plan', 'kyc_documents': 'KYC Documents',
-    'advertise_with_us': 'Advertise with Us', 'log_out': 'Log out',
-    'take_photo': 'Take Photo', 'upload_photo': 'Upload Photo',
-    'analyzing': 'Analyzing...', 'disease_detected': 'Disease Detected',
-    'treatment': 'Treatment', 'healthy_crop': 'Healthy Crop',
-    'weather': 'Weather', 'temperature': 'Temperature',
-    'humidity': 'Humidity', 'rain_chance': 'Rain Chance',
+    'my_plan': 'My Plan',
+    'kyc_documents': 'KYC Documents',
+    'advertise_with_us': 'Advertise with Us',
+    'log_out': 'Log out',
+    'take_photo': 'Take Photo',
+    'upload_photo': 'Upload Photo',
+    'analyzing': 'Analyzing...',
+    'disease_detected': 'Disease Detected',
+    'treatment': 'Treatment',
+    'healthy_crop': 'Healthy Crop',
+    'weather': 'Weather',
+    'temperature': 'Temperature',
+    'humidity': 'Humidity',
+    'rain_chance': 'Rain Chance',
     'transport_service': 'Transport Service',
     'book_transport': 'Book Transport',
-    'type_message': 'Type a message...', 'send': 'Send',
-    'new_message': 'New Message', 'advertisement': 'Advertisement',
-    'buy_potatoes': 'Buy Potatoes', 'available_potatoes': 'Available Potatoes',
+    'type_message': 'Type a message...',
+    'send': 'Send',
+    'new_message': 'New Message',
+    'advertisement': 'Advertisement',
+    'buy_potatoes': 'Buy Potatoes',
+    'available_potatoes': 'Available Potatoes',
     'my_buy_requests': 'My Buy Requests',
     'create_buy_request': 'Create Buy Request',
-    'kg': 'kg', 'quintal': 'quintal', 'ton': 'ton', 'bags': 'bags',
-    'rupees': 'Rupees', 'news': 'News', 'how_tos': 'How to-s?',
-    'create_new_post': 'Create New Post', 'post_it': 'Post',
+    'kg': 'kg',
+    'quintal': 'quintal',
+    'ton': 'ton',
+    'bags': 'bags',
+    'rupees': 'Rupees',
+    'news': 'News',
+    'how_tos': 'How to-s?',
+    'create_new_post': 'Create New Post',
+    'post_it': 'Post',
     'choose_category': 'Choose Category',
     'tips': 'Tips',
     'question': 'Question',
     'price_update': 'Price Update',
     'post_hint':
-        'Write your thoughts here...\n\nExamples:\n• Today\'s mandi price\n• Farming tips\n• Any question\n• Share news',
+        'Write your thoughts here...\n\nExamples:\n• Today\'',
     'category_tip':
         'Choosing the right category helps your post reach the right people!',
     'please_write_something': 'Please write something',
     'post_creation_error': 'Error creating post',
-    'farmer_role': 'Farmer (किसान)', 'trader_role': 'Trader (व्यापारी)',
+    'farmer_role': 'Farmer (किसान)',
+    'trader_role': 'Trader (व्यापारी)',
     'cold_storage_role': 'Cold Storage Owner',
-    // ── Chaupal screen ──
-    'chaupal_title': 'Chaupal', 'messages_title': 'Messages',
-    'posts': 'Posts', 'chats': 'Chats',
+    'chaupal_title': 'Chaupal',
+    'messages_title': 'Messages',
+    'posts': 'Posts',
+    'chats': 'Chats',
     'no_posts_yet': 'No posts yet',
     'be_first_to_share': 'Be the first to share something!',
     'no_conversations_yet': 'No conversations yet',
@@ -378,25 +466,39 @@ class AppLocalizations extends ChangeNotifier {
     'start_new_chat': 'Start New Chat',
     'no_messages_yet': 'No messages yet',
     'just_now': 'Just now',
-    'd_ago': 'd ago', 'h_ago': 'h ago', 'm_ago': 'm ago',
-    'role_farmer': 'FARMER', 'role_trader': 'TRADER',
-    'role_storage': 'STORAGE', 'role_user': 'USER',
+    'd_ago': 'd ago',
+    'h_ago': 'h ago',
+    'm_ago': 'm ago',
+    'role_farmer': 'FARMER',
+    'role_trader': 'TRADER',
+    'role_storage': 'STORAGE',
+    'role_user': 'USER',
     'advertise_title': 'Advertise with Us',
     'promote_business': 'Promote your business with banner ads',
     'no_trader_requests_yet': 'No trader requests yet',
-    'needs': 'Needs', 'qtl': 'qtl',
-    'no_news_available': 'No news available', 'all_news': 'All News',
-    'upcoming_auctions': 'Upcoming Auctions', 'today': 'Today',
-    'tomorrow': 'Tomorrow', 'details': 'Details',
+    'needs': 'Needs',
+    'qtl': 'qtl',
+    'no_news_available': 'No news available',
+    'all_news': 'All News',
+    'upcoming_auctions': 'Upcoming Auctions',
+    'today': 'Today',
+    'tomorrow': 'Tomorrow',
+    'details': 'Details',
     'auction_is_today': 'Auction is today!',
     'auction_is_tomorrow': 'Auction is tomorrow',
-    'date_and_time': 'Date & Time', 'day': 'Day', 'every_week': 'Every Week',
-    'date': 'Date', 'time': 'Time', 'landmark': 'Landmark',
-    'open_in_maps': 'Open in Maps', 'person': 'Person',
-    'expected_details': 'Expected Details', 'tons': 'Tons',
+    'date_and_time': 'Date & Time',
+    'day': 'Day',
+    'every_week': 'Every Week',
+    'date': 'Date',
+    'time': 'Time',
+    'landmark': 'Landmark',
+    'open_in_maps': 'Open in Maps',
+    'person': 'Person',
+    'expected_details': 'Expected Details',
+    'tons': 'Tons',
     'potato_varieties': 'Potato Varieties',
-    'instructions': 'Instructions', 'share_auction': 'Share Auction',
-    // my_plan_screen keys
+    'instructions': 'Instructions',
+    'share_auction': 'Share Auction',
     'payment_verification_failed': 'Payment verification failed',
     'payment_failed': 'Payment failed',
     'external_wallet_selected': 'External wallet selected',
@@ -407,11 +509,17 @@ class AppLocalizations extends ChangeNotifier {
     'failed_to_create_order': 'Failed to create order',
     'error_starting_payment': 'Error starting payment',
     'available_plans': 'Available Plans',
-    'current_plan': 'Current Plan', 'active': 'Active',
-    'days_remaining': 'days remaining', 'expired': 'Expired',
-    'expires': 'Expires', 'renew': 'Renew', 'upgrade': 'Upgrade',
-    'most_popular': 'Most Popular', 'free': 'Free',
-    'free_plan': 'Free Plan', 'subscribe_now': 'Subscribe Now',
+    'current_plan': 'Current Plan',
+    'active': 'Active',
+    'days_remaining': 'days remaining',
+    'expired': 'Expired',
+    'expires': 'Expires',
+    'renew': 'Renew',
+    'upgrade': 'Upgrade',
+    'most_popular': 'Most Popular',
+    'free': 'Free',
+    'free_plan': 'Free Plan',
+    'subscribe_now': 'Subscribe Now',
     'faq': 'Frequently Asked Questions',
     'faq_change_plan_q': 'Can I change my plan anytime?',
     'faq_change_plan_a': 'Yes, you can upgrade or downgrade anytime.',
@@ -419,7 +527,6 @@ class AppLocalizations extends ChangeNotifier {
     'faq_payment_a': 'Via UPI, Debit/Credit card or Net Banking.',
     'faq_refund_q': 'What is the refund policy?',
     'faq_refund_a': 'Full refund within 7 days.',
-    // kyc_documents_screen keys
     'document_uploaded_success': '\u2705 Document uploaded successfully',
     'fully_verified': '\u2705 Fully Verified',
     'verification_status': 'Verification Status',
@@ -436,22 +543,32 @@ class AppLocalizations extends ChangeNotifier {
     'kyc_benefit_buyers': '\u2713 Connect with more buyers',
     'kyc_benefit_payment': '\u2713 Faster payment processing',
     'kyc_benefit_offers': '\u2713 Exclusive offers & discounts',
-    'verified': 'Verified', 'upload': 'Upload',
-    // receipt keys
-    'receipt': 'Receipt', 'share': 'Share', 'download': 'Download',
+    'verified': 'Verified',
+    'upload': 'Upload',
+    'receipt': 'Receipt',
+    'share': 'Share',
+    'download': 'Download',
     'aloo_sabzi_mandi': 'Aloo Sabzi Mandi',
     'payment_receipt': 'Payment Receipt',
     'payment_successful': 'Payment Successful!',
     'seller_farmer': 'Seller (Farmer)',
-    'deal_details': 'Deal Details', 'deal_type': 'Deal Type',
+    'deal_details': 'Deal Details',
+    'deal_type': 'Deal Type',
     'vegetable_listing': 'Vegetable Listing',
     'item': 'Item',
-    'packets': 'packets', 'packet': 'packet',
-    'rate': 'Rate', 'duration': 'Duration', 'days': 'days',
-    'payment_details': 'Payment Details', 'subtotal': 'Subtotal',
-    'taxes': 'Taxes', 'total_amount': 'Total Amount',
-    'payment_method': 'Payment Method', 'payment_id': 'Payment ID',
-    'paid_on': 'Paid On', 'receipt_date': 'Receipt Date',
+    'packets': 'packets',
+    'packet': 'packet',
+    'rate': 'Rate',
+    'duration': 'Duration',
+    'days': 'days',
+    'payment_details': 'Payment Details',
+    'subtotal': 'Subtotal',
+    'taxes': 'Taxes',
+    'total_amount': 'Total Amount',
+    'payment_method': 'Payment Method',
+    'payment_id': 'Payment ID',
+    'paid_on': 'Paid On',
+    'receipt_date': 'Receipt Date',
     'share_coming_soon': 'Share coming soon',
     'download_coming_soon': 'Download coming soon',
     'no_receipts_found': 'No receipts found',
@@ -459,22 +576,24 @@ class AppLocalizations extends ChangeNotifier {
         'Receipts will appear here after payment completion',
     'vegetable_deal': 'Vegetable Deal',
     'cold_storage_deal': 'Cold Storage Deal',
-    'seller': 'Seller', 'buyer': 'Buyer',
-    // receipt photos keys
     'receipt_saved': '\u2705 Receipt saved!',
     'error_opening_camera': 'Error opening camera',
     'save_receipt_question': 'Save Receipt?',
     'confirm_save_receipt': 'Do you want to save this receipt?',
     'receipt_details': 'Receipt Details',
-    'type': 'Type', 'sale': 'Sale', 'purchase': 'Purchase',
+    'type': 'Type',
+    'sale': 'Sale',
+    'purchase': 'Purchase',
     'title_optional': 'Title (Optional)',
     'title_hint': 'e.g., Mandi Receipt',
     'amount_inr': 'Amount (\u20b9)',
-    'notes': 'Notes', 'notes_hint': 'Any additional notes...',
+    'notes': 'Notes',
+    'notes_hint': 'Any additional notes...',
     'delete_question': 'Delete?',
     'confirm_delete_receipt': 'Are you sure you want to delete this receipt?',
     'action_cannot_be_undone': '\u26a0\ufe0f This action cannot be undone!',
-    'no_keep': 'No, Keep', 'yes_delete': 'Yes, Delete',
+    'no_keep': 'No, Keep',
+    'yes_delete': 'Yes, Delete',
     'receipt_deleted': 'Receipt deleted',
     'image_not_found': 'Image not found',
     'my_receipt_photos': '\ud83d\udcf8 My Receipt Photos',
@@ -484,7 +603,6 @@ class AppLocalizations extends ChangeNotifier {
     'capture_mandi_receipts':
         'Tap the camera button to capture your mandi receipts',
     'amount': 'Amount',
-    // aloo_mitra_registration_screen keys
     'enable_location_services': 'Please enable location services',
     'location_not_available': 'Location tracking is not available',
     'location_permission_required': 'Location permission is required',
@@ -581,8 +699,6 @@ class AppLocalizations extends ChangeNotifier {
     'upload_aadhaar_photo': 'Upload Aadhaar Card photo',
     'tap_to_select': 'Tap to select',
     'city_village': 'City/Village',
-
-    // ── Aadhar KYC Validation ──
     'aadhar_required': 'Aadhar number is required',
     'aadhar_12_digits': 'Aadhar number must be exactly 12 digits',
     'aadhar_only_digits': 'Aadhar number must contain only digits',
@@ -598,8 +714,6 @@ class AppLocalizations extends ChangeNotifier {
     'aadhar_verified_success': 'Aadhar verified successfully!',
     'photo_selected': 'Photo selected',
     'please_capture_potato_photo': 'Please capture potato photo first',
-
-    // ── AI Advisory ──
     'ai_advisory_kishan': 'AI Advisory',
     'ai_advisory_kishan_title': 'Farmer AI Advisory',
     'ai_advisory_kishan_subtitle': 'Get smart advice — sell now or store?',
@@ -650,14 +764,12 @@ class AppLocalizations extends ChangeNotifier {
     'change_rating': 'Change Rating',
     'my_token_title': 'My Token',
     'token_number': 'Token Number',
-    'todays_tokens': 'Today\'s Tokens',
+    'todays_tokens': 'Today\'',
     'no_token_today': 'No token for today',
     'get_token_hint': 'Book a cold storage to get a token',
     'waiting_for_turn': 'Waiting for your turn...',
     'being_served': 'You are being served',
     'your_turn': 'Your turn!',
-
-    // ── Chat Detail Screen ──
     'request_pending': '⏳ Request Pending!',
     'cancel_deal': 'Cancel Deal',
     'cancelling': 'Cancelling...',
@@ -722,8 +834,6 @@ class AppLocalizations extends ChangeNotifier {
     'deal_complete': '🎉 Deal Complete!',
     'reminder_sent': '✅ Reminder sent',
     'failed_send_reminder': 'Failed to send reminder',
-
-    // ── AI Crop Advisor Screen ──
     'ai_crop_advisor_title': 'AI Crop Advisor',
     'your_farming_assistant': 'Your Farming Assistant',
     'today_tab': 'Today',
@@ -779,8 +889,6 @@ class AppLocalizations extends ChangeNotifier {
     'four_week_forecast': '📈 4-Week Forecast',
     'confidence': 'confidence',
     'analysis_factors': '🔍 Analysis Factors',
-
-    // ── Token Queue Management Screen ──
     'cold_storage_not_found': 'Cold storage not found',
     'select_cold_storage': 'Select Cold Storage',
     'token_management': '🎫 Token Management',
@@ -859,8 +967,6 @@ class AppLocalizations extends ChangeNotifier {
     'setup_counters': 'Setup Counters',
     'counter_inactive': 'Inactive',
     'save_label': 'Save',
-
-    // ── Manage Boli Alerts Screen ──
     'manage_boli_alerts': '🔔 Manage Boli Alerts',
     'new_alert': '+ New Alert',
     'something_went_wrong': 'Something went wrong',
@@ -893,8 +999,6 @@ class AppLocalizations extends ChangeNotifier {
     'potato_varieties_label': 'Potato Varieties',
     'no_cold_storage_found': 'No Cold Storage Found',
     'alert_created': 'Alert created successfully',
-
-    // ── Vyapari Analytics Screen ──
     'ai_trade_advisor': 'AI Trade Advisor',
     'ai_analyzing_market': '🧠 AI analyzing market...',
     'preparing_insights': 'Preparing the best insights for you',
@@ -929,8 +1033,6 @@ class AppLocalizations extends ChangeNotifier {
     'best_month': 'Best Month',
     'tips_label': 'Tips:',
     'ai_analysis_footer': 'AI Analysis • Data-driven insights',
-
-    // ── Aloo Calculator Screen ──
     'reset': 'Reset',
     'formulas': 'Formulas',
     'farmer_calculator': '🥔 Aloo Calculator',
@@ -959,8 +1061,6 @@ class AppLocalizations extends ChangeNotifier {
     'result': 'Result',
     'required_field': 'Required',
     'enter_number_gt_0': 'Enter a number > 0',
-
-    // ── My Token Screen ──
     'service_completed': 'Service completed!',
     'token_approved': 'Token Approved!',
     'got_it': 'Got it!',
@@ -1023,8 +1123,6 @@ class AppLocalizations extends ChangeNotifier {
     'requests_in_progress': '{count} requests in progress',
     'people_ahead_get_ready': '⏰ {count} people ahead of you. Get ready!',
     'purpose_label': 'Purpose',
-
-    // ── KYC Documents Screen ──
     'enter_aadhaar_number': 'Enter Aadhaar number',
     'must_be_12_digits': 'Must be 12 digits',
     'only_digits_allowed': 'Only digits allowed',
@@ -1047,8 +1145,6 @@ class AppLocalizations extends ChangeNotifier {
     'change_aadhaar': '← Change Aadhaar Number',
     'aadhaar_verified_congrats': 'Aadhaar Verified! 🎉',
     'benefits_of_kyc': 'Benefits of KYC',
-
-    // ── Boli Alerts Screen ──
     'auction_alerts': '🔔 Auction Alerts',
     'upcoming_tab': 'Upcoming',
     'all_tab': 'All',
@@ -1064,8 +1160,6 @@ class AppLocalizations extends ChangeNotifier {
     'time_field': 'Time',
     'location_field': 'Location',
     'contact_field': 'Contact',
-
-    // ── Cold Storage AI Advisory Screen ──
     'near_full_capacity': 'Near full capacity',
     'balanced_capacity': 'Balanced capacity',
     'plenty_space': 'Plenty of space available',
@@ -1076,8 +1170,6 @@ class AppLocalizations extends ChangeNotifier {
     'accept_new_stock': '🟢 Accept New Stock',
     'clear_old_stock': '🔴 Clear Old Stock',
     'continue_normal': '🟡 Continue Normal Operations',
-
-    // ── Vyapari AI Advisory Screen ──
     'buy_now_advice': '🟢 Buy Now',
     'negotiate_price': '🟡 Negotiate Price',
     'wait_advice_red': '🔴 Wait',
@@ -1085,16 +1177,12 @@ class AppLocalizations extends ChangeNotifier {
     'avoid_buying': '🔴 Avoid Buying',
     'negotiate_and_buy': '🟡 Negotiate & Buy',
     'buy_with_caution': '🟡 Buy with Caution',
-
-    // ── Kishan AI Advisory Screen ──
     'sell_now_advice': '🟢 Sell Now',
     'store_in_cold': '🔵 Store in Cold Storage',
     'sell_partially': '🟡 Sell Partially',
     'sell_now_green': '🟢 Sell Now',
     'stagger_sales': '🔵 Stagger Sales',
     'watch_market_sell': '🟡 Watch Market & Sell',
-
-    // ── Dev Login Screen ──
     'app_tagline': 'आलू का असली बाज़ार',
     'login_with_phone': 'Login with Phone',
     'new_here_create_account': 'New here? Create Account',
@@ -1102,24 +1190,16 @@ class AppLocalizations extends ChangeNotifier {
     'send_otp_login': 'Send OTP',
     'verify_otp_login': 'Verify OTP',
     'resend_otp_login': 'Resend OTP',
-
-    // ── Help Support Screen ──
     'ai_assistant': 'AI Assistant',
     'always_online': 'Always Online',
     'type_your_question': 'Type your question...',
-
-    // ── Notification Screen ──
     'no_other_notifications': 'No other notifications',
-
-    // ── Common UI ──
     'retry_btn': 'Retry',
     'cancel_btn': 'Cancel',
     'no_btn': 'No',
     'yes_btn': 'Yes',
     'ok_btn': 'OK',
     'created_label': 'Created',
-
-    // ── Hardcoded screens ──
     'reject_advertisement': 'Reject Advertisement',
     'rejection_reason': 'Rejection Reason',
     'confirm_payment': 'Confirm Payment',
@@ -1172,8 +1252,6 @@ class AppLocalizations extends ChangeNotifier {
     'delete_comment_confirm': 'Are you sure you want to delete this comment?',
     'otp_resent': 'OTP resent successfully',
     'number_copied': 'Number copied',
-
-    // ── Parameterized strings (use with trArgs) ──
     'deal_summary_short': '{quantity} packets @ ₹{price}/pkt',
     'deal_total_amount': 'Total: ₹{amount}',
     'deal_summary_with_duration':
@@ -1206,9 +1284,6 @@ class AppLocalizations extends ChangeNotifier {
         'Position: #{position}\nEstimated wait: {minutes} min',
     'storage_income_summary':
         'Storing {qty} kg potatoes for {duration} will earn you ₹{income} in total.',
-
-    // ── Hardcoded string keys ──────────────────────────────────
-    // Admin screens
     'admin_dashboard': 'Admin Dashboard',
     'welcome_admin': 'Welcome, Admin',
     'manage_your_platform': 'Manage your platform',
@@ -1234,15 +1309,11 @@ class AppLocalizations extends ChangeNotifier {
     'status_updated_to': 'Status updated to',
     'feedback_deleted': 'Feedback deleted',
     'sample_feedbacks_added': 'Sample feedbacks added',
-
-    // Cold storage screens
     'could_not_start_conversation': 'Could not start conversation',
     'enter_rejection_reason_optional': 'Enter reason for rejection (optional)',
     'enter_response': 'Enter response',
     'failed_to_delete': 'Failed to delete',
     'failed_to_save': 'Failed to save',
-
-    // Kishan screens
     'failed_to_update_booking': 'Failed to update booking',
     'failed_to_cancel_booking': 'Failed to cancel booking',
     'enter_quantity_in_packets': 'Enter quantity in packets',
@@ -1252,17 +1323,11 @@ class AppLocalizations extends ChangeNotifier {
     'special_requirements_hint': 'Any special requirements...',
     'your_price_per_packet': 'Your Price (₹/packet) *',
     'quantity_can_provide': 'Quantity You Can Provide (packets) *',
-
-    // Vyapari screens
     'others': 'Others',
     'accept': 'Accept',
     'choose_your_cold_storage': 'Choose your cold storage',
-
-    // Rent storage
     'failed_to_get_token': 'Failed to get token',
     'failed_to_submit_rating': 'Failed to submit rating',
-
-    // Chat screens
     'failed_to_load_users': 'Failed to load users',
     'failed_to_start_chat': 'Failed to start chat',
     'search_by_name_or_phone': 'Search by name or phone...',
@@ -1271,13 +1336,9 @@ class AppLocalizations extends ChangeNotifier {
     'post': 'Post',
     'write_a_comment': 'Write a comment...',
     'failed_send_message_prefix': 'Failed to send message: ',
-
-    // Receipt screens
     'camera_not_available': 'Camera not available on this platform',
     'try_again': 'Try Again',
     'receipt_not_found': 'Receipt not found',
-
-    // Payment screens
     'card_number': 'Card Number',
     'expiry': 'Expiry',
     'cvv': 'CVV',
@@ -1285,12 +1346,8 @@ class AppLocalizations extends ChangeNotifier {
     'enter_valid_amount': 'Enter a valid amount',
     'clear_history': 'Clear History',
     'start_payment': 'Start Payment',
-
-    // Other
     'failed_to_get_location': 'Failed to get location: ',
     'copy_number': 'Copy number',
-
-    // ── Help & Support ──────────────────────────────────────────
     'help_and_support': 'Help & Support',
     'how_can_we_help': 'How can we help you?',
     'contact_us_for_help': 'Contact us for help',
@@ -1308,8 +1365,6 @@ class AppLocalizations extends ChangeNotifier {
     'feedback_success': 'Feedback sent successfully!',
     'feedback_error': 'Failed to send feedback',
     'send_feedback': 'Send Feedback',
-
-    // ── FAQ Keys ────────────────────────────────────────────────
     'faq_how_to_use_app': 'How to use this app?',
     'faq_how_to_use_app_answer':
         'Download the app, create an account with your phone number, select your role (Farmer/Trader/Cold Storage Owner), and start using the features.',
@@ -1339,7 +1394,7 @@ class AppLocalizations extends ChangeNotifier {
         'Go to Cold Storage section > My Bookings to see all your booking history.',
     'faq_how_to_check_mandi_prices': 'How to check mandi prices?',
     'faq_how_to_check_mandi_prices_answer':
-        'Go to Mandi Prices section to see today\'s rates from different mandis.',
+        'Go to Mandi Prices section to see today\'',
     'faq_what_is_ai_prediction': 'What is AI price prediction?',
     'faq_what_is_ai_prediction_answer':
         'Our AI analyzes market trends and predicts future potato prices to help you make better selling decisions.',
@@ -1351,7 +1406,7 @@ class AppLocalizations extends ChangeNotifier {
         'Go to Buy section > Create Buy Request, fill in the details of what you need.',
     'faq_how_to_talk_to_farmer': 'How to talk to a farmer?',
     'faq_how_to_talk_to_farmer_answer':
-        'Open any farmer\'s listing and tap the Chat button to start a conversation.',
+        'Open any farmer\'',
     'faq_how_to_accept_deal': 'How to accept a deal?',
     'faq_how_to_accept_deal_answer':
         'When you receive a deal offer in chat, tap Accept to confirm the deal.',
@@ -1385,8 +1440,6 @@ class AppLocalizations extends ChangeNotifier {
     'faq_what_is_ai_analysis': 'What is AI analysis?',
     'faq_what_is_ai_analysis_answer':
         'AI analysis uses machine learning to analyze market data and provide insights about pricing trends.',
-
-    // ── Seed Listing (Aloo Mitra) ───────────────────────────────
     'new_seed_listing': 'New Seed Listing',
     'create_seed_listing': 'Create Seed Listing',
     'create_listing': 'Create Listing',
@@ -1408,8 +1461,6 @@ class AppLocalizations extends ChangeNotifier {
     'medium': 'Medium',
     'large': 'Large',
     'write_additional_seed_details': 'Write additional seed details...',
-
-    // ── Buy Potato (Vyapari) ────────────────────────────────────
     'buy_from_farmers': 'Buy from Farmers',
     'buy_from_seed_producers': 'Buy from Seed Producers',
     'buy_potato_seeds': 'Buy Potato Seeds',
@@ -1427,8 +1478,6 @@ class AppLocalizations extends ChangeNotifier {
         'No listings from seed producers. Check back later!',
     'no_seed_listings_from_farmers_check_later':
         'No seed listings from farmers. Check back later!',
-
-    // ── Edit Listing (Kisan) ────────────────────────────────────
     'edit_listing': 'Edit Listing',
     'sell_listing': 'Sell Listing',
     'buy_listing': 'Buy Listing',
@@ -1443,15 +1492,11 @@ class AppLocalizations extends ChangeNotifier {
     'update_listing': 'Update Listing',
     'listing_updated_message': 'Listing updated successfully!',
     'updated_successfully': 'Updated successfully!',
-
-    // ── Seller Listing (Kisan) ──────────────────────────────────
     'no_listings': 'No listings yet',
     'create_first_listing': 'Create your first listing',
     'confirm_delete_listing': 'Are you sure you want to delete this listing?',
     'delete_listing': 'Delete Listing',
     'listing_deleted': 'Listing deleted successfully',
-
-    // ── Aloo Mitra Screen ───────────────────────────────────────
     'chat_start_failed': 'Failed to start chat',
     'service_provider_not_found': 'Service provider not found',
     'shop_address': 'Shop Address',
@@ -1459,16 +1504,12 @@ class AppLocalizations extends ChangeNotifier {
     'shop_location': 'Shop Location',
     'click_to_see_shop_location': 'Click to see shop location on map',
     'show_all': 'Show All',
-
-    // ── Notification Screen ─────────────────────────────────────
     'no_notifications': 'No notifications',
     'delete_notification': 'Delete Notification',
     'confirm_delete_notification':
         'Are you sure you want to delete this notification?',
     'notification_deleted': 'Notification deleted',
     'failed_delete_notification': 'Failed to delete notification',
-
-    // ── Transaction History ─────────────────────────────────────
     'all': 'All',
     'pending': 'Pending',
     'refunded': 'Refunded',
@@ -1476,8 +1517,6 @@ class AppLocalizations extends ChangeNotifier {
     'transaction_id': 'Transaction ID',
     'failure_reason': 'Failure Reason',
     'no_transactions_found': 'No transactions found',
-
-    // ── Rent / Cold Storage ─────────────────────────────────────
     'hire_rent_cold_storage': 'Hire / Rent Cold Storage',
     'browse_available_storage': 'Browse Available Storage',
     'no_cold_storages_in_area': 'No cold storages in your area',
@@ -1493,25 +1532,13 @@ class AppLocalizations extends ChangeNotifier {
     'inspection_option': 'Inspection',
     'expected_quantity': 'Expected Quantity',
     'quantity_hint': 'Enter quantity in quintals',
-
-    // ── Cold Storage Management ─────────────────────────────────
     'confirm_delete_storage': 'Are you sure you want to delete this storage?',
-
-    // ── Sign Up ─────────────────────────────────────────────────
     'enter_4_digit_otp': 'Enter 4 digit OTP',
-
-    // ── Admin Ads ───────────────────────────────────────────────
     'description': 'Description',
     'price_rupees': 'Price (₹)',
-
-    // ── Payment Test ────────────────────────────────────────────
     'amount_rupees': 'Amount (₹)',
-
-    // ── Chat / Search ───────────────────────────────────────────
     'search_by_name_phone': 'Search by name or phone',
     'write_comment': 'Write a comment...',
-
-    // ── Mandi Price ─────────────────────────────────────────────
     'view_prices': 'View Prices',
     'search_mandi': 'Search mandi...',
     'select_state_to_view_mandis': 'Select a state to view mandis',
@@ -1524,8 +1551,6 @@ class AppLocalizations extends ChangeNotifier {
     'not_enough_data_for_chart': 'Not enough data for price chart',
     'error_loading_prices': 'Error loading prices',
     'no_past_prices_available': 'No past prices available',
-
-    // ── Trader Requests Filters ─────────────────────────────────
     'search_by_name_variety': 'Search by name, variety, location...',
     'results_found': 'results found',
     'clear_filters': 'Clear Filters',
@@ -1559,8 +1584,6 @@ class AppLocalizations extends ChangeNotifier {
     'seed': 'Seed',
     'crop': 'Crop',
     'retake': 'Retake',
-
-    // My Offers tab (Kisan → Trader Buy Requests)
     'open_requests': 'Open Requests',
     'my_offers': 'My Offers',
     'no_offers_yet': 'No offers sent yet',
@@ -1576,8 +1599,6 @@ class AppLocalizations extends ChangeNotifier {
         'Are you sure you want to withdraw your offer? This cannot be undone.',
     'accepted': 'Accepted',
     'rejected': 'Rejected',
-
-    // Token status labels
     'status_pending': 'Pending',
     'status_waiting': 'Waiting',
     'status_called': 'Called',
@@ -1586,24 +1607,16 @@ class AppLocalizations extends ChangeNotifier {
     'status_skipped': 'Skipped',
     'status_cancelled': 'Cancelled',
     'status_rejected': 'Rejected',
-
-    // Token purpose labels
     'purpose_storage': 'Storage',
     'purpose_withdrawal': 'Withdrawal',
     'purpose_inspection': 'Inspection',
-
-    // Auth / session
     'session_expired_message': 'Session expired. Please login again.',
     'session_expired': 'Session Expired',
     'session_expired_detail':
         'Your login session has expired. Please login again to continue.',
     'login_again': 'Login Again',
-
-    // Boli alert
     'potato_auction': 'Potato Auction',
     'potato_boli': 'Potato Auction',
-
-    // Day names
     'day_sunday': 'Sunday',
     'day_monday': 'Monday',
     'day_tuesday': 'Tuesday',
@@ -1611,8 +1624,6 @@ class AppLocalizations extends ChangeNotifier {
     'day_thursday': 'Thursday',
     'day_friday': 'Friday',
     'day_saturday': 'Saturday',
-
-    // Feedback sample data
     'sample_farmer_name': 'Ram Kisan',
     'sample_farmer_feedback':
         'App is great! Checking market prices has become easy.',
@@ -1628,8 +1639,6 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
-
-    // ── Aloo Calculator Screen ──
     'calc_formulas': 'Calculation Formulas',
     'calc_total_yield': 'Total Yield',
     'calc_total_yield_formula': 'Land (Ha) × Yield/Ha × 1000 kg',
@@ -1694,8 +1703,6 @@ class AppLocalizations extends ChangeNotifier {
     'calc_storage': 'Storage',
     'calc_net_profit': 'Net Profit',
     'calc_charge_per_kg_unit': 'Charge per kg/{unit}',
-
-    // ── Chat Detail Screen keys ──
     'i_understand': 'I Understand',
     'party_confirmed_deal': '✔️ {name} has confirmed the deal',
     'click_below_to_confirm': '👇 Click below to confirm',
@@ -1766,16 +1773,12 @@ class AppLocalizations extends ChangeNotifier {
     'payment_reminder_msg':
         '🔔 Payment Reminder: Please make the payment and confirm.',
     'confirm_reminder_msg': '🔔 Reminder: Please confirm the payment.',
-
-    // ── Calculator Service ──
     'calc_store_better':
-        'Storing and selling later is more profitable. You\'ll earn ₹{amount} extra profit.',
+        'Storing and selling later is more profitable. You\'',
     'calc_sell_now_better':
         'Selling now is a better option. Storing would reduce profit by ₹{amount}.',
     'calc_farmer_explanation':
         'If you sell {qty} kg potatoes at ₹{price}/kg, you will receive ₹{total} in total.',
-
-    // ── Market Intelligence Service ──
     'market_no_data_rec': 'Unable to fetch market data. Check prices manually.',
     'market_harvest_season_rec':
         '⚠️ Harvest season - prices may drop. Consider cold storage or sell quickly.',
@@ -1811,8 +1814,6 @@ class AppLocalizations extends ChangeNotifier {
     'market_expected_rise': 'Expected to rise',
     'market_expected_fall': 'Expected to fall',
     'market_expected_stable': 'Expected to stay stable',
-
-    // ── AI Crop Advisor Service ──
     'season_summer': 'Summer',
     'season_monsoon': 'Monsoon',
     'season_autumn': 'Autumn',
@@ -1858,7 +1859,6 @@ class AppLocalizations extends ChangeNotifier {
     'crop_soil_test_desc': 'Test pH and nutrient levels',
     'crop_activity_seed_selection': 'Seed Selection',
     'crop_seed_selection_desc': 'Purchase certified seeds',
-
     'seed_early_maturing': 'Early Maturing',
     'seed_pukhraj_features': 'Yellow flesh, good taste, excellent for chips',
     'seed_pukhraj_region': 'UP, Bihar',
@@ -1873,7 +1873,6 @@ class AppLocalizations extends ChangeNotifier {
     'seed_high_yield': 'High Yield',
     'seed_khyati_features': 'Highest yield, suitable for MP',
     'seed_khyati_region': 'Madhya Pradesh',
-
     'disease_late_blight': 'Late Blight',
     'disease_late_blight_symptoms': 'Brown spots on leaves, white fungus',
     'disease_late_blight_solution': 'Spray Mancozeb or Ridomil',
@@ -1890,7 +1889,6 @@ class AppLocalizations extends ChangeNotifier {
     'disease_black_scurf_symptoms': 'Black patches on potato surface',
     'disease_black_scurf_solution': 'Treat seeds with Boric Acid',
     'disease_black_scurf_prevention': 'Use healthy seeds',
-
     'advisor_market_feb_apr':
         'Prices may drop with new harvest. Consider early selling or cold storage.',
     'advisor_timing_sell_or_store': 'Sell now or store',
@@ -1899,7 +1897,6 @@ class AppLocalizations extends ChangeNotifier {
     'advisor_timing_good_to_sell': 'Good time to sell',
     'advisor_market_default': 'Sowing season. Seed demand is high.',
     'advisor_timing_sell_seeds': 'Sell seeds',
-
     'tip_morning_irrigation':
         '💡 Irrigate early morning to reduce water wastage',
     'tip_certified_seeds': '🌱 Use certified seeds, yield can increase by 20%',
@@ -1910,26 +1907,22 @@ class AppLocalizations extends ChangeNotifier {
     'tip_cure_before_storage': '📦 Cure potatoes for 2 weeks before storage',
     'tip_track_market_prices': '💰 Track market prices, sell at right time',
     'tip_organic_manure': '🌿 Use organic manure for healthy soil',
-
     'storage_tip_remove_damaged': 'Remove damaged potatoes before storage',
     'storage_tip_keep_dark': 'Store in dark to prevent greening',
     'storage_tip_ventilation': 'Maintain proper ventilation',
     'storage_tip_duration': 'Can store for 6-8 months',
-
     'cost_seeds': 'Seeds',
     'cost_fertilizer': 'Fertilizer',
     'cost_labor': 'Labor',
     'cost_irrigation': 'Irrigation',
     'cost_pesticides': 'Pesticides',
     'cost_others': 'Others',
-
-    // ── Farmer Chatbot Service ──
     'chatbot_greeting_response':
         'Hello! 🙏\n\nI am your Potato Helper. You can ask me anything:\n\n• How to sell potato?\n• How to check prices?\n• How to book cold storage?\n• Which seed is best?\n• When to use fertilizer?\n\nJust ask! 😊',
     'chatbot_sell_response':
         'Selling potato is very easy! 👍\n\n📱 How to sell in app:\n\n1️⃣ Click "Sell Potato" on home page\n\n2️⃣ Fill your details:\n   • How much potato (in quintals)\n   • Which variety\n   • Your price\n\n3️⃣ Press "Post"\n\n4️⃣ Done! Traders will call you 📞\n\n💡 Tip: Add good photos, sells faster!',
     'chatbot_price_response':
-        '📊 Today\'s Prices:\n\nToday potato price in mandi is around ₹{minPrice}-{maxPrice}/kg.\n\nTo check prices:\n1️⃣ Click "Mandi Price" on home page\n2️⃣ Select your state and city\n3️⃣ Today\'s price will show\n\n💡 Tip:\n• Prices update after 10 AM\n• Bigger mandi gives better price\n• Price changes with season',
+        '📊 Today\'',
     'chatbot_cold_storage_response':
         '❄️ Cold Storage Information:\n\nPotato stays safe in cold storage for 6-8 months.\n\n📱 How to book:\n1️⃣ Click "Cold Storage"\n2️⃣ See nearby storage\n3️⃣ Book if space available\n\n💰 Rent: Around ₹80-120/bag/month\n\n💡 Important:\n• Remove rotten potatoes\n• Store only good quality\n• Always take receipt\n• Pay rent on time',
     'chatbot_seed_response':
@@ -1937,29 +1930,27 @@ class AppLocalizations extends ChangeNotifier {
     'chatbot_disease_response':
         '🐛 Disease and Treatment:\n\n1️⃣ Late Blight (Most dangerous)\n   Signs: Brown spots on leaves, white fungus\n   Cure: Spray Mancozeb\n\n2️⃣ Aphids\n   Signs: Leaves curl up\n   Cure: Spray Imidacloprid\n\n3️⃣ Black Scurf\n   Signs: Black marks on potato\n   Cure: Treat seeds with Boric Acid\n\n💡 Prevention:\n• Check crop every week\n• Spray medicine after rain\n• Use certified seeds',
     'chatbot_fertilizer_response':
-        '🧪 Fertilizer Information:\n\nPer Acre Fertilizer:\n\n1️⃣ Before sowing:\n   • Cow dung manure: 8-10 tons\n   • DAP: 2 bags\n   • Potash: 1 bag\n\n2️⃣ After 30 days:\n   • Urea: 1 bag\n   • Apply during earthing up\n\n3️⃣ After 45-50 days:\n   • Urea: Half bag\n   • Give with irrigation\n\n💡 Remember:\n• Don\'t use too much Urea\n• Apply fertilizer in evening\n• Water after applying',
+        '🧪 Fertilizer Information:\n\nPer Acre Fertilizer:\n\n1️⃣ Before sowing:\n   • Cow dung manure: 8-10 tons\n   • DAP: 2 bags\n   • Potash: 1 bag\n\n2️⃣ After 30 days:\n   • Urea: 1 bag\n   • Apply during earthing up\n\n3️⃣ After 45-50 days:\n   • Urea: Half bag\n   • Give with irrigation\n\n💡 Remember:\n• Don\'',
     'chatbot_irrigation_response':
-        '💧 Irrigation Information:\n\nHow much water for potato:\n\n1️⃣ First irrigation: Right after sowing (light)\n\n2️⃣ Regular irrigation:\n   • In winter: Every 10-12 days\n   • In summer: Every 7-8 days\n\n3️⃣ Total irrigations: 8-10 times\n\n⚠️ Keep in mind:\n• Water in evening if frost\n• Don\'t overwater (will rot)\n• Stop water 15 days before harvest\n\n💡 Tip: Drip irrigation saves water!',
+        '💧 Irrigation Information:\n\nHow much water for potato:\n\n1️⃣ First irrigation: Right after sowing (light)\n\n2️⃣ Regular irrigation:\n   • In winter: Every 10-12 days\n   • In summer: Every 7-8 days\n\n3️⃣ Total irrigations: 8-10 times\n\n⚠️ Keep in mind:\n• Water in evening if frost\n• Don\'',
     'chatbot_sowing_response':
         '🌱 Sowing Information:\n\nRight time to sow:\n\n📅 North India:\n   • October to December\n   • Best: November\n\n📅 Hilly areas:\n   • January-February\n\nHow to sow:\n1️⃣ Deep plowing (2-3 times)\n2️⃣ Mix fertilizer\n3️⃣ Make ridges (60cm apart)\n4️⃣ Place seeds (20cm apart)\n5️⃣ Cover with 5-7cm soil\n\n💡 Seeds: 8-10 quintals/acre',
     'chatbot_harvest_response':
-        '🥔 Harvesting Information:\n\nWhen to harvest:\n• When leaves turn yellow\n• Usually in 75-120 days\n\nHow to harvest:\n1️⃣ Stop water 15 days before\n2️⃣ Let leaves dry\n3️⃣ Dig in morning\n4️⃣ Dry in shade (2-3 hours)\n5️⃣ Sort and grade\n\n💡 Remember:\n• Don\'t keep in sun (turns green)\n• Separate damaged potatoes\n• Cure for 2 weeks then store',
+        '🥔 Harvesting Information:\n\nWhen to harvest:\n• When leaves turn yellow\n• Usually in 75-120 days\n\nHow to harvest:\n1️⃣ Stop water 15 days before\n2️⃣ Let leaves dry\n3️⃣ Dig in morning\n4️⃣ Dry in shade (2-3 hours)\n5️⃣ Sort and grade\n\n💡 Remember:\n• Don\'',
     'chatbot_loan_response':
         '🏦 Loan Information:\n\nKisan Credit Card (KCC):\n• Interest: 4% (on time payment)\n• Up to ₹3 lakh without guarantee\n• Apply at nearest bank\n\nRequired documents:\n📄 Aadhar Card\n📄 PAN Card\n📄 Land papers\n📄 Passport photo\n📄 Bank account\n\n💡 Tip:\n• Cooperative bank is faster\n• Also apply for PM Kisan Samman Nidhi (₹6000/year)',
     'chatbot_weather_response':
-        '🌤️ Weather Information:\n\nCheck weather in app:\n• "Weather" card is at bottom of home page\n• Get 5-day forecast\n\n⚠️ Frost protection:\n• Light irrigation in evening\n• Make smoke at 4-5 AM\n• Cover crop if possible\n\n🌧️ During rain:\n• Ensure proper drainage\n• Spray disease medicine\n• Don\'t apply fertilizer\n\n💡 Tip: Also download IMD app!',
+        '🌤️ Weather Information:\n\nCheck weather in app:\n• "Weather" card is at bottom of home page\n• Get 5-day forecast\n\n⚠️ Frost protection:\n• Light irrigation in evening\n• Make smoke at 4-5 AM\n• Cover crop if possible\n\n🌧️ During rain:\n• Ensure proper drainage\n• Spray disease medicine\n• Don\'',
     'chatbot_transport_response':
         '🚛 Transport Information:\n\nTransport in app:\n1️⃣ Click "Transport"\n2️⃣ Tell pickup and drop location\n3️⃣ Tell quantity\n4️⃣ Vehicle owners will call\n\n💰 Estimated fare:\n• Up to 50 km: ₹30-40/quintal\n• 100 km: ₹50-60/quintal\n• 200 km: ₹80-100/quintal\n\n💡 Tip:\n• Send at night (stays cool)\n• Use good quality bags\n• Always get insurance',
     'chatbot_trader_response':
-        '🤝 Connect with Traders:\n\nFind traders in app:\n1️⃣ Post in "Sell Potato"\n2️⃣ Traders will call you\n3️⃣ Negotiate price\n4️⃣ Confirm deal\n\n💡 Remember:\n• Confirm price first\n• Decide payment mode (cash/online)\n• Always take receipt\n• Get 50% advance payment\n\n⚠️ Be careful:\n• Don\'t give advance to strangers\n• Don\'t trust phone deals\n• Meet at mandi for deal',
+        '🤝 Connect with Traders:\n\nFind traders in app:\n1️⃣ Post in "Sell Potato"\n2️⃣ Traders will call you\n3️⃣ Negotiate price\n4️⃣ Confirm deal\n\n💡 Remember:\n• Confirm price first\n• Decide payment mode (cash/online)\n• Always take receipt\n• Get 50% advance payment\n\n⚠️ Be careful:\n• Don\'',
     'chatbot_app_help_response':
         '📱 Using the App:\n\nEverything is on home page:\n\n🥔 Sell Potato - To sell your potato\n📊 Mandi Price - See daily rates\n❄️ Cold Storage - Book storage\n🤖 AI Advisor - Farming advice\n📰 News - Agriculture news\n🌤️ Weather - Weather info\n\nPress any button, everything is easy!\n\n💡 If any problem:\n• Call: +91 1234 567 890\n• WhatsApp us\n• Ask me here!',
     'chatbot_thankyou_response':
         '🙏 Thank you!\n\nHappy to help you.\n\nIf any more questions, please ask!\n\nBest wishes for your crop! 🥔✨',
     'chatbot_default_response':
-        '🤔 I didn\'t understand that.\n\nYou can ask me about:\n\n• How to sell potato?\n• What is today\'s price?\n• How to book cold storage?\n• Which seed is best?\n• How to treat disease?\n• When to apply fertilizer?\n• How to irrigate?\n\nOr call us:\n📞 +91 1234 567 890',
-
-    // Chatbot quick reply keys
+        '🤔 I didn\'',
     'chatbot_qr_how_to_sell': 'How to sell potato?',
     'chatbot_qr_tell_price': 'What is today price?',
     'chatbot_qr_which_seed': 'Which seed is best?',
@@ -2009,12 +2000,8 @@ class AppLocalizations extends ChangeNotifier {
     'chatbot_qr_go_home': 'Go to home',
     'chatbot_qr_call_us': 'Call us',
     'chatbot_qr_need_help': 'Need help',
-
-    // ── Boli Alerts Screen (localized) ──
     'new_auctions_coming_soon': 'New auctions will be added soon',
     'shared_from_aloo_market': 'Shared from Aloo Market App',
-
-    // ── Manage Boli Alerts Screen (localized) ──
     'create_first_weekly_alert': 'Create your first weekly auction alert',
     'confirm_delete_alert_msg': 'Are you sure you want to delete "{title}"?',
     'register_cs_first_boli': 'Please register your cold storage first',
@@ -2025,8 +2012,12 @@ class AppLocalizations extends ChangeNotifier {
     'nearby_area_subtitle': '(Nearby area)',
     'auction_title_hint': 'e.g., Weekly Potato Auction',
     'title_field_required': 'Title is required',
-    'day_abbr_sun': 'Sun', 'day_abbr_mon': 'Mon', 'day_abbr_tue': 'Tue',
-    'day_abbr_wed': 'Wed', 'day_abbr_thu': 'Thu', 'day_abbr_fri': 'Fri',
+    'day_abbr_sun': 'Sun',
+    'day_abbr_mon': 'Mon',
+    'day_abbr_tue': 'Tue',
+    'day_abbr_wed': 'Wed',
+    'day_abbr_thu': 'Thu',
+    'day_abbr_fri': 'Fri',
     'day_abbr_sat': 'Sat',
     'repeat_every_week': 'Repeat every week',
     'auction_same_day_weekly': 'Auction will happen on the same day every week',
@@ -2039,8 +2030,6 @@ class AppLocalizations extends ChangeNotifier {
         'Please register your cold storage first to create auction alerts',
     'register_cs_btn_boli': 'Register Cold Storage',
     'alert_updated': 'Alert updated successfully',
-
-    // ── Kishan AI Advisory (localized reasoning & risks) ──
     'sell_now_reasoning':
         'Market price is good (₹{price}/quintal) and your potato quality is large. Selling now will maximize your profit.',
     'risk_price_drop': 'Prices can drop anytime',
@@ -2065,8 +2054,6 @@ class AppLocalizations extends ChangeNotifier {
         'Current price is moderate (₹{price}/quintal). Watch the market for 1-2 days. If prices rise, sell then; otherwise sell at current rate.',
     'risk_wait_loss': 'Waiting too long may cause losses',
     'risk_weather_quality': 'Weather changes can reduce quality',
-
-    // ── Vyapari AI Advisory (localized reasoning & risks) ──
     'buy_now_reasoning':
         'Seller price is low (₹{price}/quintal), quality is good and local demand is high. Good margin opportunity.',
     'risk_storage_cost_large': 'Storage costs for large purchases',
@@ -2095,8 +2082,6 @@ class AppLocalizations extends ChangeNotifier {
         'Current conditions are mixed. Buy in smaller quantities and keep watching the market.',
     'risk_large_qty_risky': 'Buying large quantities is risky',
     'risk_check_quality_demand': 'Verify both quality and demand',
-
-    // ── Cold Storage AI Advisory (localized reasoning & risks) ──
     'cs_cautious_reasoning':
         'Cold storage is {pct}% full and demand is high in peak season. Accepting more stock may overload capacity, making temperature maintenance difficult.',
     'risk_overload_temp': 'Overloading may raise temperature',
@@ -2115,7 +2100,7 @@ class AppLocalizations extends ChangeNotifier {
     'risk_maintenance_continue': 'Maintenance costs will continue',
     'cs_accept_new_reasoning':
         'Storage is at {pct}% and demand is good. Good conditions to accept new stock.',
-    'risk_dont_exceed_80': 'Don\'t exceed 80% capacity',
+    'risk_dont_exceed_80': 'Don\'',
     'risk_temp_monitoring': 'Increase temperature monitoring',
     'cs_clear_stock_reasoning':
         'Storage is {pct}% full but demand is low. Notify farmers/traders to clear stock before spoilage.',
@@ -2125,8 +2110,6 @@ class AppLocalizations extends ChangeNotifier {
         'Current situation is normal ({pct}% full). Continue monitoring stock and performing quality checks.',
     'risk_demand_season_change': 'Demand may change with season',
     'risk_power_cut_prep': 'Be prepared for power cuts',
-
-    // ── Localization: Registration Screen (Aloo Mitra) ──
     'kaam_aloo_chhantai': 'Aloo Chhantai',
     'kaam_bori_bharai': 'Bori Bharai',
     'kaam_loading': 'Loading',
@@ -2153,8 +2136,6 @@ class AppLocalizations extends ChangeNotifier {
     'service_transportation': 'Transportation Services',
     'service_gunny_bag': 'Gunny Bag',
     'service_majdoor': 'Majdoor (Labour)',
-
-    // ── Localization: Seed Listings Screen ──
     'delete_listing_title': 'Delete Listing',
     'cancel_action': 'Cancel',
     'delete_action': 'Delete',
@@ -2171,8 +2152,6 @@ class AppLocalizations extends ChangeNotifier {
     'deactivate_action': 'Deactivate',
     'activate_action': 'Activate',
     'edit_action': 'Edit',
-
-    // ── Localization: KYC Documents Screen ──
     'kyc_status_load_error': 'Could not load status. Please try again.',
     'otp_sent_to_aadhaar': 'OTP sent to your Aadhaar-linked mobile',
     'aadhaar_verified': 'Aadhaar verified successfully! ✅',
@@ -2188,8 +2167,6 @@ class AppLocalizations extends ChangeNotifier {
     'kyc_benefit_secure': '✅ Secure transactions',
     'aadhaar_encryption_note':
         'Your Aadhaar number is encrypted and secured as per UIDAI guidelines. We never store your full Aadhaar number.',
-
-    // ── Localization: My Plan Screen ──
     'plan_free_pass': 'Free Pass',
     'plan_forever': 'Forever',
     'feature_basic_listing': 'Basic listing',
@@ -2215,8 +2192,6 @@ class AppLocalizations extends ChangeNotifier {
     'feature_no_ads': 'No ads',
     'payment_success_msg': '🎉 Payment successful! {plan} activated!',
     'plan_default': 'Plan',
-
-    // ── Localization: Token Queue Management Screen ──
     'cold_storage_load_failed': 'Failed to load cold storage',
     'new_token_request_notif': 'New token request: {name}',
     'token_cancelled_notif': 'Token {number} cancelled',
@@ -2228,8 +2203,6 @@ class AppLocalizations extends ChangeNotifier {
     'reject_token_confirm': 'Reject token request from {name}?',
     'skip_farmers_confirm': 'This will skip {count} farmer(s). Continue?',
     'name_phone_required': 'Name and phone are required',
-
-    // ── Localization: Rent Storage Screen ──
     'search_results_label': 'Search Results',
     'nearby_cold_storage': 'Cold storage near you',
     'request_sent_title': 'Request Sent!',
@@ -2241,28 +2214,18 @@ class AppLocalizations extends ChangeNotifier {
     'search_cold_storage': 'Search cold storage...',
     'no_matching_storage': 'No matching cold storage found',
     'send_request_btn': 'Send Request',
-
-    // ── Localization: OTP Registration Screen ──
     'subrole_fertilizers': 'Fertilizers',
     'subrole_majdoor': 'Majdoor (Labour)',
     'subrole_seed_provider': 'Seed Provider',
-
-    // ── Localization: Receipt Screens ──
     'buyer_label': 'Buyer',
     'role_vyapari': 'Vendor',
     'role_cold_storage': 'Cold Storage',
     'sold_to': 'Sold to',
     'bought_from': 'Bought from',
-
-    // ── Localization: Boli Alert Banner ──
     'sent_from_aloo_market': 'Sent from Aloo Market App',
-
-    // ── Localization: Vyapari Screens ──
     'feature_default': 'Feature',
     'transport_services_title': 'Transportation',
     'no_risky_deals_msg': '✅ No risky deals found. All clear!',
-
-    // ── Localization: AI Crop Advisor Screen ──
     'hindi_lang': 'Hindi',
     'expected_change_label': 'Expected Change',
     'valid_until_label': 'Valid until',
@@ -2270,7 +2233,6 @@ class AppLocalizations extends ChangeNotifier {
     'wanted': 'WANTED',
     'status': 'Status',
     'status_open': 'Open',
-    'photo_captured_location': 'Photo Captured Location',
     'listed_by_farmer': 'Listed by Farmer',
     'chat_to_connect': 'Chat to connect with farmer',
     'member_since': 'Member since',
@@ -2279,18 +2241,82 @@ class AppLocalizations extends ChangeNotifier {
     'farmer_information': 'Farmer Information',
     'weather_max': 'Max',
     'weather_min': 'Min',
-    'tap_to_refresh': 'Tap to refresh',
-    'your_location': 'Your Location',
+    'close_the_deal': 'Close the deal',
+    'closing_call': 'Closing Call',
+    'seller': 'Seller',
+    'buyer': 'Buyer',
+    'negotiated_price': 'Negotiated Price',
+    'enter_price_per_kg': 'Enter price per kg',
+    'enter_quantity_in_kg': 'Enter quantity in kg',
+    'send_final_call': 'Send Final Call',
+    'total_price': 'Total Price',
+    'listing_id': 'Listing ID',
+    'response_submitted': 'Response Submitted',
+    'deal_terms_accepted': 'Deal Terms Accepted',
+    'share_payment_details_hint':
+        'Share your payment details (UPI/QR/Passbook) so the buyer can pay.',
+    'waiting_for_payment_details': 'Waiting for seller to share payment details...',
+    'deal_closed_title': 'Deal Closed!',
+    'payment_details_shared': 'Payment Details Shared',
+    'i_have_paid': 'I have paid',
+    'seller_payment_details_hint':
+        'Seller shared payment details above. Confirm below after paying.',
+    'waiting_for_buyer_to_pay': 'Waiting for buyer to pay...',
+    'payment_sent_by_buyer': 'Payment sent by buyer',
+    'buyer_paid_conf_hint':
+        'Buyer says they have paid. Did you receive the payment?',
+    'not_received': 'Not Received',
+    'received': 'Received',
+    'waiting_for_seller_to_confirm_pay': 'Waiting for seller to confirm payment receipt...',
+    'cancel_deal_hint':
+        'Are you sure you want to cancel this deal? Both parties will be notified.',
+    'go_back': 'Go Back',
+    'yes_cancel_deal': 'Yes, Cancel Deal',
+    'deal_cancelled_msg': '❌ Deal has been cancelled.',
+    'accept_deal_terms_q': 'Accept Deal Terms?',
+    'agreeing_to_deal_hint': 'You are agreeing to the following deal:',
+    'yes_accept': 'Yes, Accept',
+    'deal_terms_accepted_msg':
+        '✅ Deal terms accepted! Waiting for payment details.',
+    'share_payment_details_q': 'Share Payment Details?',
+    'share_payment_details_modal_hint':
+        'You will share your payment details (UPI/QR/Passbook) so the buyer can pay.',
+    'not_now': 'Not Now',
+    'good': 'Good',
+    'average': 'Average',
+    'low': 'Low',
+    'navigate': 'Navigate',
+    'tap_to_navigate': 'Tap to navigate',
+    'tap_to_view_on_map': 'Tap to view on Google Maps',
+    'loading_map': 'Loading map...',
+    'selling': 'Selling',
+    'auto_fetched_dummy': 'Auto-fetched (Dummy CS)',
+    'live_location': 'Live Location',
+    'storage': 'Storage',
+    'type_variety_hint': 'Type variety name here...',
+    'opening_camera': 'Opening camera...',
+    'captured_location': 'Captured Location',
+    'select_cold_storage_hint': 'Select a cold storage',
+    'auto_fetched': 'Auto-fetched',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // HINDI
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _hi = {
-    'sign_in': 'साइन इन', 'sign_in_with_phone': 'मोबाइल नंबर से साइन इन करें',
+    'days_left': 'दिन शेष',
+    'hours_left': 'घंटे शेष',
+    'minutes_left': 'मिनट शेष',
+    'capture_location': 'स्थान कैप्चर करें',
+    'photo_captured_location': 'फोटो कैप्चर किया गया स्थान',
+    'listed_on': 'सूचीबद्ध: ',
+    'sign_in': 'साइन इन',
+    'sign_in_with_phone': 'मोबाइल नंबर से साइन इन करें',
     'create_account_phone': 'मोबाइल नंबर से अकाउंट बनाएं',
-    'phone_number': 'मोबाइल नंबर', 'phone_hint': '+91 मोबाइल नंबर',
-    'enter_name': 'अपना नाम लिखें', 'verify_otp': 'OTP से नंबर वेरीफाई करें',
+    'phone_number': 'मोबाइल नंबर',
+    'phone_hint': '+91 मोबाइल नंबर',
+    'enter_name': 'अपना नाम लिखें',
+    'verify_otp': 'OTP से नंबर वेरीफाई करें',
     'generate_otp': 'OTP भेजें',
     'fill_location_then_send_otp_hint':
         'ऊपर पिनकोड और राज्य / जिला / गाँव भरें, फिर OTP भेजें दबाएँ।',
@@ -2298,9 +2324,13 @@ class AppLocalizations extends ChangeNotifier {
     'send_otp_first_signup':
         'लोकेशन भरने के बाद OTP भेजें दबाएँ (लॉगिन जैसा असली SMS OTP)।',
     'enter_gaon': 'गाँव का नाम',
-    'enter_district': 'जिला', 'enter_state': 'राज्य',
-    'create': 'बनाएं', 'login': 'लॉगिन', 'logout': 'लॉगआउट',
-    'already_account': 'पहले से खाता है? ', 'login_link': 'लॉगिन करें',
+    'enter_district': 'जिला',
+    'enter_state': 'राज्य',
+    'create': 'बनाएं',
+    'login': 'लॉगिन',
+    'logout': 'लॉगआउट',
+    'already_account': 'पहले से खाता है? ',
+    'login_link': 'लॉगिन करें',
     'enter_phone': 'कृपया मोबाइल नंबर डालें',
     'phone_10_digits': 'मोबाइल नंबर 10 अंकों का होना चाहिए',
     'enter_your_name': 'कृपया अपना नाम डालें',
@@ -2315,65 +2345,92 @@ class AppLocalizations extends ChangeNotifier {
     'server_unreachable':
         'सर्वर उपलब्ध नहीं है। कृपया अपना इंटरनेट कनेक्शन जाँचें।',
     'otp_sent': '✅ OTP भेज दिया गया: 1234',
-    'choose_language': 'अपनी भाषा चुनें', 'done': 'आगे बढ़ें',
+    'choose_language': 'अपनी भाषा चुनें',
+    'done': 'आगे बढ़ें',
     'select_language': 'भाषा चुनें',
     'what_defines_role': 'आप कौन हैं?',
-    'farmer': 'किसान', 'trader': 'व्यापारी', 'cold_storage': 'कोल्ड स्टोरेज',
-    'aloo_mitra': 'आलू मित्र', 'service_provider': 'सेवा प्रदाता',
+    'farmer': 'किसान',
+    'trader': 'व्यापारी',
+    'cold_storage': 'कोल्ड स्टोरेज',
+    'aloo_mitra': 'आलू मित्र',
+    'service_provider': 'सेवा प्रदाता',
     'service_provider_bracket': '(सेवा प्रदाता)',
     'failed_update_role': 'भूमिका अपडेट करने में विफल',
-    'home': 'होम', 'chaupal': 'चौपाल', 'profile': 'प्रोफाइल',
+    'home': 'होम',
+    'chaupal': 'चौपाल',
+    'profile': 'प्रोफाइल',
     'exit_app': 'ऐप बंद करें',
     'exit_confirm': 'क्या आप ऐप बंद करना चाहते हैं?',
-    'yes': 'हाँ', 'no': 'नहीं',
+    'yes': 'हाँ',
+    'no': 'नहीं',
     'coming_soon': 'जल्द आ रहा है!',
     'under_development': 'पर काम चल रहा है।\nजल्द ही उपलब्ध होगा!',
     'ok': 'ठीक है',
-    'buy_seed': 'बीज खरीदें', 'sell_potato': 'आलू बेचें',
-    'other_services': 'अन्य सेवाएं', 'my_listings': 'मेरी लिस्टिंग',
-    'trader_requests': 'व्यापारी को आलू की जरूरत', 'mandi_prices': 'मंडी भाव',
+    'buy_seed': 'बीज खरीदें',
+    'sell_potato': 'आलू बेचें',
+    'other_services': 'अन्य सेवाएं',
+    'my_listings': 'मेरी लिस्टिंग',
+    'trader_requests': 'व्यापारी को आलू की जरूरत',
+    'mandi_prices': 'मंडी भाव',
     'cold_storage_service': 'शीत भंडार',
     'rent_storage': 'स्टोरेज किराये पर लें',
     'search_cold_storage_hint': 'नाम, शहर से खोजें...',
     'aloo_calculator': 'आलू कैलकुलेटर',
-    'ai_crop_advisor': 'AI फसल\nसलाहकार', 'my_token': 'मेरा टोकन',
-    'loan': 'ऋण', 'ai_price_prediction': 'AI भाव अनुमान',
-    'my_bookings': 'मेरी बुकिंग', 'my_chats': 'मेरी चैट',
-    'buy_potato': 'आलू खरीदें', 'ai_analytics': 'AI विश्लेषण',
+    'ai_crop_advisor': 'AI फसल\nसलाहकार',
+    'my_token': 'मेरा टोकन',
+    'loan': 'ऋण',
+    'ai_price_prediction': 'AI भाव अनुमान',
+    'my_bookings': 'मेरी बुकिंग',
+    'my_chats': 'मेरी चैट',
+    'buy_potato': 'आलू खरीदें',
+    'ai_analytics': 'AI विश्लेषण',
     'buy_request': 'मेरी आलू की जरूरत',
     'manage_storage': 'मेरा स्टोरेज प्रबंधित करें',
     'manage_storage_sub':
         'कोल्ड स्टोरेज विवरण जोड़ें, संपादित करें या अपडेट करें',
     'booking_requests': 'बुकिंग अनुरोध',
     'booking_requests_sub': 'स्टोरेज बुकिंग अनुरोध देखें और जवाब दें',
-    'services': 'सेवाएं', 'boli_alert': 'बोली अलर्ट',
-    'token_system': 'टोकन सिस्टम', 'ai_analysis': 'AI विश्लेषण',
+    'services': 'सेवाएं',
+    'boli_alert': 'बोली अलर्ट',
+    'token_system': 'टोकन सिस्टम',
+    'ai_analysis': 'AI विश्लेषण',
     'token_requests': 'टोकन अनुरोध',
     'token_requests_sub': 'किसानों के टोकन अनुरोध देखें और प्रबंधित करें',
     'token_dashboard': 'टोकन डैशबोर्ड',
     'token_dashboard_sub': 'काउंटर और कतार स्थिति देखें',
     'bulk_desk': 'बल्क डेस्क',
-    'welcome': 'स्वागत है!', 'quick_actions': 'त्वरित कार्य',
-    'edit_profile': 'प्रोफाइल संपादित करें', 'add_service': 'सेवा जोड़ें',
-    'view_messages': 'संदेश देखें', 'transactions': 'लेनदेन',
+    'welcome': 'स्वागत है!',
+    'quick_actions': 'त्वरित कार्य',
+    'edit_profile': 'प्रोफाइल संपादित करें',
+    'add_service': 'सेवा जोड़ें',
+    'view_messages': 'संदेश देखें',
+    'transactions': 'लेनदेन',
     'seed_listings': 'मेरी बीज लिस्टिंग',
     'seed_listings_sub': 'बीज लिस्टिंग बनाएं और प्रबंधित करें',
-    'recent_enquiries': 'हाल की पूछताछ', 'view_all': 'सभी देखें',
+    'recent_enquiries': 'हाल की पूछताछ',
+    'view_all': 'सभी देखें',
     'no_enquiries': 'कोई नई पूछताछ नहीं',
-    'directory': 'डायरेक्टरी', 'potato_seeds': 'आलू का बीज',
+    'directory': 'डायरेक्टरी',
+    'potato_seeds': 'आलू का बीज',
     'potato_seed_short': 'आलू\nबीज',
-    'fertilizers': 'खाद / दवाई', 'fertilizer_pesticides': 'खाद/\nकीटनाशक',
+    'fertilizers': 'खाद / दवाई',
+    'fertilizer_pesticides': 'खाद/\nकीटनाशक',
     'fertilizers_medicines': 'खाद/दवाई',
-    'machinery': 'मशीनरी', 'machinery_rent': 'मशीनरी (किराया)',
+    'machinery': 'मशीनरी',
+    'machinery_rent': 'मशीनरी (किराया)',
     'machinery_new_rent': 'मशीनरी (नया/किराये)',
     'farm_machinery': 'कृषि\nमशीनरी',
-    'transportation': 'परिवहन सेवाएं', 'transport_services': 'परिवहन\nसेवाएं',
-    'gunny_bag': 'बारदाना', 'gunny_bags': 'बारदाना',
-    'majdoor': 'मजदूर', 'farming_labour': 'खेत\nमजदूर',
+    'transportation': 'परिवहन सेवाएं',
+    'transport_services': 'परिवहन\nसेवाएं',
+    'gunny_bag': 'बारदाना',
+    'gunny_bags': 'बारदाना',
+    'majdoor': 'मजदूर',
+    'farming_labour': 'खेत\nमजदूर',
     'transport_service_title': 'परिवहन सेवा',
     'potato_needed': 'आलू की जरूरत',
     'what_would_you_like': 'आप क्या करना चाहते हैं?',
-    'buy_potato_seed': 'आलू बीज खरीदें', 'sell_potato_crop': 'आलू बेचें',
+    'buy_potato_seed': 'आलू बीज खरीदें',
+    'sell_potato_crop': 'आलू बेचें',
     'sell_potato_seed': 'आलू बीज बेचें',
     'what_would_you_like_to_do': 'आप क्या करना चाहेंगे?',
     'from_farmer_or_producer': 'किसान या बीज उत्पादक से',
@@ -2388,19 +2445,26 @@ class AppLocalizations extends ChangeNotifier {
     'from_cold_storage_option': 'कोल्ड स्टोरेज से',
     'buy_from_farmer': 'किसान से खरीदें',
     'buy_from_seed_producer': 'आलू बीज उत्पादक से खरीदें',
-    'sell_seed': 'आलू का बीज बेचें', 'sell_crop': 'आलू की फसल बेचें',
+    'sell_seed': 'आलू का बीज बेचें',
+    'sell_crop': 'आलू की फसल बेचें',
     'from_field': 'खेत से (लाइव लोकेशन)',
     'from_cold_storage': 'कोल्ड स्टोरेज से',
     'create_new_listing': 'नई लिस्टिंग बनाएं',
     'where_is_potato': 'आलू कहाँ रखा है?',
     'with_live_location': 'लाइव लोकेशन के साथ',
     'with_cold_storage_details': 'कोल्ड स्टोरेज विवरण के साथ',
-    'variety': 'किस्म', 'quantity': 'मात्रा', 'price': 'भाव',
-    'per_quintal': 'प्रति क्विंटल', 'location': 'स्थान',
-    'contact': 'संपर्क', 'call_now': 'अभी कॉल करें', 'chat': 'चैट करें',
+    'variety': 'किस्म',
+    'quantity': 'मात्रा',
+    'price': 'भाव',
+    'per_quintal': 'प्रति क्विंटल',
+    'location': 'स्थान',
+    'contact': 'संपर्क',
+    'call_now': 'अभी कॉल करें',
+    'chat': 'चैट करें',
     'view_details': 'विस्तार देखें',
     'create_sell_request': 'बेचने का अनुरोध बनाएं',
-    'potato_variety': 'आलू की किस्म', 'select_variety': 'किस्म चुनें',
+    'potato_variety': 'आलू की किस्म',
+    'select_variety': 'किस्म चुनें',
     'enter_quantity': 'मात्रा (क्विंटल में)',
     'expected_price': 'अपेक्षित भाव (₹/क्विंटल)',
     'unit_required': 'इकाई चुनें',
@@ -2438,7 +2502,8 @@ class AppLocalizations extends ChangeNotifier {
     'listing_created': 'लिस्टिंग बन गई!',
     'listing_created_message': 'आपकी लिस्टिंग सफलतापूर्वक बन गई है।',
     'view_my_listings': 'मेरी लिस्टिंग देखें',
-    'add_photos': 'फोटो जोड़ें', 'submit': 'जमा करें',
+    'add_photos': 'फोटो जोड़ें',
+    'submit': 'जमा करें',
     'post_buy_request': 'खरीद अनुरोध पोस्ट करें',
     'buy_request_info':
         'आपको कौन सा आलू चाहिए पोस्ट करें। किसान आपकी मांग देख सकते हैं।',
@@ -2455,32 +2520,54 @@ class AppLocalizations extends ChangeNotifier {
     'potato_type': 'आलू का प्रकार',
     'hire_cold_storage': 'कोल्ड स्टोरेज किराये पर लें',
     'rent_cold_storage': 'कोल्ड स्टोरेज भाड़े पर दें',
-    'available_space': 'उपलब्ध जगह', 'rent_per_bag': 'किराया प्रति बोरी',
+    'available_space': 'उपलब्ध जगह',
+    'rent_per_bag': 'किराया प्रति बोरी',
     'book_now': 'अभी बुक करें',
-    'today_prices': 'आज के भाव', 'select_mandi': 'मंडी चुनें',
-    'min_price': 'न्यूनतम भाव', 'max_price': 'अधिकतम भाव',
+    'today_prices': 'आज के भाव',
+    'select_mandi': 'मंडी चुनें',
+    'min_price': 'न्यूनतम भाव',
+    'max_price': 'अधिकतम भाव',
     'modal_price': 'मोडल भाव',
-    'settings': 'सेटिंग्स', 'notifications': 'सूचनाएं',
-    'help': 'मदद', 'help_support': 'मदद और सहायता',
-    'about': 'जानकारी', 'search': 'खोजें', 'filter': 'फिल्टर',
-    'sort': 'क्रम', 'cancel': 'रद्द करें', 'confirm': 'पक्का करें',
-    'save': 'सेव करें', 'edit': 'बदलें', 'delete': 'हटाएं', 'view': 'देखें',
+    'settings': 'सेटिंग्स',
+    'notifications': 'सूचनाएं',
+    'help': 'मदद',
+    'help_support': 'मदद और सहायता',
+    'about': 'जानकारी',
+    'search': 'खोजें',
+    'filter': 'फिल्टर',
+    'sort': 'क्रम',
+    'cancel': 'रद्द करें',
+    'confirm': 'पक्का करें',
+    'save': 'सेव करें',
+    'edit': 'बदलें',
+    'delete': 'हटाएं',
+    'view': 'देखें',
     'listing_details': 'लिस्टिंग विवरण',
-    'back': 'वापस', 'next': 'आगे', 'loading': 'लोड हो रहा है...',
-    'no_data': 'कोई डेटा नहीं', 'error': 'कुछ गड़बड़ हुई',
-    'retry': 'फिर से कोशिश करें', 'success': 'सफल',
-    'my_receipts': 'मेरी रसीदें', 'transaction_history': 'लेन-देन इतिहास',
+    'back': 'वापस',
+    'next': 'आगे',
+    'loading': 'लोड हो रहा है...',
+    'no_data': 'कोई डेटा नहीं',
+    'error': 'कुछ गड़बड़ हुई',
+    'retry': 'फिर से कोशिश करें',
+    'success': 'सफल',
+    'my_receipts': 'मेरी रसीदें',
+    'transaction_history': 'लेन-देन इतिहास',
     'change_language': 'भाषा (Language)',
     'share_app': 'ऐप शेयर करें',
     'share_app_sub': 'दोस्तों और परिवार के साथ साझा करें',
-    'phone': 'फ़ोन', 'village': 'गाँव', 'district': 'जिला', 'state': 'राज्य',
+    'phone': 'फ़ोन',
+    'village': 'गाँव',
+    'district': 'जिला',
+    'state': 'राज्य',
     'logout_confirm': 'क्या आप लॉगआउट करना चाहते हैं?',
-    'personal_info': 'व्यक्तिगत जानकारी', 'first_name': 'पहला नाम',
+    'personal_info': 'व्यक्तिगत जानकारी',
+    'first_name': 'पहला नाम',
     'last_name': 'उपनाम',
     'enter_first_name': 'कृपया अपना पहला नाम दर्ज करें',
     'enter_last_name': 'कृपया अपना उपनाम दर्ज करें',
     'address_info': 'पता की जानकारी',
-    'select_state': 'राज्य चुनें', 'select_district': 'जिला चुनें',
+    'select_state': 'राज्य चुनें',
+    'select_district': 'जिला चुनें',
     'select_village': 'गाँव/शहर चुनें',
     'other_write': 'अन्य (लिखें)',
     'enter_state_name': 'राज्य का नाम लिखें',
@@ -2490,45 +2577,71 @@ class AppLocalizations extends ChangeNotifier {
     'profile_updated': 'प्रोफ़ाइल सफलतापूर्वक अपडेट हो गई',
     'failed_update_profile': 'प्रोफ़ाइल अपडेट करने में विफल',
     'location_updated': '📍 स्थान अपडेट हो गया',
-    'location_details': 'पता विवरण', 'detect': 'स्थान पाएं',
-    'preferences': 'प्राथमिकताएं', 'push_notifications': 'पुश सूचनाएं',
+    'location_details': 'पता विवरण',
+    'detect': 'स्थान पाएं',
+    'preferences': 'प्राथमिकताएं',
+    'push_notifications': 'पुश सूचनाएं',
     'push_notifications_sub': 'अपडेट के लिए सूचनाएं प्राप्त करें',
-    'dark_mode': 'डार्क मोड', 'dark_mode_sub': 'डार्क थीम चालू करें',
-    'general': 'सामान्य', 'language': 'भाषा',
-    'clear_cache': 'कैश साफ करें', 'clear_cache_sub': 'स्टोरेज खाली करें',
+    'dark_mode': 'डार्क मोड',
+    'dark_mode_sub': 'डार्क थीम चालू करें',
+    'general': 'सामान्य',
+    'language': 'भाषा',
+    'clear_cache': 'कैश साफ करें',
+    'clear_cache_sub': 'स्टोरेज खाली करें',
     'cache_cleared': 'कैश सफलतापूर्वक साफ़ हो गया',
-    'app_version': 'ऐप संस्करण', 'terms_of_service': 'सेवा की शर्तें',
+    'app_version': 'ऐप संस्करण',
+    'terms_of_service': 'सेवा की शर्तें',
     'privacy_policy': 'गोपनीयता नीति',
     'language_changed': 'भाषा बदल गई:',
-    'my_plan': 'मेरा प्लान', 'kyc_documents': 'KYC दस्तावेज़',
-    'advertise_with_us': 'विज्ञापन दें', 'log_out': 'लॉगआउट',
-    'take_photo': 'फोटो लें', 'upload_photo': 'फोटो अपलोड करें',
-    'analyzing': 'जांच हो रही है...', 'disease_detected': 'बीमारी मिली',
-    'treatment': 'इलाज', 'healthy_crop': 'फसल स्वस्थ है',
-    'weather': 'मौसम', 'temperature': 'तापमान', 'humidity': 'नमी',
+    'my_plan': 'मेरा प्लान',
+    'kyc_documents': 'KYC दस्तावेज़',
+    'advertise_with_us': 'विज्ञापन दें',
+    'log_out': 'लॉगआउट',
+    'take_photo': 'फोटो लें',
+    'upload_photo': 'फोटो अपलोड करें',
+    'analyzing': 'जांच हो रही है...',
+    'disease_detected': 'बीमारी मिली',
+    'treatment': 'इलाज',
+    'healthy_crop': 'फसल स्वस्थ है',
+    'weather': 'मौसम',
+    'temperature': 'तापमान',
+    'humidity': 'नमी',
     'rain_chance': 'बारिश की संभावना',
     'transport_service': 'ट्रांसपोर्ट सेवा',
     'book_transport': 'ट्रांसपोर्ट बुक करें',
-    'type_message': 'संदेश लिखें...', 'send': 'भेजें',
-    'new_message': 'नया संदेश', 'advertisement': 'विज्ञापन',
-    'buy_potatoes': 'आलू खरीदें', 'available_potatoes': 'उपलब्ध आलू',
+    'type_message': 'संदेश लिखें...',
+    'send': 'भेजें',
+    'new_message': 'नया संदेश',
+    'advertisement': 'विज्ञापन',
+    'buy_potatoes': 'आलू खरीदें',
+    'available_potatoes': 'उपलब्ध आलू',
     'my_buy_requests': 'मेरे खरीद अनुरोध',
     'create_buy_request': 'खरीद अनुरोध बनाएं',
-    'kg': 'किलो', 'quintal': 'क्विंटल', 'ton': 'टन', 'bags': 'बोरी',
-    'rupees': 'रुपये', 'news': 'समाचार', 'how_tos': 'कैसे करें?',
-    'create_new_post': 'नई पोस्ट बनाएं', 'post_it': 'पोस्ट करें',
-    'choose_category': 'श्रेणी चुनें', 'tips': 'टिप्स', 'question': 'सवाल',
+    'kg': 'किलो',
+    'quintal': 'क्विंटल',
+    'ton': 'टन',
+    'bags': 'बोरी',
+    'rupees': 'रुपये',
+    'news': 'समाचार',
+    'how_tos': 'कैसे करें?',
+    'create_new_post': 'नई पोस्ट बनाएं',
+    'post_it': 'पोस्ट करें',
+    'choose_category': 'श्रेणी चुनें',
+    'tips': 'टिप्स',
+    'question': 'सवाल',
     'price_update': 'भाव अपडेट',
     'post_hint':
         'अपनी बात यहाँ लिखें...\n\nउदाहरण:\n• आज का मंडी भाव\n• खेती की टिप्स\n• कोई सवाल\n• समाचार साझा करें',
     'category_tip': 'सही श्रेणी चुनने से आपकी पोस्ट सही लोगों तक पहुंचेगी!',
     'please_write_something': 'कृपया कुछ लिखें',
     'post_creation_error': 'पोस्ट बनाने में त्रुटि',
-    'farmer_role': 'किसान', 'trader_role': 'व्यापारी',
+    'farmer_role': 'किसान',
+    'trader_role': 'व्यापारी',
     'cold_storage_role': 'कोल्ड स्टोरेज मालिक',
-    // ── Chaupal screen ──
-    'chaupal_title': 'चौपाल', 'messages_title': 'संदेश',
-    'posts': 'पोस्ट', 'chats': 'चैट',
+    'chaupal_title': 'चौपाल',
+    'messages_title': 'संदेश',
+    'posts': 'पोस्ट',
+    'chats': 'चैट',
     'no_posts_yet': 'अभी कोई पोस्ट नहीं',
     'be_first_to_share': 'सबसे पहले कुछ साझा करें!',
     'no_conversations_yet': 'अभी कोई बातचीत नहीं',
@@ -2536,26 +2649,40 @@ class AppLocalizations extends ChangeNotifier {
     'start_new_chat': 'नई चैट शुरू करें',
     'no_messages_yet': 'अभी कोई संदेश नहीं',
     'just_now': 'अभी',
-    'd_ago': 'दिन पहले', 'h_ago': 'घंटे पहले', 'm_ago': 'मिनट पहले',
-    'role_farmer': 'किसान', 'role_trader': 'व्यापारी',
-    'role_storage': 'कोल्ड स्टोरेज', 'role_user': 'यूजर',
+    'd_ago': 'दिन पहले',
+    'h_ago': 'घंटे पहले',
+    'm_ago': 'मिनट पहले',
+    'role_farmer': 'किसान',
+    'role_trader': 'व्यापारी',
+    'role_storage': 'कोल्ड स्टोरेज',
+    'role_user': 'यूजर',
     'advertise_title': 'विज्ञापन दें',
     'promote_business': 'बैनर विज्ञापन से अपना व्यापार बढ़ाएं',
     'no_trader_requests_yet': 'अभी कोई व्यापारी मांग नहीं',
-    'needs': 'चाहिए', 'qtl': 'क्विंटल',
-    'no_news_available': 'कोई समाचार उपलब्ध नहीं', 'all_news': 'सभी समाचार',
-    'upcoming_auctions': 'आगामी नीलामी', 'today': 'आज',
-    'tomorrow': 'कल', 'details': 'विवरण',
-    'auction_is_today': 'नीलामी आज है!', 'auction_is_tomorrow': 'नीलामी कल है',
-    'date_and_time': 'तारीख और समय', 'day': 'दिन', 'every_week': 'हर सप्ताह',
-    'date': 'तारीख', 'time': 'समय', 'landmark': 'लैंडमार्क',
-    'open_in_maps': 'मैप में खोलें', 'person': 'व्यक्ति',
-    'expected_details': 'अपेक्षित विवरण', 'tons': 'टन',
+    'needs': 'चाहिए',
+    'qtl': 'क्विंटल',
+    'no_news_available': 'कोई समाचार उपलब्ध नहीं',
+    'all_news': 'सभी समाचार',
+    'upcoming_auctions': 'आगामी नीलामी',
+    'today': 'आज',
+    'tomorrow': 'कल',
+    'details': 'विवरण',
+    'auction_is_today': 'नीलामी आज है!',
+    'auction_is_tomorrow': 'नीलामी कल है',
+    'date_and_time': 'तारीख और समय',
+    'day': 'दिन',
+    'every_week': 'हर सप्ताह',
+    'date': 'तारीख',
+    'time': 'समय',
+    'landmark': 'लैंडमार्क',
+    'open_in_maps': 'मैप में खोलें',
+    'person': 'व्यक्ति',
+    'expected_details': 'अपेक्षित विवरण',
+    'tons': 'टन',
     'potato_varieties': 'आलू की किस्में',
     'instructions': '\u0928\u093f\u0930\u094d\u0926\u0947\u0936',
     'share_auction':
         '\u0928\u0940\u0932\u093e\u092e\u0940 \u0936\u0947\u092f\u0930 \u0915\u0930\u0947\u0902',
-    // my_plan_screen keys
     'payment_verification_failed':
         '\u092d\u0941\u0917\u0924\u093e\u0928 \u0938\u0924\u094d\u092f\u093e\u092a\u0928 \u0935\u093f\u092b\u0932',
     'payment_failed':
@@ -2605,7 +2732,6 @@ class AppLocalizations extends ChangeNotifier {
         '\u0930\u093f\u092b\u0902\u0921 \u092a\u0949\u0932\u093f\u0938\u0940 \u0915\u094d\u092f\u093e \u0939\u0948?',
     'faq_refund_a':
         '7 \u0926\u093f\u0928\u094b\u0902 \u0915\u0947 \u092d\u0940\u0924\u0930 \u092a\u0942\u0930\u093e \u0930\u093f\u092b\u0902\u0921\u0964',
-    // kyc_documents_screen keys
     'document_uploaded_success':
         '\u2705 \u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0938\u092b\u0932\u0924\u093e\u092a\u0942\u0930\u094d\u0935\u0915 \u0905\u092a\u0932\u094b\u0921 \u0915\u093f\u092f\u093e \u0917\u092f\u093e',
     'fully_verified':
@@ -2637,7 +2763,6 @@ class AppLocalizations extends ChangeNotifier {
         '\u2713 \u0935\u093f\u0936\u0947\u0937 \u0911\u092b\u093c\u0930 \u0914\u0930 \u091b\u0942\u091f',
     'verified': '\u0938\u0924\u094d\u092f\u093e\u092a\u093f\u0924',
     'upload': '\u0905\u092a\u0932\u094b\u0921',
-    // receipt keys
     'receipt': '\u0930\u0938\u0940\u0926',
     'share': '\u0938\u093e\u091d\u093e \u0915\u0930\u0947\u0902',
     'download':
@@ -2686,7 +2811,6 @@ class AppLocalizations extends ChangeNotifier {
         '\u0915\u094b\u0932\u094d\u0921 \u0938\u094d\u091f\u094b\u0930\u0947\u091c \u0938\u094c\u0926\u093e',
     'seller': '\u0935\u093f\u0915\u094d\u0930\u0947\u0924\u093e',
     'buyer': '\u0916\u0930\u0940\u0926\u093e\u0930',
-    // receipt photos keys
     'receipt_saved':
         '\u2705 \u0930\u0938\u0940\u0926 \u0938\u0947\u0935 \u0939\u094b \u0917\u0908!',
     'error_opening_camera':
@@ -2730,7 +2854,6 @@ class AppLocalizations extends ChangeNotifier {
     'capture_mandi_receipts':
         '\u0915\u0948\u092e\u0930\u093e \u092c\u091f\u0928 \u0926\u092c\u093e\u0915\u0930 \u0905\u092a\u0928\u0940 \u092e\u0902\u0921\u0940 \u0915\u0940 \u0930\u0938\u0940\u0926 \u0915\u0940 \u092b\u094b\u091f\u094b \u0932\u0947\u0902',
     'amount': '\u0930\u093e\u0936\u093f',
-    // aloo_mitra_registration_screen keys
     'enable_location_services':
         '\u0915\u0943\u092a\u092f\u093e \u0932\u094b\u0915\u0947\u0936\u0928 \u0938\u0947\u0935\u093e \u091a\u093e\u0932\u0942 \u0915\u0930\u0947\u0902',
     'location_not_available':
@@ -2902,8 +3025,6 @@ class AppLocalizations extends ChangeNotifier {
     'tap_to_select':
         '\u091f\u0948\u092a \u0915\u0930\u0915\u0947 \u091a\u0941\u0928\u0947\u0902',
     'city_village': '\u0936\u0939\u0930/\u0917\u093e\u0902\u0935',
-
-    // ── Aadhar KYC Validation ──
     'aadhar_required': 'आधार नंबर ज़रूरी है',
     'aadhar_12_digits': 'आधार नंबर 12 अंकों का होना चाहिए',
     'aadhar_only_digits': 'आधार नंबर में केवल अंक होने चाहिए',
@@ -2919,8 +3040,6 @@ class AppLocalizations extends ChangeNotifier {
     'aadhar_verified_success': 'आधार सफलतापूर्वक सत्यापित!',
     'photo_selected': 'फ़ोटो चयनित',
     'please_capture_potato_photo': 'कृपया पहले आलू की फ़ोटो लें',
-
-    // ── AI Advisory ──
     'ai_advisory_kishan': 'AI सलाहकार',
     'ai_advisory_kishan_title': 'किसान AI सलाहकार',
     'ai_advisory_kishan_subtitle': 'अभी बेचें या रखें — AI से जानें',
@@ -2977,8 +3096,6 @@ class AppLocalizations extends ChangeNotifier {
     'waiting_for_turn': 'आपकी बारी का इंतज़ार...',
     'being_served': 'आपकी सेवा हो रही है',
     'your_turn': 'आपकी बारी!',
-
-    // ── Chat Detail Screen ──
     'request_pending': '⏳ अनुरोध पेंडिंग है!',
     'cancel_deal': 'रद्द करें',
     'cancelling': 'रद्द हो रहा है...',
@@ -3043,8 +3160,6 @@ class AppLocalizations extends ChangeNotifier {
     'deal_complete': '🎉 सौदा पूर्ण!',
     'reminder_sent': '✅ अनुस्मारक भेजा गया',
     'failed_send_reminder': 'अनुस्मारक भेजने में विफल',
-
-    // ── AI Crop Advisor Screen ──
     'ai_crop_advisor_title': 'AI फसल सलाहकार',
     'your_farming_assistant': 'आपका खेती सहायक',
     'today_tab': 'आज की सलाह',
@@ -3100,8 +3215,6 @@ class AppLocalizations extends ChangeNotifier {
     'four_week_forecast': '📈 4 सप्ताह का पूर्वानुमान',
     'confidence': 'विश्वसनीय',
     'analysis_factors': '🔍 विश्लेषण के आधार',
-
-    // ── Token Queue Management Screen ──
     'cold_storage_not_found': 'कोल्ड स्टोरेज नहीं मिला',
     'select_cold_storage': 'कोल्ड स्टोरेज चुनें',
     'token_management': '🎫 टोकन प्रबंधन',
@@ -3181,8 +3294,6 @@ class AppLocalizations extends ChangeNotifier {
     'setup_counters': 'काउंटर सेटअप करें',
     'counter_inactive': 'निष्क्रिय',
     'save_label': 'सहेजें',
-
-    // ── Manage Boli Alerts Screen ──
     'manage_boli_alerts': '🔔 बोली अलर्ट प्रबंधित करें',
     'new_alert': '+ नया अलर्ट',
     'something_went_wrong': 'कुछ गलत हुआ',
@@ -3215,8 +3326,6 @@ class AppLocalizations extends ChangeNotifier {
     'potato_varieties_label': 'आलू किस्में',
     'no_cold_storage_found': 'कोल्ड स्टोरेज नहीं मिला',
     'alert_created': 'अलर्ट बन गया',
-
-    // ── Vyapari Analytics Screen ──
     'ai_trade_advisor': 'AI व्यापार सलाहकार',
     'ai_analyzing_market': '🧠 AI बाजार विश्लेषण कर रहा है...',
     'preparing_insights': 'आपके लिए सबसे अच्छा सुझाव तैयार हो रहा है',
@@ -3251,8 +3360,6 @@ class AppLocalizations extends ChangeNotifier {
     'best_month': 'बेस्ट महीना',
     'tips_label': 'सुझाव:',
     'ai_analysis_footer': 'AI विश्लेषण • डेटा-संचालित सुझाव',
-
-    // ── Aloo Calculator Screen ──
     'reset': 'रीसेट',
     'formulas': 'सूत्र',
     'farmer_calculator': '🥔 आलू कैलकुलेटर',
@@ -3281,8 +3388,6 @@ class AppLocalizations extends ChangeNotifier {
     'result': 'परिणाम',
     'required_field': 'यह भरना जरूरी है',
     'enter_number_gt_0': '0 से बड़ा नंबर डालें',
-
-    // ── My Token Screen ──
     'service_completed': 'सेवा पूर्ण!',
     'token_approved': 'टोकन स्वीकृत!',
     'got_it': 'ठीक है!',
@@ -3324,8 +3429,6 @@ class AppLocalizations extends ChangeNotifier {
     'token_updated': 'टोकन अनुरोध अपडेट हो गया',
     'edit_token_title': '✏️ टोकन अनुरोध संपादित करें',
     'update_request': 'अनुरोध अपडेट करें',
-
-    // ── KYC Documents Screen ──
     'enter_aadhaar_number': 'आधार नंबर डालें',
     'must_be_12_digits': '12 अंक होने चाहिए',
     'only_digits_allowed': 'सिर्फ अंक डालें',
@@ -3348,8 +3451,6 @@ class AppLocalizations extends ChangeNotifier {
     'change_aadhaar': '← आधार नंबर बदलें',
     'aadhaar_verified_congrats': 'आधार सत्यापित! 🎉',
     'benefits_of_kyc': 'KYC के फायदे',
-
-    // ── Boli Alerts Screen ──
     'auction_alerts': '🔔 बोली अलर्ट',
     'upcoming_tab': 'आगामी बोली',
     'all_tab': 'सभी बोली',
@@ -3365,8 +3466,6 @@ class AppLocalizations extends ChangeNotifier {
     'time_field': 'समय',
     'location_field': 'स्थान',
     'contact_field': 'संपर्क',
-
-    // ── Cold Storage AI Advisory Screen ──
     'near_full_capacity': 'क्षमता लगभग भरी हुई है',
     'balanced_capacity': 'क्षमता संतुलित है',
     'plenty_space': 'काफ़ी जगह उपलब्ध है',
@@ -3377,8 +3476,6 @@ class AppLocalizations extends ChangeNotifier {
     'accept_new_stock': '🟢 नया माल स्वीकार करें',
     'clear_old_stock': '🔴 पुराना स्टॉक निकालें',
     'continue_normal': '🟡 सामान्य संचालन जारी रखें',
-
-    // ── Vyapari AI Advisory Screen ──
     'buy_now_advice': '🟢 तुरंत ख़रीदें',
     'negotiate_price': '🟡 भाव कम करवाएँ',
     'wait_advice_red': '🔴 अभी रुकें',
@@ -3386,16 +3483,12 @@ class AppLocalizations extends ChangeNotifier {
     'avoid_buying': '🔴 ख़रीदने से बचें',
     'negotiate_and_buy': '🟡 थोड़ा भाव करें और ख़रीदें',
     'buy_with_caution': '🟡 सावधानी से ख़रीदें',
-
-    // ── Kishan AI Advisory Screen ──
     'sell_now_advice': '🟢 अभी बेचें',
     'store_in_cold': '🔵 कोल्ड स्टोर में रखें',
     'sell_partially': '🟡 आधा बेचें, आधा रखें',
     'sell_now_green': '🟢 अभी बेचें',
     'stagger_sales': '🔵 धीरे-धीरे बेचें',
     'watch_market_sell': '🟡 बाज़ार देखें और बेचें',
-
-    // ── Dev Login Screen ──
     'app_tagline': 'आलू का असली बाज़ार',
     'login_with_phone': 'फ़ोन से लॉगिन करें',
     'new_here_create_account': 'नए हैं? अकाउंट बनाएं',
@@ -3403,24 +3496,16 @@ class AppLocalizations extends ChangeNotifier {
     'send_otp_login': 'OTP भेजें',
     'verify_otp_login': 'OTP वेरीफाई करें',
     'resend_otp_login': 'OTP पुनः भेजें',
-
-    // ── Help Support Screen ──
     'ai_assistant': 'AI सहायक',
     'always_online': 'हमेशा ऑनलाइन',
     'type_your_question': 'अपना सवाल लिखें...',
-
-    // ── Notification Screen ──
     'no_other_notifications': 'कोई सूचना नहीं',
-
-    // ── Common UI ──
     'retry_btn': 'पुनः प्रयास',
     'cancel_btn': 'रद्द करें',
     'no_btn': 'नहीं',
     'yes_btn': 'हाँ',
     'ok_btn': 'ठीक है',
     'created_label': 'बनाई गई',
-
-    // ── Hardcoded screens ──
     'reject_advertisement': 'विज्ञापन अस्वीकार करें',
     'rejection_reason': 'अस्वीकार का कारण',
     'confirm_payment': 'भुगतान की पुष्टि करें',
@@ -3472,8 +3557,6 @@ class AppLocalizations extends ChangeNotifier {
     'delete_comment_confirm': 'क्या आप यह टिप्पणी हटाना चाहते हैं?',
     'otp_resent': 'OTP फिर से भेजा गया',
     'number_copied': 'नंबर कॉपी हो गया',
-
-    // ── Parameterized strings (use with trArgs) ──
     'deal_summary_short': '{quantity} पैकेट @ ₹{price}/पैकेट',
     'deal_total_amount': 'कुल राशि: ₹{amount}',
     'deal_summary_with_duration':
@@ -3506,9 +3589,6 @@ class AppLocalizations extends ChangeNotifier {
         'स्थिति: #{position}\nअनुमानित प्रतीक्षा: {minutes} मिनट',
     'storage_income_summary':
         '{qty} kg आलू {duration} तक स्टोर करने पर आपकी कुल कमाई ₹{income} होगी।',
-
-    // ── Hardcoded string keys ──────────────────────────────────
-    // Admin screens
     'admin_dashboard': 'एडमिन डैशबोर्ड',
     'welcome_admin': 'स्वागत है, एडमिन',
     'manage_your_platform': 'अपना प्लेटफॉर्म प्रबंधित करें',
@@ -3534,15 +3614,11 @@ class AppLocalizations extends ChangeNotifier {
     'status_updated_to': 'स्थिति अपडेट हो गई',
     'feedback_deleted': 'प्रतिक्रिया हटाई गई',
     'sample_feedbacks_added': 'नमूना प्रतिक्रियाएं जोड़ी गईं',
-
-    // Cold storage screens
     'could_not_start_conversation': 'बातचीत शुरू नहीं हो सकी',
     'enter_rejection_reason_optional': 'अस्वीकार का कारण दर्ज करें (वैकल्पिक)',
     'enter_response': 'जवाब दर्ज करें',
     'failed_to_delete': 'हटाने में विफल',
     'failed_to_save': 'सेव करने में विफल',
-
-    // Kishan screens
     'failed_to_update_booking': 'बुकिंग अपडेट करने में विफल',
     'failed_to_cancel_booking': 'बुकिंग रद्द करने में विफल',
     'enter_quantity_in_packets': 'पैकेट में मात्रा दर्ज करें',
@@ -3552,17 +3628,11 @@ class AppLocalizations extends ChangeNotifier {
     'special_requirements_hint': 'कोई विशेष आवश्यकता...',
     'your_price_per_packet': 'आपकी कीमत (₹/पैकेट) *',
     'quantity_can_provide': 'आप कितनी मात्रा दे सकते हैं (पैकेट) *',
-
-    // Vyapari screens
     'others': 'अन्य',
     'accept': 'स्वीकार करें',
     'choose_your_cold_storage': 'अपना कोल्ड स्टोरेज चुनें',
-
-    // Rent storage
     'failed_to_get_token': 'टोकन प्राप्त करने में विफल',
     'failed_to_submit_rating': 'रेटिंग सबमिट करने में विफल',
-
-    // Chat screens
     'failed_to_load_users': 'उपयोगकर्ता लोड करने में विफल',
     'failed_to_start_chat': 'चैट शुरू करने में विफल',
     'search_by_name_or_phone': 'नाम या फ़ोन से खोजें...',
@@ -3571,13 +3641,9 @@ class AppLocalizations extends ChangeNotifier {
     'post': 'पोस्ट',
     'write_a_comment': 'टिप्पणी लिखें...',
     'failed_send_message_prefix': 'संदेश भेजने में विफल: ',
-
-    // Receipt screens
     'camera_not_available': 'इस प्लेटफॉर्म पर कैमरा उपलब्ध नहीं है',
     'try_again': 'फिर से कोशिश करें',
     'receipt_not_found': 'रसीद नहीं मिली',
-
-    // Payment screens
     'card_number': 'कार्ड नंबर',
     'expiry': 'समाप्ति',
     'cvv': 'CVV',
@@ -3585,12 +3651,8 @@ class AppLocalizations extends ChangeNotifier {
     'enter_valid_amount': 'एक वैध राशि दर्ज करें',
     'clear_history': 'इतिहास साफ़ करें',
     'start_payment': 'भुगतान शुरू करें',
-
-    // Other
     'failed_to_get_location': 'लोकेशन प्राप्त करने में विफल: ',
     'copy_number': 'नंबर कॉपी करें',
-
-    // ── सहायता और सहयोग ─────────────────────────────────────────
     'help_and_support': 'सहायता और सहयोग',
     'how_can_we_help': 'हम आपकी कैसे मदद कर सकते हैं?',
     'contact_us_for_help': 'मदद के लिए हमसे संपर्क करें',
@@ -3609,8 +3671,6 @@ class AppLocalizations extends ChangeNotifier {
     'feedback_success': 'फीडबैक सफलतापूर्वक भेजा गया!',
     'feedback_error': 'फीडबैक भेजने में विफल',
     'send_feedback': 'फीडबैक भेजें',
-
-    // ── FAQ Keys ────────────────────────────────────────────────
     'faq_how_to_use_app': 'ऐप का उपयोग कैसे करें?',
     'faq_how_to_use_app_answer':
         'ऐप डाउनलोड करें, अपने फ़ोन नंबर से अकाउंट बनाएं, अपनी भूमिका चुनें (किसान/व्यापारी/कोल्ड स्टोरेज मालिक) और सुविधाओं का उपयोग शुरू करें।',
@@ -3686,8 +3746,6 @@ class AppLocalizations extends ChangeNotifier {
     'faq_what_is_ai_analysis': 'AI विश्लेषण क्या है?',
     'faq_what_is_ai_analysis_answer':
         'AI विश्लेषण मशीन लर्निंग का उपयोग करके बाज़ार डेटा का विश्लेषण करता है और मूल्य रुझानों के बारे में जानकारी प्रदान करता है।',
-
-    // ── बीज लिस्टिंग (आलू मित्र) ──────────────────────────────
     'new_seed_listing': 'नई बीज लिस्टिंग',
     'create_seed_listing': 'बीज लिस्टिंग बनाएं',
     'create_listing': 'लिस्टिंग बनाएं',
@@ -3709,8 +3767,6 @@ class AppLocalizations extends ChangeNotifier {
     'medium': 'मध्यम',
     'large': 'बड़ा',
     'write_additional_seed_details': 'अतिरिक्त बीज विवरण लिखें...',
-
-    // ── आलू खरीदें (व्यापारी) ───────────────────────────────────
     'buy_from_farmers': 'किसानों से खरीदें',
     'buy_from_seed_producers': 'बीज उत्पादकों से खरीदें',
     'buy_potato_seeds': 'आलू के बीज खरीदें',
@@ -3728,8 +3784,6 @@ class AppLocalizations extends ChangeNotifier {
         'बीज उत्पादकों से कोई लिस्टिंग नहीं। बाद में देखें!',
     'no_seed_listings_from_farmers_check_later':
         'किसानों से कोई बीज लिस्टिंग नहीं। बाद में देखें!',
-
-    // ── लिस्टिंग संपादित करें (किसान) ───────────────────────────
     'edit_listing': 'लिस्टिंग संपादित करें',
     'sell_listing': 'बिक्री लिस्टिंग',
     'buy_listing': 'खरीद लिस्टिंग',
@@ -3744,15 +3798,11 @@ class AppLocalizations extends ChangeNotifier {
     'update_listing': 'लिस्टिंग अपडेट करें',
     'listing_updated_message': 'लिस्टिंग सफलतापूर्वक अपडेट हो गई!',
     'updated_successfully': 'सफलतापूर्वक अपडेट हो गया!',
-
-    // ── विक्रेता लिस्टिंग (किसान) ──────────────────────────────
     'no_listings': 'अभी कोई लिस्टिंग नहीं',
     'create_first_listing': 'अपनी पहली लिस्टिंग बनाएं',
     'confirm_delete_listing': 'क्या आप वाकई इस लिस्टिंग को हटाना चाहते हैं?',
     'delete_listing': 'लिस्टिंग हटाएं',
     'listing_deleted': 'लिस्टिंग सफलतापूर्वक हटाई गई',
-
-    // ── आलू मित्र स्क्रीन ──────────────────────────────────────
     'chat_start_failed': 'चैट शुरू करने में विफल',
     'service_provider_not_found': 'सेवा प्रदाता नहीं मिला',
     'shop_address': 'दुकान का पता',
@@ -3761,15 +3811,11 @@ class AppLocalizations extends ChangeNotifier {
     'click_to_see_shop_location':
         'दुकान का स्थान मैप पर देखने के लिए क्लिक करें',
     'show_all': 'सभी देखें',
-
-    // ── सूचना स्क्रीन ──────────────────────────────────────────
     'no_notifications': 'कोई सूचना नहीं',
     'delete_notification': 'सूचना हटाएं',
     'confirm_delete_notification': 'क्या आप वाकई इस सूचना को हटाना चाहते हैं?',
     'notification_deleted': 'सूचना हटाई गई',
     'failed_delete_notification': 'सूचना हटाने में विफल',
-
-    // ── लेन-देन इतिहास ─────────────────────────────────────────
     'all': 'सभी',
     'pending': 'लंबित',
     'refunded': 'वापस किया गया',
@@ -3777,8 +3823,6 @@ class AppLocalizations extends ChangeNotifier {
     'transaction_id': 'लेन-देन आईडी',
     'failure_reason': 'विफलता का कारण',
     'no_transactions_found': 'कोई लेन-देन नहीं मिला',
-
-    // ── किराया / कोल्ड स्टोरेज ─────────────────────────────────
     'hire_rent_cold_storage': 'कोल्ड स्टोरेज किराये पर लें',
     'browse_available_storage': 'उपलब्ध स्टोरेज देखें',
     'no_cold_storages_in_area': 'आपके क्षेत्र में कोई कोल्ड स्टोरेज नहीं',
@@ -3794,25 +3838,13 @@ class AppLocalizations extends ChangeNotifier {
     'inspection_option': 'निरीक्षण',
     'expected_quantity': 'अपेक्षित मात्रा',
     'quantity_hint': 'क्विंटल में मात्रा दर्ज करें',
-
-    // ── कोल्ड स्टोरेज प्रबंधन ─────────────────────────────────
     'confirm_delete_storage': 'क्या आप वाकई इस स्टोरेज को हटाना चाहते हैं?',
-
-    // ── साइन अप ─────────────────────────────────────────────────
     'enter_4_digit_otp': '4 अंकों का OTP दर्ज करें',
-
-    // ── एडमिन विज्ञापन ─────────────────────────────────────────
     'description': 'विवरण',
     'price_rupees': 'कीमत (₹)',
-
-    // ── भुगतान टेस्ट ────────────────────────────────────────────
     'amount_rupees': 'राशि (₹)',
-
-    // ── चैट / खोज ───────────────────────────────────────────────
     'search_by_name_phone': 'नाम या फ़ोन से खोजें',
     'write_comment': 'कमेंट लिखें...',
-
-    // ── मंडी भाव ────────────────────────────────────────────────
     'view_prices': 'भाव देखें',
     'search_mandi': 'मंडी खोजें...',
     'select_state_to_view_mandis': 'मंडी देखने के लिए राज्य चुनें',
@@ -3825,8 +3857,6 @@ class AppLocalizations extends ChangeNotifier {
     'not_enough_data_for_chart': 'चार्ट के लिए पर्याप्त डेटा नहीं',
     'error_loading_prices': 'भाव लोड करने में त्रुटि',
     'no_past_prices_available': 'पिछले भाव उपलब्ध नहीं हैं',
-
-    // ── व्यापारी अनुरोध फ़िल्टर ─────────────────────────────────
     'search_by_name_variety': 'नाम, किस्म, स्थान से खोजें...',
     'results_found': 'परिणाम मिले',
     'clear_filters': 'फ़िल्टर हटाएं',
@@ -3860,8 +3890,6 @@ class AppLocalizations extends ChangeNotifier {
     'seed': 'बीज',
     'crop': 'फसल',
     'retake': 'दोबारा लें',
-
-    // My Offers tab (Kisan → Trader Buy Requests)
     'open_requests': 'ओपन रिक्वेस्ट',
     'my_offers': 'मेरे ऑफर',
     'no_offers_yet': 'अभी तक कोई ऑफर नहीं भेजा',
@@ -3877,8 +3905,6 @@ class AppLocalizations extends ChangeNotifier {
         'क्या आप वाकई अपना ऑफर वापस लेना चाहते हैं? यह पूर्ववत नहीं किया जा सकता।',
     'accepted': 'स्वीकृत',
     'rejected': 'अस्वीकृत',
-
-    // Token status labels
     'status_pending': 'अनुरोध भेजा',
     'status_waiting': 'प्रतीक्षा में',
     'status_called': 'बुलाया गया',
@@ -3887,24 +3913,16 @@ class AppLocalizations extends ChangeNotifier {
     'status_skipped': 'छोड़ दिया',
     'status_cancelled': 'रद्द',
     'status_rejected': 'अस्वीकार',
-
-    // Token purpose labels
     'purpose_storage': 'भंडारण',
     'purpose_withdrawal': 'निकासी',
     'purpose_inspection': 'निरीक्षण',
-
-    // Auth / session
     'session_expired_message': 'सत्र समाप्त हो गया है। कृपया पुनः लॉगिन करें।',
     'session_expired': 'सत्र समाप्त',
     'session_expired_detail':
         'आपका लॉगिन सत्र समाप्त हो गया है। कृपया पुनः लॉगिन करें।',
     'login_again': 'पुनः लॉगिन करें',
-
-    // Boli alert
     'potato_auction': 'आलू बोली / Potato Auction',
     'potato_boli': 'आलू बोली',
-
-    // Day names
     'day_sunday': 'रविवार',
     'day_monday': 'सोमवार',
     'day_tuesday': 'मंगलवार',
@@ -3912,8 +3930,6 @@ class AppLocalizations extends ChangeNotifier {
     'day_thursday': 'गुरुवार',
     'day_friday': 'शुक्रवार',
     'day_saturday': 'शनिवार',
-
-    // Feedback sample data
     'sample_farmer_name': 'राम किसान',
     'sample_farmer_feedback':
         'ऐप बहुत अच्छा है! मार्केट प्राइस देखना आसान हो गया।',
@@ -3929,8 +3945,6 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         '{expiry} के बाद यह लिस्टिंग स्वचालित रूप से हटा दी जाएगी।',
     'other_enter_name': '➕ अन्य (नाम लिखें)',
-
-    // ── Token Screen keys ──
     'token_request_rejected_msg': '❌ अनुरोध अस्वीकार: {reason}',
     'token_skipped_msg': 'आपका टोकन {tokenNumber} छोड़ दिया गया',
     'go_to_counter_n': 'काउंटर {counter} पर जाएं',
@@ -3957,8 +3971,6 @@ class AppLocalizations extends ChangeNotifier {
         'क्या आप वाकई टोकन {tokenNumber} रद्द करना चाहते हैं?',
     'request_sent_status': 'अनुरोध भेजा गया',
     'token_transferred_msg': 'आपका टोकन काउंटर {counter} पर भेजा गया',
-
-    // ── Aloo Calculator Screen ──
     'calc_formulas': 'गणना सूत्र',
     'calc_total_yield': 'कुल उपज',
     'calc_total_yield_formula':
@@ -4021,8 +4033,6 @@ class AppLocalizations extends ChangeNotifier {
     'calc_storage': 'स्टोरेज',
     'calc_net_profit': 'शुद्ध लाभ',
     'calc_charge_per_kg_unit': 'चार्ज प्रति kg/{unit}',
-
-    // ── Chat Detail Screen keys ──
     'i_understand': 'समझ गया',
     'party_confirmed_deal': '✔️ {name} ने सौदा पक्का किया है',
     'click_below_to_confirm': '👇 पुष्टि करने के लिए नीचे क्लिक करें',
@@ -4093,12 +4103,8 @@ class AppLocalizations extends ChangeNotifier {
     'payment_reminder_msg':
         '🔔 भुगतान अनुस्मारक: कृपया भुगतान करें और पुष्टि करें।',
     'confirm_reminder_msg': '🔔 अनुस्मारक: कृपया भुगतान की पुष्टि करें।',
-
-    // ── Boli Alerts Screen (localized) ──
     'new_auctions_coming_soon': 'नई बोली जल्द ही जोड़ी जाएंगी',
     'shared_from_aloo_market': 'Aloo Market App से भेजा गया',
-
-    // ── Manage Boli Alerts Screen (localized) ──
     'create_first_weekly_alert': 'अपना पहला साप्ताहिक बोली अलर्ट बनाएं',
     'confirm_delete_alert_msg': 'क्या आप वाकई "{title}" को हटाना चाहते हैं?',
     'register_cs_first_boli': 'कृपया पहले अपना कोल्ड स्टोरेज रजिस्टर करें',
@@ -4108,8 +4114,12 @@ class AppLocalizations extends ChangeNotifier {
     'nearby_area_subtitle': '(आसपास के सभी)',
     'auction_title_hint': 'जैसे: साप्ताहिक आलू बोली',
     'title_field_required': 'शीर्षक आवश्यक है',
-    'day_abbr_sun': 'रवि', 'day_abbr_mon': 'सोम', 'day_abbr_tue': 'मंगल',
-    'day_abbr_wed': 'बुध', 'day_abbr_thu': 'गुरु', 'day_abbr_fri': 'शुक्र',
+    'day_abbr_sun': 'रवि',
+    'day_abbr_mon': 'सोम',
+    'day_abbr_tue': 'मंगल',
+    'day_abbr_wed': 'बुध',
+    'day_abbr_thu': 'गुरु',
+    'day_abbr_fri': 'शुक्र',
     'day_abbr_sat': 'शनि',
     'repeat_every_week': 'हर हफ्ते दोहराएं',
     'auction_same_day_weekly': 'बोली हर हफ्ते इसी दिन होगी',
@@ -4122,8 +4132,6 @@ class AppLocalizations extends ChangeNotifier {
         'बोली अलर्ट बनाने के लिए पहले अपना कोल्ड स्टोरेज रजिस्टर करें',
     'register_cs_btn_boli': 'कोल्ड स्टोरेज रजिस्टर करें',
     'alert_updated': 'अलर्ट अपडेट हो गया',
-
-    // ── Kishan AI Advisory (localized reasoning & risks) ──
     'sell_now_reasoning':
         'बाज़ार भाव अच्छा है (₹{price}/क्विंटल) और आपके आलू की क्वालिटी बड़ी है। अभी बेचने से ज़्यादा मुनाफ़ा होगा।',
     'risk_price_drop': 'भाव कभी भी गिर सकता है',
@@ -4148,8 +4156,6 @@ class AppLocalizations extends ChangeNotifier {
         'अभी भाव ठीक-ठाक है (₹{price}/क्विंटल)। 1-2 दिन बाज़ार देखें, अगर भाव बढ़े तो बेचें, नहीं तो मौजूदा दाम पर बेच दें।',
     'risk_wait_loss': 'ज़्यादा इंतज़ार से नुक़सान हो सकता है',
     'risk_weather_quality': 'मौसम बदलने से क्वालिटी घट सकती है',
-
-    // ── Vyapari AI Advisory (localized reasoning & risks) ──
     'buy_now_reasoning':
         'विक्रेता का भाव कम है (₹{price}/क्विंटल), क्वालिटी अच्छी है और स्थानीय माँग ज़्यादा है। अच्छा मार्जिन मिलेगा।',
     'risk_storage_cost_large': 'ज़्यादा ख़रीदने पर स्टोरेज का ख़र्चा',
@@ -4178,8 +4184,6 @@ class AppLocalizations extends ChangeNotifier {
         'मौजूदा स्थिति मिश्रित है। कम मात्रा में ख़रीदें और बाज़ार देखते रहें।',
     'risk_large_qty_risky': 'बड़ी मात्रा में ख़रीदना जोखिम भरा',
     'risk_check_quality_demand': 'क्वालिटी और माँग दोनों चेक करें',
-
-    // ── Cold Storage AI Advisory (localized reasoning & risks) ──
     'cs_cautious_reasoning':
         'कोल्ड स्टोरेज {pct}% भरा है और पीक सीज़न में माँग ज़्यादा है। नया माल लेने से स्टोरेज ओवरलोड हो सकता है, जिससे तापमान बनाए रखना मुश्किल होगा।',
     'risk_overload_temp': 'ओवरलोडिंग से तापमान बढ़ सकता है',
@@ -4208,8 +4212,6 @@ class AppLocalizations extends ChangeNotifier {
         'अभी स्थिति सामान्य है ({pct}% भरा)। स्टॉक की निगरानी जारी रखें और क्वालिटी चेक करते रहें।',
     'risk_demand_season_change': 'मौसम बदलने पर माँग बदल सकती है',
     'risk_power_cut_prep': 'बिजली कटौती की तैयारी रखें',
-
-    // ── Localization: Registration Screen (Aloo Mitra) ──
     'kaam_aloo_chhantai': 'आलू छंटाई',
     'kaam_bori_bharai': 'बोरी भराई',
     'kaam_loading': 'लोडिंग',
@@ -4236,8 +4238,6 @@ class AppLocalizations extends ChangeNotifier {
     'service_transportation': 'परिवहन सेवाएं',
     'service_gunny_bag': 'बारदाना',
     'service_majdoor': 'मजदूर',
-
-    // ── Localization: Seed Listings Screen ──
     'delete_listing_title': 'लिस्टिंग हटाएं',
     'cancel_action': 'रद्द करें',
     'delete_action': 'हटाएं',
@@ -4254,8 +4254,6 @@ class AppLocalizations extends ChangeNotifier {
     'deactivate_action': 'निष्क्रिय',
     'activate_action': 'सक्रिय',
     'edit_action': 'संपादित',
-
-    // ── Localization: KYC Documents Screen ──
     'kyc_status_load_error': 'स्टेटस लोड नहीं हो सका। कृपया दोबारा कोशिश करें।',
     'otp_sent_to_aadhaar': 'OTP आपके आधार से जुड़े मोबाइल पर भेजा गया',
     'aadhaar_verified': 'आधार सत्यापित हो गया! ✅',
@@ -4272,8 +4270,6 @@ class AppLocalizations extends ChangeNotifier {
     'kyc_benefit_secure': '✅ सुरक्षित लेन-देन',
     'aadhaar_encryption_note':
         'आपका आधार नंबर एन्क्रिप्ट किया जाता है और UIDAI दिशानिर्देशों के अनुसार सुरक्षित रखा जाता है। हम आपका पूरा आधार नंबर कभी स्टोर नहीं करते।',
-
-    // ── Localization: My Plan Screen ──
     'plan_free_pass': 'फ्री पास',
     'plan_forever': 'हमेशा के लिए',
     'feature_basic_listing': 'बुनियादी लिस्टिंग',
@@ -4299,8 +4295,6 @@ class AppLocalizations extends ChangeNotifier {
     'feature_no_ads': 'कोई विज्ञापन नहीं',
     'payment_success_msg': '🎉 भुगतान सफल! {plan} सक्रिय हो गया!',
     'plan_default': 'प्लान',
-
-    // ── Localization: Token Queue Management Screen ──
     'cold_storage_load_failed': 'कोल्ड स्टोरेज लोड नहीं हो सका',
     'new_token_request_notif': 'नया टोकन अनुरोध: {name}',
     'token_cancelled_notif': 'टोकन {number} रद्द हुआ',
@@ -4313,8 +4307,6 @@ class AppLocalizations extends ChangeNotifier {
     'skip_farmers_confirm':
         'इससे {count} किसानों के टोकन स्किप हो जाएंगे। क्या आप जारी रखना चाहते हैं?',
     'name_phone_required': 'नाम और फोन आवश्यक है',
-
-    // ── Localization: Rent Storage Screen ──
     'search_results_label': 'खोज परिणाम',
     'nearby_cold_storage': 'आपके पास कोल्ड स्टोरेज',
     'request_sent_title': 'अनुरोध भेजा गया!',
@@ -4326,28 +4318,18 @@ class AppLocalizations extends ChangeNotifier {
     'search_cold_storage': 'कोल्ड स्टोरेज खोजें...',
     'no_matching_storage': 'कोई मिलता-जुलता कोल्ड स्टोरेज नहीं मिला',
     'send_request_btn': 'अनुरोध भेजें',
-
-    // ── Localization: OTP Registration Screen ──
     'subrole_fertilizers': 'खाद/उर्वरक',
     'subrole_majdoor': 'मजदूर',
     'subrole_seed_provider': 'बीज विक्रेता',
-
-    // ── Localization: Receipt Screens ──
     'buyer_label': 'खरीदार',
     'role_vyapari': 'व्यापारी',
     'role_cold_storage': 'कोल्ड स्टोरेज',
     'sold_to': 'किसको बेचा',
     'bought_from': 'किससे खरीदा',
-
-    // ── Localization: Boli Alert Banner ──
     'sent_from_aloo_market': 'Aloo Market App से भेजा गया',
-
-    // ── Localization: Vyapari Screens ──
     'feature_default': 'फीचर',
     'transport_services_title': 'परिवहन सेवाएं',
     'no_risky_deals_msg': '✅ कोई जोखिम भरा सौदा नहीं मिला। सब सुरक्षित है!',
-
-    // ── Localization: AI Crop Advisor Screen ──
     'hindi_lang': 'हिंदी',
     'expected_change_label': 'अपेक्षित परिवर्तन',
     'valid_until_label': 'वैध',
@@ -4355,7 +4337,6 @@ class AppLocalizations extends ChangeNotifier {
     'wanted': 'चाहिए',
     'status': 'स्थिति',
     'status_open': 'खुला है',
-    'photo_captured_location': 'फोटो लेने का स्थान',
     'listed_by_farmer': 'किसान द्वारा सूचीबद्ध',
     'chat_to_connect': 'किसान से जुड़ने के लिए चैट करें',
     'member_since': 'सदस्यता की तिथि',
@@ -4368,12 +4349,226 @@ class AppLocalizations extends ChangeNotifier {
     'tap_to_refresh':
         '\u0924\u093e\u091c\u093c\u093e \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u091f\u0948\u092a \u0915\u0930\u0947\u0902',
     'your_location': '\u0906\u092a\u0915\u093e \u0938\u094d\u0925\u093e\u0928',
+    'season_summer': 'गर्मी',
+    'season_monsoon': 'मानसून',
+    'season_autumn': 'शरद ऋतु',
+    'season_winter': 'सर्दी',
+    'crop_winter_season': 'सर्दी का मौसम',
+    'crop_ideal_sowing_time': 'बुवाई का सही समय',
+    'crop_winter_main_advice':
+        'आलू की बुवाई का सबसे अच्छा समय। अक्टूबर से दिसंबर तक बुवाई करें।',
+    'crop_activity_sowing': 'बुवाई',
+    'crop_sowing_desc': 'गहरी जुताई, बीज 20-25 सेमी गहराई में लगाएं',
+    'crop_activity_irrigation': 'सिंचाई',
+    'crop_winter_irrigation_desc':
+        'हल्की सिंचाई, पाले से बचाव के लिए शाम को पानी दें',
+    'crop_activity_fertilization': 'उर्वरक',
+    'crop_fertilization_desc': 'DAP और पोटाश उर्वरक का प्रयोग करें',
+    'crop_spring_season': 'बसंत का मौसम',
+    'crop_dev_time': 'फसल विकास का समय',
+    'crop_spring_main_advice':
+        'फसल की देखभाल करें। मिट्टी चढ़ाना और कीट नियंत्रण करें।',
+    'crop_activity_earthing': 'मिट्टी चढ़ाना',
+    'crop_earthing_desc':
+        'आलू हरा होने से बचाने के लिए जड़ों पर मिट्टी चढ़ाएं',
+    'crop_activity_pest_control': 'कीट नियंत्रण',
+    'crop_pest_control_desc': 'माहू और झुलसा रोग के लिए छिड़काव करें',
+    'crop_spring_irrigation_desc': '7-10 दिन के अंतराल पर सिंचाई करें',
+    'crop_summer_season': 'गर्मी का मौसम',
+    'crop_harvest_storage_time': 'कटाई और भंडारण का समय',
+    'crop_summer_main_advice':
+        'फरवरी-मार्च में कटाई करें। बेहतर संरक्षण के लिए कोल्ड स्टोरेज में रखें।',
+    'crop_activity_harvesting': 'कटाई',
+    'crop_harvesting_desc': 'जब पत्तियां पीली हो जाएं तब कटाई करें',
+    'crop_activity_grading': 'छंटाई',
+    'crop_grading_desc': 'आलू को आकार के अनुसार छांटें',
+    'crop_activity_storage': 'भंडारण',
+    'crop_storage_desc': 'कोल्ड स्टोरेज में 2-4°C पर रखें',
+    'crop_monsoon_autumn': 'मानसून/शरद ऋतु',
+    'crop_field_prep_time': 'खेत तैयारी का समय',
+    'crop_monsoon_main_advice':
+        'अगली फसल के लिए खेत तैयार करें। मिट्टी की जांच करवाएं।',
+    'crop_activity_field_prep': 'खेत की तैयारी',
+    'crop_field_prep_desc': 'गहरी जुताई और खेत का समतलीकरण',
+    'crop_activity_soil_test': 'मिट्टी परीक्षण',
+    'crop_soil_test_desc': 'pH और पोषक तत्वों का स्तर जांचें',
+    'crop_activity_seed_selection': 'बीज चयन',
+    'crop_seed_selection_desc': 'प्रमाणित बीज खरीदें',
+    'seed_early_maturing': 'शीघ्र पकने वाली',
+    'seed_pukhraj_features': 'पीला गूदा, अच्छा स्वाद, चिप्स के लिए उत्कृष्ट',
+    'seed_pukhraj_region': 'उत्तर प्रदेश, बिहार',
+    'seed_medium_maturing': 'मध्यम पकने वाली',
+    'seed_jyoti_features': 'सफेद गूदा, लंबे समय तक भंडारण',
+    'seed_jyoti_region': 'पंजाब, हरियाणा',
+    'seed_bahar_features': 'गर्मी सहनशील, रोग प्रतिरोधक',
+    'seed_bahar_region': 'पश्चिम बंगाल',
+    'seed_processing_variety': 'प्रसंस्करण किस्म',
+    'seed_chipsona_features': 'चिप्स और फ्राइज़ के लिए सर्वश्रेष्ठ',
+    'seed_chipsona_region': 'गुजरात, राजस्थान',
+    'seed_high_yield': 'अधिक उपज',
+    'seed_khyati_features': 'सर्वाधिक उपज, मध्य प्रदेश के लिए उपयुक्त',
+    'seed_khyati_region': 'मध्य प्रदेश',
+    'disease_late_blight': 'झुलसा रोग (लेट ब्लाइट)',
+    'disease_late_blight_symptoms': 'पत्तियों पर भूरे धब्बे, सफेद फफूंद',
+    'disease_late_blight_solution': 'मैंकोज़ेब या रिडोमिल का छिड़काव करें',
+    'disease_late_blight_prevention':
+        'प्रमाणित बीज का उपयोग करें, जल निकासी बनाए रखें',
+    'disease_early_blight': 'अगेती अंगमारी (अर्ली ब्लाइट)',
+    'disease_early_blight_symptoms': 'पत्तियों पर गोल भूरे धब्बे',
+    'disease_early_blight_solution': 'कॉपर ऑक्सीक्लोराइड का छिड़काव करें',
+    'disease_early_blight_prevention': 'फसल चक्र अपनाएं',
+    'disease_aphids': 'माहू (एफिड्स)',
+    'disease_aphids_symptoms': 'पत्तियां मुड़ जाना, चिपचिपा तरल',
+    'disease_aphids_solution': 'इमिडाक्लोप्रिड का छिड़काव करें',
+    'disease_aphids_prevention': 'पीले चिपचिपे ट्रैप का उपयोग करें',
+    'disease_black_scurf': 'काला पपड़ी (ब्लैक स्कर्फ)',
+    'disease_black_scurf_symptoms': 'आलू की सतह पर काले धब्बे',
+    'disease_black_scurf_solution': 'बीज को बोरिक एसिड से उपचारित करें',
+    'disease_black_scurf_prevention': 'स्वस्थ बीजों का उपयोग करें',
+    'advisor_market_feb_apr':
+        'नई फसल आने से भाव गिर सकते हैं। जल्दी बेचें या कोल्ड स्टोरेज में रखें।',
+    'advisor_timing_sell_or_store': 'अभी बेचें या भंडारित करें',
+    'advisor_market_may_aug':
+        'ऑफ-सीज़न में भाव ज़्यादा हैं। कोल्ड स्टोरेज से बेचने का अच्छा समय।',
+    'advisor_timing_good_to_sell': 'बेचने का अच्छा समय',
+    'advisor_market_default': 'बुवाई का मौसम। बीज की मांग ज़्यादा है।',
+    'advisor_timing_sell_seeds': 'बीज बेचें',
+    'tip_morning_irrigation':
+        '💡 सुबह जल्दी सिंचाई करें ताकि पानी की बर्बादी कम हो',
+    'tip_certified_seeds':
+        '🌱 प्रमाणित बीज का उपयोग करें, उपज 20% तक बढ़ सकती है',
+    'tip_soil_testing': '🧪 हर सीज़न में मिट्टी की जांच करवाएं',
+    'tip_frost_irrigation':
+        '🌡️ शाम को हल्की सिंचाई पाले से बचाती है',
+    'tip_weekly_disease_check':
+        '🐛 हर हफ्ते फसल में रोग के लक्षण जांचें',
+    'tip_cure_before_storage':
+        '📦 भंडारण से पहले 2 हफ्ते आलू सुखाएं',
+    'tip_track_market_prices':
+        '💰 बाजार भाव पर नज़र रखें, सही समय पर बेचें',
+    'tip_organic_manure':
+        '🌿 स्वस्थ मिट्टी के लिए जैविक खाद का उपयोग करें',
+    'storage_tip_remove_damaged': 'भंडारण से पहले खराब आलू हटाएं',
+    'storage_tip_keep_dark': 'हरा होने से रोकने के लिए अंधेरे में रखें',
+    'storage_tip_ventilation': 'उचित हवादार व्यवस्था बनाए रखें',
+    'storage_tip_duration': '6-8 महीने तक भंडारण संभव',
+    'cost_seeds': 'बीज',
+    'cost_fertilizer': 'उर्वरक',
+    'cost_labor': 'मजदूरी',
+    'cost_irrigation': 'सिंचाई',
+    'cost_pesticides': 'कीटनाशक',
+    'cost_others': 'अन्य',
+    'market_no_data_rec':
+        'बाजार डेटा प्राप्त नहीं हो सका। भाव मैन्युअल रूप से जांचें।',
+    'market_harvest_season_rec':
+        '⚠️ फसल कटाई का मौसम - भाव गिर सकते हैं। कोल्ड स्टोरेज या जल्दी बेचने पर विचार करें।',
+    'market_offseason_rec':
+        '✅ ऑफ-सीज़न - भाव बढ़ रहे हैं। भंडारित आलू बेचने का अच्छा समय!',
+    'market_presowing_rec':
+        '📊 भाव स्थिर हैं। बुवाई के मौसम की तैयारी का अच्छा समय।',
+    'market_sowing_season_rec':
+        '🌱 बुवाई का मौसम। बीज आलू की मांग ज़्यादा है।',
+    'market_factor_offseason_premium': '📈 ऑफ-सीज़न प्रीमियम अवधि',
+    'market_factor_new_harvest': '📉 नई फसल बाजार में आ रही है',
+    'market_factor_price_above_avg':
+        '💰 भाव औसत से ऊपर (₹{price}/किलो)',
+    'market_factor_price_below_avg':
+        '⚠️ भाव औसत से नीचे (₹{price}/किलो)',
+    'market_factor_supply_variation':
+        '📦 बाजारों में आपूर्ति में ज़्यादा अंतर',
+    'market_factor_cold_transport':
+        '❄️ ठंड का मौसम परिवहन को प्रभावित कर रहा है',
+    'market_factor_monsoon_storage':
+        '🌧️ मानसून भंडारण को प्रभावित कर रहा है',
+    'market_decision_sell_bullish':
+        'बाजार में तेज़ी है और भाव अच्छे हैं। अधिकतम लाभ के लिए अभी बेचने की सलाह।',
+    'market_decision_hold_bearish':
+        'फसल कटाई के कारण भाव कम हैं। कोल्ड स्टोरेज में 2-3 महीने रखें।',
+    'market_decision_wait_moderate':
+        'भाव सामान्य हैं। निर्णय लेने से पहले 1-2 हफ्ते बाजार पर नज़र रखें।',
+    'market_decision_wait_rising':
+        'बाजार बढ़ रहा है। 1-2 हफ्ते में चरम भाव की प्रतीक्षा करें।',
+    'market_decision_hold_unfavorable':
+        'वर्तमान भाव अनुकूल नहीं हैं। भंडारित करें और बेहतर बाजार की प्रतीक्षा करें।',
+    'market_good_for_selling': 'बेचने के लिए अच्छा',
+    'market_monitor_prices': 'भाव पर नज़र रखें',
+    'market_agra_mandi': 'आगरा मंडी',
+    'market_farrukhabad_mandi': 'फर्रुखाबाद मंडी',
+    'market_jalandhar_mandi': 'जालंधर मंडी',
+    'market_hooghly_mandi': 'हुगली मंडी',
+    'market_indore_mandi': 'इंदौर मंडी',
+    'market_expected_rise': 'बढ़ने की उम्मीद',
+    'market_expected_fall': 'गिरने की उम्मीद',
+    'market_expected_stable': 'स्थिर रहने की उम्मीद',
+    'close_the_deal': 'सौदा पक्का करें',
+    'closing_call': 'क्लोजिंग कॉल',
+    'negotiated_price': 'तय कीमत',
+    'enter_price_per_kg': 'प्रति किलो कीमत दर्ज करें',
+    'enter_quantity_in_kg': 'किलो में मात्रा दर्ज करें',
+    'send_final_call': 'फाइनल कॉल भेजें',
+    'total_price': 'कुल कीमत',
+    'listing_id': 'लिस्टिंग आईडी',
+    'response_submitted': 'जवाब भेज दिया गया',
+    'deal_terms_accepted': 'सौदा की शर्तें स्वीकार की गईं',
+    'share_payment_details_hint':
+        'अपने भुगतान विवरण (UPI/QR/पासबुक) साझा करें ताकि खरीदार भुगतान कर सके।',
+    'waiting_for_payment_details':
+        'विक्रेता द्वारा भुगतान विवरण साझा करने की प्रतीक्षा है...',
+    'deal_closed_title': 'सौदा पक्का!',
+    'payment_details_shared': 'भुगतान विवरण साझा किए गए',
+    'i_have_paid': 'मैंने भुगतान कर दिया है',
+    'seller_payment_details_hint':
+        'विक्रेता ने ऊपर भुगतान विवरण साझा किए हैं। भुगतान करने के बाद नीचे पुष्टि करें।',
+    'waiting_for_buyer_to_pay': 'खरीदार द्वारा भुगतान करने की प्रतीक्षा है...',
+    'payment_sent_by_buyer': 'खरीदार द्वारा भुगतान भेजा गया',
+    'buyer_paid_conf_hint':
+        'खरीदार का कहना है कि उन्होंने भुगतान कर दिया है। क्या आपको भुगतान प्राप्त हुआ?',
+    'not_received': 'प्राप्त नहीं हुआ',
+    'received': 'प्राप्त हो गया',
+    'waiting_for_seller_to_confirm_pay':
+        'विक्रेता द्वारा भुगतान प्राप्ति की पुष्टि की प्रतीक्षा है...',
+    'cancel_deal_hint':
+        'क्या आप वाकई इस सौदे को रद्द करना चाहते हैं? दोनों पक्षों को सूचित किया जाएगा।',
+    'go_back': 'पीछे जाएं',
+    'yes_cancel_deal': 'हां, सौदा रद्द करें',
+    'deal_cancelled_msg': '❌ सौदा रद्द कर दिया गया।',
+    'accept_deal_terms_q': 'सौदा की शर्तें स्वीकार करें?',
+    'agreeing_to_deal_hint': 'आप निम्नलिखित सौदे के लिए सहमत हो रहे हैं:',
+    'yes_accept': 'हां, स्वीकार करें',
+    'deal_terms_accepted_msg':
+        '✅ सौदा की शर्तें स्वीकार कर ली गईं! भुगतान विवरण की प्रतीक्षा है।',
+    'share_payment_details_q': 'भुगतान विवरण साझा करें?',
+    'share_payment_details_modal_hint':
+        'आप अपने भुगतान विवरण (UPI/QR/पासबुक) साझा करेंगे ताकि खरीदार भुगतान कर सके।',
+    'not_now': 'अभी नहीं',
+    'good': 'अच्छा',
+    'average': 'औसत',
+    'low': 'निम्न',
+    'navigate': 'नेविगेट करें',
+    'tap_to_navigate': 'नेविगेट करने के लिए टैप करें',
+    'tap_to_view_on_map': 'गूगल मैप्स पर देखने के लिए टैप करें',
+    'loading_map': 'नक्शा लोड हो रहा है...',
+    'selling': 'बेच रहे हैं',
+    'auto_fetched_dummy': 'स्वतः प्राप्त (डमी सीएस)',
+    'live_location': 'लाइव लोकेशन',
+    'storage': 'स्टोरेज',
+    'type_variety_hint': 'यहाँ किस्म का नाम टाइप करें...',
+    'opening_camera': 'कैमरा खुल रहा है...',
+    'captured_location': 'कैप्चर की गई लोकेशन',
+    'select_cold_storage_hint': 'कोल्ड स्टोरेज चुनें',
+    'auto_fetched': 'स्वतः प्राप्त',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // PUNJABI
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _pa = {
+    'days_left': 'ਦਿਨ ਬਾਕੀ',
+    'hours_left': 'ਘੰਟੇ ਬਾਕੀ',
+    'minutes_left': 'ਮਿੰਟ ਬਾਕੀ',
+    'capture_location': 'ਸਥਾਨ ਕੈਪਚਰ ਕਰੋ',
+    'photo_captured_location': 'ਫੋਟੋ ਕੈਪਚਰ ਕੀਤਾ ਸਥਾਨ',
+    'listed_on': 'ਸੂਚੀਬੱਧ: ',
     'create_account_phone': 'ਮੋਬਾਈਲ ਨੰਬਰ ਨਾਲ ਖਾਤਾ ਬਣਾਓ',
     'phone_hint': '+91 ਮੋਬਾਈਲ ਨੰਬਰ',
     'enter_name': 'ਆਪਣਾ ਨਾਮ ਲਿਖੋ',
@@ -4509,12 +4704,94 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
+    'close_the_deal': 'ਸੌਦਾ ਪੱਕਾ ਕਰੋ',
+    'closing_call': 'ਕਲੋਜ਼ਿੰਗ ਕਾਲ',
+    'seller': 'ਵੇਚਣ ਵਾਲਾ',
+    'buyer': 'ਖਰੀਦਦਾਰ',
+    'negotiated_price': 'ਤੈਅ ਕੀਤੀ ਕੀਮਤ',
+    'enter_price_per_kg': 'ਪ੍ਰਤੀ ਕਿଲੋ ਕੀਮਤ ਦਰਜ ਕਰੋ',
+    'enter_quantity_in_kg': 'ਕਿਲੋ ਵਿੱਚ ਮਾਤਰਾ ਦਰਜ ਕਰੋ',
+    'send_final_call': 'ਅੰਤਿਮ ਕਾਲ ਭੇਜੋ',
+    'total_price': 'ਕੁਲ ਕੀਮਤ',
+    'listing_id': 'ਲਿਸਟਿੰਗ ਆਈਡੀ',
+    'response_submitted': 'ਜਵਾਬ ਭੇਜ ਦਿੱਤਾ ਗਿਆ',
+    'deal_terms_accepted': 'ਸੌਦੇ ਦੀਆਂ ਸ਼ਰਤਾਂ ਸਵੀਕਾਰ ਕੀਤੀਆਂ',
+    'share_payment_details': 'ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ ਸਾਂਝੇ ਕਰੋ',
+    'share_payment_details_hint':
+        'ਆਪਣੇ ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ (UPI/QR/ਪਾਸਬੁੱਕ) ਸਾਂਝੇ ਕਰੋ ਤਾਂ ਜੋ ਖਰੀਦਦਾਰ ਭੁਗਤਾਨ ਕਰ ਸਕੇ।',
+    'waiting_for_payment_details':
+        'ਵਿਕਰੇਤਾ ਵਲੋਂ ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ ਸਾਂਝੇ ਕਰਨ ਦੀ ਉਡੀਕ ਹੈ...',
+    'deal_closed_title': 'ਸੌਦਾ ਬੰਦ!',
+    'payment_details_shared': 'ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ ਸਾਂਝੇ ਕੀਤੇ ਗਏ',
+    'i_have_paid': 'ਮੈਂ ਭੁਗਤਾਨ ਕਰ ਦਿੱਤਾ ਹੈ',
+    'seller_payment_details_hint':
+        'ਵਿਕਰੇਤਾ ਨੇ ਉੱਪਰ ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ ਸਾਂਝੇ ਕੀਤੇ ਹਨ। ਭੁਗਤਾਨ ਕਰਨ ਤੋਂ ਬਾਅਦ ਹੇਠਾਂ ਪੁਸ਼ਟੀ ਕਰੋ।',
+    'waiting_for_buyer_to_pay': 'ਖਰੀਦਦਾਰ ਵਲੋਂ ਭੁਗਤਾਨ ਕਰਨ ਦੀ ਉਡੀਕ ਹੈ...',
+    'payment_sent_by_buyer': 'ਖਰੀਦਦਾਰ ਵਲੋਂ ਭੁਗਤਾਨ ਭੇਜਿਆ ਗਿਆ',
+    'buyer_paid_conf_hint':
+        'ਖਰੀਦਦਾਰ ਦਾ ਕਹਿਣਾ ਹੈ ਕਿ ਉਸਨੇ ਭੁਗਤਾਨ ਕਰ ਦਿੱਤਾ ਹੈ। ਕੀ ਤੁਹਾਨੂੰ ਭੁਗਤਾਨ ਮਿਲ ਗਿਆ ਹੈ?',
+    'not_received': 'ਨਹੀਂ ਮਿਲਿਆ',
+    'received': 'ਮਿਲ ਗਿਆ',
+    'waiting_for_seller_to_confirm_pay':
+        'ਵਿਕਰੇਤਾ ਵਲੋਂ ਭੁਗਤਾਨ ਪ੍ਰਾਪਤੀ ਦੀ ਪੁਸ਼ਟੀ ਦੀ ਉਡੀਕ ਹੈ...',
+    'cancel_deal_q': 'ਸੌਦਾ ਰੱਦ ਕਰੋ?',
+    'cancel_deal_hint':
+        'ਕੀ ਤੁਸੀਂ ਸੱਚਮੁੱਚ ਇਸ ਸੌਦੇ ਨੂੰ ਰੱਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ? ਦੋਵਾਂ ਧਿਰਾਂ ਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਜਾਵੇਗਾ।',
+    'go_back': 'ਵਾਪਸ ਜਾਓ',
+    'yes_cancel_deal': 'ਹਾਂ, ਸੌਦਾ ਰੱਦ ਕਰੋ',
+    'deal_cancelled_msg': '❌ ਸੌਦਾ ਰੱਦ ਕਰ ਦਿੱਤਾ ਗਿਆ।',
+    'accept_deal_terms_q': 'ਸੌਦੇ ਦੀਆਂ ਸ਼ਰਤਾਂ ਸਵੀਕਾਰ ਕਰੋ?',
+    'agreeing_to_deal_hint': 'ਤੁਸੀਂ ਹੇਠਾਂ ਦਿੱਤੇ ਸੌਦੇ ਲਈ ਸਹਿਮਤ ਹੋ ਰਹੇ ਹੋ:',
+    'yes_accept': 'ਹਾਂ, ਸਵੀਕਾਰ ਕਰੋ',
+    'deal_terms_accepted_msg':
+        '✅ ਸੌਦੇ ਦੀਆਂ ਸ਼ਰਤਾਂ ਸਵੀਕਾਰ ਕੀਤੀਆਂ ਗਈਆਂ! ਭੁਗਤਾਨ ਦੇ ਵੇਰਵਿਆਂ ਦੀ ਉਡੀਕ ਹੈ।',
+    'share_payment_details_q': 'ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ ਸਾਂਝੇ ਕਰੋ?',
+    'share_payment_details_modal_hint':
+        'ਤੁਸੀਂ ਆਪਣੇ ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ (UPI/QR/ਪਾਸਬੁੱਕ) ਸਾਂਝੇ ਕਰੋਗੇ ਤਾਂ ਜੋ ਖਰੀਦਦਾਰ ਭੁਗਤਾਨ ਕਰ ਸਕੇ।',
+    'not_now': 'ਅਜੇ ਨਹੀਂ',
+    'small': 'ਛੋਟਾ',
+    'medium': 'ਮੱਧਮ',
+    'large': 'ਵੱਡਾ',
+    'good': 'ਵਧੀਆ',
+    'average': 'ਔਸਤ',
+    'low': 'ਘੱਟ',
+    'navigate': 'ਨੈਵੀਗੇਟ ਕਰੋ',
+    'tap_to_navigate': 'ਨੈਵੀਗੇਟ ਕਰਨ ਲਈ ਟੈਪ ਕਰੋ',
+    'tap_to_view_on_map': 'ਗੂਗਲ ਮੈਪਸ ਤੇ ਦੇਖਣ ਲਈ ਟੈਪ ਕਰੋ',
+    'loading_map': 'ਨਕਸ਼ਾ ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...',
+    'packet': 'ਪੈਕਟ',
+    'quintal': 'ਕੁਇੰਟਲ',
+    'kg': 'ਕਿਲੋ',
+    'selling': 'ਵੇਚ ਰਹੇ ਹਾਂ',
+    'auto_fetched_dummy': 'ਆਟੋ-ਪ੍ਰਾਪਤ (ਡਮੀ ਸੀਐਸ)',
+    'from_field': 'ਖੇਤ ਤੋਂ',
+    'from_cold_storage': 'ਕੋਲਡ ਸਟੋਰੇਜ ਤੋਂ',
+    'live_location': 'ਲਾਈਵ ਲੋਕੇਸ਼ਨ',
+    'storage': 'ਸਟੋਰੇਜ',
+    'enter_variety_name': 'ਕਿਸਮ ਦਾ ਨਾਮ ਦਰਜ ਕਰੋ',
+    'type_variety_hint': 'ਇੱਥੇ ਕਿਸਮ ਦਾ ਨਾਮ ਟਾਈਪ ਕਰੋ...',
+    'opening_camera': 'ਕੈਮਰਾ ਖੁੱਲ ਰਿਹਾ ਹੈ...',
+    'captured_location': 'ਕੈਪਚਰ ਕੀਤੀ ਲੋਕੇਸ਼ਨ',
+    'select_cold_storage_hint': 'ਕੋਲਡ ਸਟੋਰੇਜ ਚੁਣੋ',
+    'auto_fetched': 'ਆਟੋ-ਪ੍ਰਾਪਤ',
+    'packet_label': 'ਪੈਕਟ',
+    'quintal_label': 'ਕੁਇੰਟਲ',
+    'kg_label': 'ਕਿਲੋਗ੍ਰਾਮ',
+    'quality_good': 'ਵਧੀਆ',
+    'quality_avg': 'ਔਸਤ',
+    'quality_low': 'ਘੱਟ',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // GUJARATI
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _gu = {
+    'days_left': 'દિવસ બાકી',
+    'hours_left': 'કલાક બાકી',
+    'minutes_left': 'મિનિટ બાકી',
+    'capture_location': 'સ્થાન કેપ્ચર કરો',
+    'photo_captured_location': 'ફોટો કેપ્ચર કરેલ સ્થાન',
+    'listed_on': 'સૂચિબદ્ધ: ',
     'choose_language': 'તમારી ભાષા પસંદ કરો',
     'done': 'આગળ વધો',
     'select_language': 'ભાષા પસંદ કરો',
@@ -4637,12 +4914,93 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
+    'close_the_deal': 'સોદો પૂરો કરો',
+    'closing_call': 'ક્લોઝિંગ કોલ',
+    'seller': 'વેચનાર',
+    'buyer': 'ખરીદનાર',
+    'negotiated_price': 'નક્કી કરેલી કિંમત',
+    'enter_price_per_kg': 'પ્રતિ કિલો કિંમત દાખલ કરો',
+    'enter_quantity_in_kg': 'કિલોમાં જથ્થો દાખલ કરો',
+    'send_final_call': 'અંતિમ કોલ મોકલો',
+    'total_price': 'કુલ કિંમત',
+    'listing_id': 'લિસ્ટિંગ આઈડી',
+    'response_submitted': 'પ્રતિસાદ સબમિટ કરવામાં આવ્યો',
+    'deal_terms_accepted': 'સોદાની શરતો સ્વીકારવામાં આવી',
+    'share_payment_details': 'ચુકવણીની વિગતો શેર કરો',
+    'share_payment_details_hint':
+        'તમારી ચુકવણીની વિગતો (UPI/QR/પાસબુક) શેર કરો જેથી ખરીદનાર ચુકવણી કરી શકે.',
+    'waiting_for_payment_details': 'વેચનાર ચુકવણીની વિગતો શેર કરે તેની રાહ જુઓ...',
+    'deal_closed_title': 'સોદો બંધ!',
+    'payment_details_shared': 'ચુકવણીની વિગતો શેર કરવામાં આવી',
+    'i_have_paid': 'મેં ચુકવણી કરી દીધી છે',
+    'seller_payment_details_hint':
+        'વેચનારે ઉપર ચુકવણીની વિગતો શેર કરી છે. ચુકવણી કર્યા પછી નીચે પુષ્ટિ કરો.',
+    'waiting_for_buyer_to_pay': 'ખરીદનાર ચુકવણી કરે તેની રાહ જુઓ...',
+    'payment_sent_by_buyer': 'ખરીદનાર દ્વારા ચુકવણી મોકલવામાં આવી',
+    'buyer_paid_conf_hint':
+        'ખરીદનાર કહે છે કે તેણે ચુકવણી કરી દીધી છે. શું તમને ચુકવણી મળી ગઈ છે?',
+    'not_received': 'મળી નથી',
+    'received': 'મળી ગઈ',
+    'waiting_for_seller_to_confirm_pay':
+        'વેચનાર ચુકવણીની પ્રાપ્તિની પુષ્ટિ કરે તેની રાહ જુઓ...',
+    'cancel_deal_q': 'સોદો રદ કરવો છે?',
+    'cancel_deal_hint':
+        'શું તમે ખરેખર આ સોદો રદ કરવા માંગો છો? બંને પક્ષોને જાણ કરવામાં આવશે.',
+    'go_back': 'પાછા જાઓ',
+    'yes_cancel_deal': 'હા, સોદો રદ કરો',
+    'deal_cancelled_msg': '❌ સોદો રદ કરવામાં આવ્યો.',
+    'accept_deal_terms_q': 'સોદાની શરતો સ્વીકારવી છે?',
+    'agreeing_to_deal_hint': 'તમે નીચેના સોદા સાથે સંમત થાઓ છો:',
+    'yes_accept': 'હા, સ્વીકારો',
+    'deal_terms_accepted_msg':
+        '✅ સોદાની શરતો સ્વીકારાઈ! ચુકવણીની વિગતોની રાહ જુઓ.',
+    'share_payment_details_q': 'ચુકવણીની વિગતો શેર કરવી છે?',
+    'share_payment_details_modal_hint':
+        'તમે તમારી ચુકવણીની વિગતો (UPI/QR/પાસબુક) શેર કરશો જેથી ખરીદનાર ચુકવણી કરી શકે.',
+    'not_now': 'અત્યારે નહીં',
+    'small': 'નાનું',
+    'medium': 'મધ્યમ',
+    'large': 'મોટું',
+    'good': 'સારું',
+    'average': 'સરેરાશ',
+    'low': 'નીચું',
+    'navigate': 'નેવિગેટ કરો',
+    'tap_to_navigate': 'નેવિગેટ કરવા માટે ટેપ કરો',
+    'tap_to_view_on_map': 'ગૂગલ મેપ્સ પર જોવા માટે ટેપ કરો',
+    'loading_map': 'નકશો લોડ થઈ રહ્યો છે...',
+    'packet': 'પેકેટ',
+    'quintal': 'ક્વિન્ટલ',
+    'kg': 'કિલો',
+    'selling': 'વેચાણ',
+    'auto_fetched_dummy': 'સ્વતઃ પ્રાપ્ત (ડમી સીએસ)',
+    'from_field': 'ખેતરમાંથી',
+    'from_cold_storage': 'કોલ્ડ સ્ટોરેજમાંથી',
+    'live_location': 'લાઇવ લોકેશન',
+    'storage': 'સ્ટોરેજ',
+    'enter_variety_name': 'જાતનું નામ દાખલ કરો',
+    'type_variety_hint': 'અહીં જાતનું નામ ટાઇપ કરો...',
+    'opening_camera': 'કેમેરા ખોલી રહ્યા છે...',
+    'captured_location': 'કેપ્ચર કરેલ સ્થાન',
+    'select_cold_storage_hint': 'કોલ્ડ સ્ટોરેજ પસંદ કરો',
+    'auto_fetched': 'સ્વતઃ પ્રાપ્ત',
+    'packet_label': 'પેકેટ',
+    'quintal_label': 'ક્વિન્ટલ',
+    'kg_label': 'કિલોગ્રામ',
+    'quality_good': 'સારું',
+    'quality_avg': 'સરેરાશ',
+    'quality_low': 'ઓછું',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // MARATHI
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _mr = {
+    'days_left': 'दिवस शिल्लक',
+    'hours_left': 'तास शिल्लक',
+    'minutes_left': 'मिनटे शिल्लक',
+    'capture_location': 'स्थान कॅप्चर करा',
+    'photo_captured_location': 'फोटो कॅप्चर केलेले स्थान',
+    'listed_on': 'सूचीबद्ध: ',
     'choose_language': 'तुमची भाषा निवडा',
     'done': 'पुढे जा',
     'select_language': 'भाषा निवडा',
@@ -4765,12 +5123,92 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
+    'close_the_deal': 'व्यवहार पूर्ण करा',
+    'closing_call': 'क्लोजिंग कॉल',
+    'seller': 'विक्रेता',
+    'buyer': 'खरेदीदार',
+    'negotiated_price': 'ठरवलेली किंमत',
+    'enter_price_per_kg': 'प्रति किलो किंमत प्रविष्ट करा',
+    'enter_quantity_in_kg': 'किलोमध्ये प्रमाण प्रविष्ट करा',
+    'send_final_call': 'अंतिम कॉल पाठवा',
+    'total_price': 'एकूण किंमत',
+    'listing_id': 'लिस्टिंग आयडी',
+    'response_submitted': 'प्रतिसाद सादर केला',
+    'deal_terms_accepted': 'व्यवहाराच्या अटी मान्य केल्या',
+    'share_payment_details': 'पेमेंट तपशील शेअर करा',
+    'share_payment_details_hint':
+        'तुमचे पेमेंट तपशील (UPI/QR/पासबुक) शेअर करा जेणेकरून खरेदीदार पेमेंट करू शकेल.',
+    'waiting_for_payment_details': 'विक्रेत्याने पेमेंट तपशील शेअर करण्याची प्रतीक्षा करा...',
+    'deal_closed_title': 'व्यवहार बंद!',
+    'payment_details_shared': 'पेमेंट तपशील शेअर केले',
+    'i_have_paid': 'मी पेमेंट केले आहे',
+    'seller_payment_details_hint':
+        'विक्रेत्याने वर पेमेंट तपशील शेअर केले आहेत. पेमेंट केल्यानंतर खाली पुष्टी करा.',
+    'waiting_for_buyer_to_pay': 'खरेदीदार पेमेंट करण्याची प्रतीक्षा करा...',
+    'payment_sent_by_buyer': 'खरेदीदाराकडून पेमेंट पाठवले',
+    'buyer_paid_conf_hint':
+        'खरेदीदार म्हणतो की त्याने पेमेंट केले आहे. तुम्हाला पेमेंट मिळाले का?',
+    'not_received': 'मिळाले नाही',
+    'received': 'मिळाले',
+    'waiting_for_seller_to_confirm_pay': 'विक्रेत्याने पेमेंट मिळाल्याची पुष्टी करण्याची प्रतीक्षा करा...',
+    'cancel_deal_q': 'व्यवहार रद्द करायचा का?',
+    'cancel_deal_hint':
+        'तुम्हाला खरोखर हा व्यवहार रद्द करायचा आहे का? दोन्ही पक्षांना कळवले जाईल.',
+    'go_back': 'मागे जा',
+    'yes_cancel_deal': 'हो, व्यवहार रद्द करा',
+    'deal_cancelled_msg': '❌ व्यवहार रद्द करण्यात आला.',
+    'accept_deal_terms_q': 'व्यवहाराच्या अटी मान्य करायच्या का?',
+    'agreeing_to_deal_hint': 'तुम्ही खालील व्यवहारासाठी सहमत होत आहात:',
+    'yes_accept': 'हो, मान्य करा',
+    'deal_terms_accepted_msg':
+        '✅ व्यवहाराच्या अटी मान्य केल्या! पेमेंट तपशीलांची प्रतीक्षा करा.',
+    'share_payment_details_q': 'पेमेंट तपशील शेअर करायचे का?',
+    'share_payment_details_modal_hint':
+        'तुम्ही तुमचे पेमेंट तपशील (UPI/QR/पासबुक) शेअर कराल जेणेकरून खरेदीदार पेमेंट करू शकेल.',
+    'not_now': 'आत्ता नको',
+    'small': 'लहान',
+    'medium': 'मध्यम',
+    'large': 'मोठा',
+    'good': 'चांगला',
+    'average': 'सरासरी',
+    'low': 'कमी',
+    'navigate': 'नेव्हिगेट करा',
+    'tap_to_navigate': 'नेव्हिगेट करण्यासाठी टॅप करा',
+    'tap_to_view_on_map': 'गुगल मॅप्सवर पाहण्यासाठी टॅप करा',
+    'loading_map': 'नकाशा लोड होत आहे...',
+    'packet': 'पॅकेट',
+    'quintal': 'क्विंटल',
+    'kg': 'किलो',
+    'selling': 'विकत आहे',
+    'auto_fetched_dummy': 'स्वयं प्राप्त (डमी सीएस)',
+    'from_field': 'शेतातून',
+    'from_cold_storage': 'कोल्ड स्टोरेजमधून',
+    'live_location': 'लाइव्ह लोकेशन',
+    'storage': 'स्टोरेज',
+    'enter_variety_name': 'जातीचे नाव प्रविष्ट करा',
+    'type_variety_hint': 'येथे जातीचे नाव टाइप करा...',
+    'opening_camera': 'कॅमेरा उघडत आहे...',
+    'captured_location': 'कॅप्चर केलेले ठिकाण',
+    'select_cold_storage_hint': 'कोल्ड स्टोरेज निवडा',
+    'auto_fetched': 'स्वयं प्राप्त',
+    'packet_label': 'पॅकेट',
+    'quintal_label': 'क्विंटल',
+    'kg_label': 'किलोग्राम',
+    'quality_good': 'चांगले',
+    'quality_avg': 'सरासरी',
+    'quality_low': 'कमी',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // BENGALI
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _bn = {
+    'days_left': 'দিন বাকি',
+    'hours_left': 'ঘণ্টা বাকি',
+    'minutes_left': 'মিনিট বাকি',
+    'capture_location': 'স্থান ক্যাপচার করুন',
+    'photo_captured_location': 'ছবি তোলা স্থান',
+    'listed_on': 'তালিকাভুক্ত: ',
     'choose_language': 'আপনার ভাষা নির্বাচন করুন',
     'done': 'এগিয়ে যান',
     'select_language': 'ভাষা নির্বাচন করুন',
@@ -4893,12 +5331,90 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
+    'close_the_deal': 'চুক্তিটি সম্পন্ন করুন',
+    'closing_call': 'ক্লোজিং কল',
+    'seller': 'বিক্রেতা',
+    'buyer': 'ক্রেতা',
+    'negotiated_price': 'নির্ধারিত মূল্য',
+    'enter_price_per_kg': 'প্রতি কেজি মূল্য লিখুন',
+    'enter_quantity_in_kg': 'কেজিতে পরিমাণ লিখুন',
+    'send_final_call': 'চূড়ান্ত কল পাঠান',
+    'total_price': 'মোট দাম',
+    'listing_id': 'তালিকা আইডি',
+    'response_submitted': 'প্রতিক্রিয়া জমা দেওয়া হয়েছে',
+    'deal_terms_accepted': 'চুক্তির শর্তাবলী গ্রহণ করা হয়েছে',
+    'share_payment_details': 'পেমেন্টের বিশদ শেয়ার করুন',
+    'share_payment_details_hint':
+        'আপনার পেমেন্টের বিশদ (UPI/QR/পাসবুক) শেয়ার করুন যাতে ক্রেতা পেমেন্ট করতে পারে।',
+    'waiting_for_payment_details': 'বিক্রেতা পেমেন্টের বিশদ শেয়ার করার জন্য অপেক্ষা করুন...',
+    'deal_closed_title': 'চুক্তি বন্ধ!',
+    'payment_details_shared': 'পেমেন্টের বিশদ শেয়ার করা হয়েছে',
+    'i_have_paid': 'আমি পেমেন্ট করেছি',
+    'seller_payment_details_hint':
+        'বিক্রেতা উপরে পেমেন্টের বিশদ শেয়ার করেছেন। পেমেন্ট করার পরে নিচে নিশ্চিত করুন।',
+    'waiting_for_buyer_to_pay': 'ক্রেতা পেমেন্ট করার জন্য অপেক্ষা করুন...',
+    'payment_sent_by_buyer': 'ক্রেতার পক্ষ থেকে পেমেন্ট পাঠানো হয়েছে',
+    'buyer_paid_conf_hint': 'ক্রেতা বলছেন তিনি পেমেন্ট করেছেন। আপনি কি পেমেন্ট পেয়েছেন?',
+    'not_received': 'পাইনি',
+    'received': 'পেয়েছি',
+    'waiting_for_seller_to_confirm_pay':
+        'বিক্রেতা পেমেন্ট পাওয়ার বিষয়টি নিশ্চিত করার জন্য অপেক্ষা করুন...',
+    'cancel_deal_q': 'চুক্তি বাতিল করবেন?',
+    'cancel_deal_hint': 'আপনি কি সত্যিই এই চুক্তিটি বাতিল করতে চান? উভয় পক্ষকেই জানানো হবে।',
+    'go_back': 'ফিরে যান',
+    'yes_cancel_deal': 'হ্যাঁ, চুক্তি বাতিল করুন',
+    'deal_cancelled_msg': '❌ চুক্তিটি বাতিল করা হয়েছে।',
+    'accept_deal_terms_q': 'চুক্তির শর্তাবলী গ্রহণ করবেন?',
+    'agreeing_to_deal_hint': 'আপনি নিম্নলিখিত চুক্তিতে সম্মত হচ্ছেন:',
+    'yes_accept': 'হ্যাঁ, গ্রহণ করুন',
+    'deal_terms_accepted_msg': '✅ চুক্তির শর্তাবলী গৃহীত! পেমেন্টের বিশদ বিবরণের জন্য অপেক্ষা করুন।',
+    'share_payment_details_q': 'পেমেন্টের বিশদ শেয়ার করবেন?',
+    'share_payment_details_modal_hint':
+        'আপনি আপনার পেমেন্টের বিশদ (UPI/QR/পাসবুক) শেয়ার করবেন যাতে ক্রেতা পেমেন্ট করতে পারে।',
+    'not_now': 'এখন নয়',
+    'small': 'ছোট',
+    'medium': 'মাঝারি',
+    'large': 'বড়',
+    'good': 'ভালো',
+    'average': 'গড়',
+    'low': 'নিম্ন',
+    'navigate': 'নেভিগেট করুন',
+    'tap_to_navigate': 'নেভিগেট করতে ট্যাপ করুন',
+    'tap_to_view_on_map': 'গুগল ম্যাপসে দেখতে ট্যাপ করুন',
+    'loading_map': 'মানচিত্র লোড হচ্ছে...',
+    'packet': 'প্যাকেট',
+    'quintal': 'কুইন্টাল',
+    'kg': 'কেজি',
+    'selling': 'বিক্রি হচ্ছে',
+    'auto_fetched_dummy': 'স্বয়ং প্রাপ্ত (ডামি সিএস)',
+    'from_field': 'মাঠ থেকে',
+    'from_cold_storage': 'কোল্ড স্টোরেজ থেকে',
+    'live_location': 'লাইভ লোকেশন',
+    'storage': 'স্টোরেজ',
+    'enter_variety_name': 'জাতের নাম লিখুন',
+    'type_variety_hint': 'এখানে জাতের নাম টাইপ করুন...',
+    'opening_camera': 'ক্যামেরা খোলা হচ্ছে...',
+    'captured_location': 'ক্যাপচার করা অবস্থান',
+    'select_cold_storage_hint': 'কোল্ড স্টোরেজ নির্বাচন করুন',
+    'auto_fetched': 'স্বয়ং প্রাপ্ত',
+    'packet_label': 'প্যাকেট',
+    'quintal_label': 'কুইন্টাল',
+    'kg_label': 'কেজি',
+    'quality_good': 'ভালো',
+    'quality_avg': 'গড়',
+    'quality_low': 'কম',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // TAMIL
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _ta = {
+    'days_left': 'நாட்கள் மீதம்',
+    'hours_left': 'மணிநேரம் மீதம்',
+    'minutes_left': 'நிமிடங்கள் மீதம்',
+    'capture_location': 'இருப்பிடத்தை பதிவு செய்',
+    'photo_captured_location': 'புகைப்படம் எடுக்கப்பட்ட இடம்',
+    'listed_on': 'பட்டியலிடப்பட்டது: ',
     'choose_language': 'உங்கள் மொழியை தேர்ந்தெடுக்கவும்',
     'done': 'தொடரவும்',
     'select_language': 'மொழி தேர்வு',
@@ -5021,12 +5537,94 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
+    'close_the_deal': 'ஒப்பந்தத்தை முடியுங்கள்',
+    'closing_call': 'குளோசிங் கால்',
+    'seller': 'விற்பனையாளர்',
+    'buyer': 'வாங்குபவர்',
+    'negotiated_price': 'பேச்சுவார்த்தை செய்யப்பட்ட விலை',
+    'enter_price_per_kg': 'ஒரு கிலோவிற்கு விலையை உள்ளிடவும்',
+    'enter_quantity_in_kg': 'கிலோவில் அளவை உள்ளிடவும்',
+    'send_final_call': 'இறுதி அழைப்பை அனுப்பவும்',
+    'total_price': 'மொத்த விலை',
+    'listing_id': 'பட்டியல் ஐடி',
+    'response_submitted': 'பதில் சமர்ப்பிக்கப்பட்டது',
+    'deal_terms_accepted': 'ஒப்பந்த விதிமுறைகள் ஏற்றுக்கொள்ளப்பட்டன',
+    'share_payment_details': 'பணம் செலுத்தும் விவரங்களைப் பகிரவும்',
+    'share_payment_details_hint':
+        'உங்கள் பணம் செலுத்தும் விவரங்களைப் (UPI/QR/Passbook) பகிரவும், இதனால் வாங்குபவர் பணம் செலுத்த முடியும்.',
+    'waiting_for_payment_details':
+        'விற்பனையாளர் பணம் செலுத்தும் விவரங்களைப் பகிரும் வரை காத்திருக்கவும்...',
+    'deal_closed_title': 'ஒப்பந்தம் முடிந்தது!',
+    'payment_details_shared': 'பணம் செலுத்தும் விவரங்கள் பகிரப்பட்டன',
+    'i_have_paid': 'நான் பணம் செலுத்திவிட்டேன்',
+    'seller_payment_details_hint':
+        'விற்பனையாளர் மேலே பணம் செலுத்தும் விவரங்களைப் பகிர்ந்துள்ளார். பணம் செலுத்திய பின் கீழே உறுதிப்படுத்தவும்.',
+    'waiting_for_buyer_to_pay': 'வாங்குபவர் பணம் செலுத்தும் வரை காத்திருக்கவும்...',
+    'payment_sent_by_buyer': 'வாங்குபவரால் பணம் அனுப்பப்பட்டது',
+    'buyer_paid_conf_hint':
+        'வாங்குபவர் பணம் செலுத்திவிட்டதாகக் கூறுகிறார். உங்களுக்குப் பணம் கிடைத்ததா?',
+    'not_received': 'கிடைக்கவில்லை',
+    'received': 'கிடைத்தது',
+    'waiting_for_seller_to_confirm_pay':
+        'விற்பனையாளர் பணம் கிடைத்ததை உறுதிப்படுத்தும் வரை காத்திருக்கவும்...',
+    'cancel_deal_q': 'ஒப்பந்தத்தை ரத்து செய்யவா?',
+    'cancel_deal_hint':
+        'நிச்சயமாக இந்த ஒப்பந்தத்தை ரத்து செய்ய விரும்புகிறீர்களா? இரு தரப்பினருக்கும் அறிவிக்கப்படும்.',
+    'go_back': 'பின்னால் செல்',
+    'yes_cancel_deal': 'ஆம், ஒப்பந்தத்தை ரத்து செய்',
+    'deal_cancelled_msg': '❌ ஒப்பந்தம் ரத்து செய்யப்பட்டது.',
+    'accept_deal_terms_q': 'ஒப்பந்த விதிமுறைகளை ஏற்கவா?',
+    'agreeing_to_deal_hint': 'பின்வரும் ஒப்பந்தத்தை நீங்கள் ஏற்றுக்கொள்கிறீர்கள்:',
+    'yes_accept': 'ஆம், ஏற்றுக்கொள்',
+    'deal_terms_accepted_msg':
+        '✅ ஒப்பந்த விதிமுறைகள் ஏற்கப்பட்டன! பணம் செலுத்தும் விவரங்களுக்குக் காத்திருக்கவும்.',
+    'share_payment_details_q': 'பணம் செலுத்தும் விவரங்களைப் பகிரவா?',
+    'share_payment_details_modal_hint':
+        'உங்கள் பணம் செலுத்தும் விவரங்களைப் (UPI/QR/Passbook) பகிர வேண்டும், இதனால் வாங்குபவர் பணம் செலுத்தலாம்.',
+    'not_now': 'இப்போது வேண்டாம்',
+    'small': 'சிறிய',
+    'medium': 'நடுத்தர',
+    'large': 'பெரிய',
+    'good': 'நல்ல',
+    'average': 'சராசரி',
+    'low': 'குறைந்த',
+    'navigate': 'செல்லவும்',
+    'tap_to_navigate': 'செல்ல தட்டவும்',
+    'tap_to_view_on_map': 'கூகுள் வரைபடத்தில் பார்க்க தட்டவும்',
+    'loading_map': 'வரைபடம் ஏற்றப்படுகிறது...',
+    'packet': 'பாக்கெட்',
+    'quintal': 'குவிண்டால்',
+    'kg': 'கிலோ',
+    'selling': 'விற்கப்படுகிறது',
+    'auto_fetched_dummy': 'தானியங்கு (போலி சிஎஸ்)',
+    'from_field': 'வயலிலிருந்து',
+    'from_cold_storage': 'குளிர்சாதன கிடங்கிலிருந்து',
+    'live_location': 'நேரடி இருப்பிடம்',
+    'storage': 'சேமிப்பு',
+    'enter_variety_name': 'ரகத்தின் பெயரை உள்ளிடவும்',
+    'type_variety_hint': 'இங்கே ரகத்தின் பெயரை தட்டச்சு செய்யவும்...',
+    'opening_camera': 'கேமரா திறக்கப்படுகிறது...',
+    'captured_location': 'பதிவுசெய்த இருப்பிடம்',
+    'select_cold_storage_hint': 'குளிர்சாதன கிடங்கை தேர்ந்தெடுக்கவும்',
+    'auto_fetched': 'தானியங்கு பெறப்பட்டது',
+    'packet_label': 'பாக்கெட்',
+    'quintal_label': 'குவிண்டால்',
+    'kg_label': 'கிலோகிராம்',
+    'quality_good': 'நல்லது',
+    'quality_avg': 'சராசரி',
+    'quality_low': 'குறைவு',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // TELUGU
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _te = {
+    'days_left': 'రోజులు మిగిలి ఉన్నాయి',
+    'hours_left': 'గంటలు మిగిలి ఉన్నాయి',
+    'minutes_left': 'నిమిషాలు మిగిలి ఉన్నాయి',
+    'capture_location': 'స్థానాన్ని క్యాప్చర్ చేయండి',
+    'photo_captured_location': 'ఫోటో తీసిన స్థానం',
+    'listed_on': 'జాబితా చేయబడింది: ',
     'choose_language': 'మీ భాషను ఎంచుకోండి',
     'done': 'కొనసాగించు',
     'select_language': 'భాష ఎంచుకోండి',
@@ -5127,12 +5725,92 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
+    'close_the_deal': 'ఒప్పందాన్ని ముగించండి',
+    'closing_call': 'క్లోజింగ్ కాల్',
+    'seller': 'అమ్మకందారుడు',
+    'buyer': 'కొనుగోలుదారుడు',
+    'negotiated_price': 'చర్చించిన ధర',
+    'enter_price_per_kg': 'ప్రతి కేజీ ధరను నమోదు చేయండి',
+    'enter_quantity_in_kg': 'కేజీలలో పరిమాణాన్ని నమోదు చేయండి',
+    'send_final_call': 'చివరి కాల్ పంపండి',
+    'total_price': 'మొత్తం ధర',
+    'listing_id': 'లిస్టింగ్ ఐడి',
+    'response_submitted': 'ప్రతిస్పందన సమర్పించబడింది',
+    'deal_terms_accepted': 'ఒప్పంద నిబంధనలు అంగీకరించబడ్డాయి',
+    'share_payment_details': 'చెల్లింపు వివరాలను పంచుకోండి',
+    'share_payment_details_hint':
+        'మీ చెల్లింపు వివరాలను (UPI/QR/పాస్‌బుక్) పంచుకోండి, తద్వారా కొనుగోలుదారు చెల్లింపు చేయవచ్చు.',
+    'waiting_for_payment_details': 'విక్రేత చెల్లింపు వివరాలను పంచుకునే వరకు వేచి ఉండండి...',
+    'deal_closed_title': 'ఒప్పందం ముగిసింది!',
+    'payment_details_shared': 'చెల్లింపు వివరాలు పంచుకోబడ్డాయి',
+    'i_have_paid': 'నేను చెల్లించాను',
+    'seller_payment_details_hint':
+        'విక్రేత పైన చెల్లింపు వివరాలను పంచుకున్నారు. చెల్లించిన తర్వాత క్రింద నిర్ధారించండి.',
+    'waiting_for_buyer_to_pay': 'కొనుగోలుదారు చెల్లింపు చేసే వరకు వేచి ఉండండి...',
+    'payment_sent_by_buyer': 'కొనుగోలుదారు నుండి చెల్లింపు పంపబడింది',
+    'buyer_paid_conf_hint':
+        'కొనుగోలుదారు తాను చెల్లించానని చెబుతున్నారు. మీకు చెల్లింపు అందిందా?',
+    'not_received': 'అందలేదు',
+    'received': 'అందింది',
+    'waiting_for_seller_to_confirm_pay': 'విక్రేత చెల్లింపు నిర్ధారించే వరకు వేచి ఉండండి...',
+    'cancel_deal_q': 'ఒప్పందాన్ని రద్దు చేయాలా?',
+    'cancel_deal_hint':
+        'మీరు ఖచ్చితంగా ఈ ఒప్పందాన్ని రద్దు చేయాలనుకుంటున్నారా? ఇరు పక్షాలకు తెలియజేయబడుతుంది.',
+    'go_back': 'వెనక్కి వెళ్ళు',
+    'yes_cancel_deal': 'అవును, ఒప్పందాన్ని రద్దు చేయి',
+    'deal_cancelled_msg': '❌ ఒప్పందం రద్దు చేయబడింది.',
+    'accept_deal_terms_q': 'ఒప్పంద నిబంధనలను అంగీకరించాలా?',
+    'agreeing_to_deal_hint': 'మీరు ఈ క్రింది ఒప్పందానికి అంగీకరిస్తున్నారు:',
+    'yes_accept': 'అవును, అంగీకరించు',
+    'deal_terms_accepted_msg':
+        '✅ ఒప్పంద నిబంధనలు అంగీకరించబడ్డాయి! చెల్లింపు వివరాల కోసం వేచి ఉండండి.',
+    'share_payment_details_q': 'చెల్లింపు వివరాలను పంచుకోవాలా?',
+    'share_payment_details_modal_hint':
+        'మీరు మీ చెల్లింపు వివరాలను (UPI/QR/పాస్‌బుక్) పంచుకుంటారు, తద్వారా కొనుగోలుదారు చెల్లింపు చేయవచ్చు.',
+    'not_now': 'ఇప్పుడు వద్దు',
+    'small': 'చిన్న',
+    'medium': 'మధ్యస్థం',
+    'large': 'పెద్ద',
+    'good': 'మంచి',
+    'average': 'సగటు',
+    'low': 'తక్కువ',
+    'navigate': 'నావిగేట్ చేయండి',
+    'tap_to_navigate': 'నావిగేట్ చేయడానికి నొక్కండి',
+    'tap_to_view_on_map': 'గూగుల్ మ్యాప్స్‌లో చూడటానికి నొక్కండి',
+    'loading_map': 'మ్యాప్ లోడ్ అవుతోంది...',
+    'packet': 'ప్యాకెట్',
+    'quintal': 'క్వింటాల్',
+    'kg': 'కిలో',
+    'selling': 'అమ్మకానికి',
+    'auto_fetched_dummy': 'ఆటో-పొందినది (డమ్మీ సిఎస్)',
+    'from_field': 'పొలం నుండి',
+    'from_cold_storage': 'కోల్డ్ స్టోరేజ్ నుండి',
+    'live_location': 'లైవ్ లొకేషన్',
+    'storage': 'స్టోరేజ్',
+    'enter_variety_name': 'రకం పేరు నమోదు చేయండి',
+    'type_variety_hint': 'ఇక్కడ రకం పేరు టైప్ చేయండి...',
+    'opening_camera': 'కెమెరా తెరుచుకుంటోంది...',
+    'captured_location': 'క్యాప్చర్ చేసిన లొకేషన్',
+    'select_cold_storage_hint': 'కోల్డ్ స్టోరేజ్ ఎంచుకోండి',
+    'auto_fetched': 'ఆటో-పొందినది',
+    'packet_label': 'ప్యాకెట్',
+    'quintal_label': 'క్వింటాల్',
+    'kg_label': 'కిలోగ్రాము',
+    'quality_good': 'మంచిది',
+    'quality_avg': 'సగటు',
+    'quality_low': 'తక్కువ',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // KANNADA
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _kn = {
+    'days_left': 'ದಿನಗಳು ಬಾಕಿ',
+    'hours_left': 'ಗಂಟೆಗಳು ಬಾಕಿ',
+    'minutes_left': 'ನಿಮಿಷಗಳು ಬಾಕಿ',
+    'capture_location': 'ಸ್ಥಳವನ್ನು ಸೆರೆಹಿಡಿಯಿರಿ',
+    'photo_captured_location': 'ಫೋಟೋ ಸೆರೆಹಿಡಿದ ಸ್ಥಳ',
+    'listed_on': 'ಪಟ್ಟಿ ಮಾಡಲಾಗಿದೆ: ',
     'choose_language': 'ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
     'done': 'ಮುಂದುವರಿಸಿ',
     'select_language': 'ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ',
@@ -5233,12 +5911,92 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
+    'close_the_deal': 'ಒಪ್ಪಂದವನ್ನು ಮುಗಿಸಿ',
+    'closing_call': 'ಕ್ಲೋಜಿಂಗ್ ಕಾಲ್',
+    'seller': 'ಮಾರಾಟಗಾರ',
+    'buyer': 'ಖರೀದಿದಾರ',
+    'negotiated_price': 'ನಿಗದಿಪಡಿಸಿದ ಬೆಲೆ',
+    'enter_price_per_kg': 'ಪ್ರತಿ ಕೆಜಿಗೆ ಬೆಲೆ ನಮೂದಿಸಿ',
+    'enter_quantity_in_kg': 'ಕೆಜಿಯಲ್ಲಿ ಪ್ರಮಾಣವನ್ನು ನಮೂದಿಸಿ',
+    'send_final_call': 'ಅಂತಿಮ ಕರೆ ಕಳುಹಿಸಿ',
+    'total_price': 'ಒಟ್ಟು ಬೆಲೆ',
+    'listing_id': 'ಪಟ್ಟಿ ಐಡಿ',
+    'response_submitted': 'ಪ್ರತಿಕ್ರಿಯೆ ಸಲ್ಲಿಸಲಾಗಿದೆ',
+    'deal_terms_accepted': 'ಒಪ್ಪಂದದ ನಿಯಮಗಳನ್ನು ಒಪ್ಪಿಕೊಳ್ಳಲಾಗಿದೆ',
+    'share_payment_details': 'ಪಾವತಿ ವಿವರಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ',
+    'share_payment_details_hint':
+        'ನಿಮ್ಮ ಪಾವತಿ ವಿವರಗಳನ್ನು (UPI/QR/ಪಾಸ್‌ಬುಕ್) ಹಂಚಿಕೊಳ್ಳಿ ಇದರಿಂದ ಖರೀದಿದಾರರು ಪಾವತಿ ಮಾಡಬಹುದು.',
+    'waiting_for_payment_details': 'ಮಾರಾಟಗಾರರು ಪಾವತಿ ವಿವರಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳುವವರೆಗೆ ಕಾಯಿರಿ...',
+    'deal_closed_title': 'ಒಪ್ಪಂದ ಮುಕ್ತಾಯ!',
+    'payment_details_shared': 'ಪಾವತಿ ವಿವರಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಲಾಗಿದೆ',
+    'i_have_paid': 'ನಾನು ಪಾವತಿ ಮಾಡಿದ್ದೇನೆ',
+    'seller_payment_details_hint':
+        'ಮಾರಾಟಗಾರರು ಮೇಲೆ ಪಾವತಿ ವಿವರಗಳನ್ನು ಹಂಚಿಕೊಂಡಿದ್ದಾರೆ. ಪಾವತಿಸಿದ ನಂತರ ಕೆಳಗೆ ಖಚಿತಪಡಿಸಿ.',
+    'waiting_for_buyer_to_pay': 'ಖರೀದಿದಾರರು ಪಾವತಿ ಮಾಡುವವರೆಗೆ ಕಾಯಿರಿ...',
+    'payment_sent_by_buyer': 'ಖರೀದಿದಾರರಿಂದ ಪಾವತಿ ಕಳುಹಿಸಲಾಗಿದೆ',
+    'buyer_paid_conf_hint':
+        'ಖರೀದಿದಾರರು ಪಾವತಿಸಿರುವುದಾಗಿ ಹೇಳುತ್ತಿದ್ದಾರೆ. ನಿಮಗೆ ಪಾವತಿ ತಲುಪಿದೆಯೇ?',
+    'not_received': 'ತಲುಪಿಲ್ಲ',
+    'received': 'ತಲುಪಿದೆ',
+    'waiting_for_seller_to_confirm_pay': 'ಮಾರಾಟಗಾರರು ಪಾವತಿ ಖಚಿತಪಡಿಸುವವರೆಗೆ ಕಾಯಿರಿ...',
+    'cancel_deal_q': 'ಒಪ್ಪಂದ ರದ್ದುಗೊಳಿಸಬೇಕೆ?',
+    'cancel_deal_hint':
+        'ನೀವು ಖಂಡಿತವಾಗಿಯೂ ಈ ಒಪ್ಪಂದವನ್ನು ರದ್ದುಗೊಳಿಸಲು ಬಯಸುವಿರಾ? ಎರಡೂ ಪಕ್ಷಗಳಿಗೆ ತಿಳಿಸಲಾಗುವುದು.',
+    'go_back': 'ಹಿಂದಕ್ಕೆ ಹೋಗಿ',
+    'yes_cancel_deal': 'ಹೌದು, ಒಪ್ಪಂದ ರದ್ದುಮಾಡಿ',
+    'deal_cancelled_msg': '❌ ಒಪ್ಪಂದವನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.',
+    'accept_deal_terms_q': 'ಒಪ್ಪಂದದ ನಿಯಮಗಳನ್ನು ಒಪ್ಪಿಕೊಳ್ಳಬೇಕೆ?',
+    'agreeing_to_deal_hint': 'ನೀವು ಈ ಕೆಳಗಿನ ಒಪ್ಪಂದಕ್ಕೆ ಸಮ್ಮತಿಸುತ್ತಿದ್ದೀರಿ:',
+    'yes_accept': 'ಹೌದು, ಒಪ್ಪಿಕೊಳ್ಳಿ',
+    'deal_terms_accepted_msg':
+        '✅ ಒಪ್ಪಂದದ ನಿಯಮಗಳನ್ನು ಒಪ್ಪಿಕೊಳ್ಳಲಾಗಿದೆ! ಪಾವತಿ ವಿವರಗಳಿಗಾಗಿ ಕಾಯಿರಿ.',
+    'share_payment_details_q': 'ಪಾವತಿ ವಿವರಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಬೇಕೆ?',
+    'share_payment_details_modal_hint':
+        'ನೀವು ನಿಮ್ಮ ಪಾವತಿ ವಿವರಗಳನ್ನು (UPI/QR/ಪಾಸ್‌ಬುಕ್) ಹಂಚಿಕೊಳ್ಳುತ್ತೀರಿ ಇದರಿಂದ ಖರೀದಿದಾರರು ಪಾವತಿ ಮಾಡಬಹುದು.',
+    'not_now': 'ಈಗ ಬೇಡ',
+    'small': 'ಸಣ್ಣ',
+    'medium': 'ಮಧ್ಯಮ',
+    'large': 'ದೊಡ್ಡ',
+    'good': 'ಉತ್ತಮ',
+    'average': 'ಸರಾಸರಿ',
+    'low': 'ಕಡಿಮೆ',
+    'navigate': 'ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ',
+    'tap_to_navigate': 'ನ್ಯಾವಿಗೇಟ್ ಮಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
+    'tap_to_view_on_map': 'ಗೂಗಲ್ ನಕ್ಷೆಗಳಲ್ಲಿ ನೋಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
+    'loading_map': 'ನಕ್ಷೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...',
+    'packet': 'ಪ್ಯಾಕೆಟ್',
+    'quintal': 'ಕ್ವಿಂಟಾಲ್',
+    'kg': 'ಕೆಜಿ',
+    'selling': 'ಮಾರಾಟ',
+    'auto_fetched_dummy': 'ಆಟೋ-ಪಡೆದ (ಡಮ್ಮಿ ಸಿಎಸ್)',
+    'from_field': 'ಹೊಲದಿಂದ',
+    'from_cold_storage': 'ಕೋಲ್ಡ್ ಸ್ಟೋರೇಜ್‌ನಿಂದ',
+    'live_location': 'ಲೈವ್ ಲೊಕೇಶನ್',
+    'storage': 'ಸ್ಟೋರೇಜ್',
+    'enter_variety_name': 'ತಳಿಯ ಹೆಸರನ್ನು ನಮೂದಿಸಿ',
+    'type_variety_hint': 'ಇಲ್ಲಿ ತಳಿಯ ಹೆಸರನ್ನು ಟೈಪ್ ಮಾಡಿ...',
+    'opening_camera': 'ಕ್ಯಾಮರಾ ತೆರೆಯುತ್ತಿದೆ...',
+    'captured_location': 'ಕ್ಯಾಪ್ಚರ್ ಮಾಡಿದ ಸ್ಥಳ',
+    'select_cold_storage_hint': 'ಕೋಲ್ಡ್ ಸ್ಟೋರೇಜ್ ಆಯ್ಕೆಮಾಡಿ',
+    'auto_fetched': 'ಆಟೋ-ಪಡೆದ',
+    'packet_label': 'ಪ್ಯಾಕೆಟ್',
+    'quintal_label': 'ಕ್ವಿಂಟಾಲ್',
+    'kg_label': 'ಕೆಜಿ',
+    'quality_good': 'ಒಳ್ಳೆಯದು',
+    'quality_avg': 'ಸರಾಸರಿ',
+    'quality_low': 'ಕಡಿಮೆ',
   };
 
   // ═══════════════════════════════════════════════════════════════
   // ODIA
   // ═══════════════════════════════════════════════════════════════
   static const Map<String, String> _or = {
+    'days_left': 'ଦିନ ବାକି',
+    'hours_left': 'ଘଣ୍ଟା ବାକି',
+    'minutes_left': 'ମିନିଟ୍ ବାକି',
+    'capture_location': 'ସ୍ଥାନ କ୍ୟାପଚର କରନ୍ତୁ',
+    'photo_captured_location': 'ଫଟୋ କ୍ୟାପଚର ସ୍ଥାନ',
+    'listed_on': 'ତାଲିକାଭୁକ୍ତ: ',
     'choose_language': 'ଆପଣଙ୍କ ଭାଷା ବାଛନ୍ତୁ',
     'done': 'ଆଗକୁ ଯାଅ',
     'select_language': 'ଭାଷା ବାଛନ୍ତୁ',
@@ -5339,6 +6097,79 @@ class AppLocalizations extends ChangeNotifier {
     'listing_auto_remove':
         'This listing will be automatically removed after {expiry}.',
     'other_enter_name': '➕ Other (Enter name)',
+    'close_the_deal': 'ଚୁକ୍ତି ସମ୍ପନ୍ନ କରନ୍ତୁ',
+    'closing_call': 'କ୍ଲୋଜିଂ କଲ୍',
+    'seller': 'ବିକ୍ରେତା',
+    'buyer': 'କ୍ରେତା',
+    'negotiated_price': 'ନିର୍ଦ୍ଧାରିତ ମୂଲ୍ୟ',
+    'enter_price_per_kg': 'ପ୍ରତି କିଲୋ ମୂଲ୍ୟ ଦିଅନ୍ତୁ',
+    'enter_quantity_in_kg': 'କିଲୋରେ ପରିମାଣ ଦିଅନ୍ତୁ',
+    'send_final_call': 'ଚୂଡ଼ାନ୍ତ କଲ୍ ପଠାନ୍ତୁ',
+    'total_price': 'ମୋଟ ମୂଲ୍ୟ',
+    'listing_id': 'ତାଲିକା ଆଇଡି',
+    'response_submitted': 'ପ୍ରତିକ୍ରିୟା ଦାଖଲ ହୋଇଛି',
+    'deal_terms_accepted': 'ଚୁକ୍ତିର ସର୍ତ୍ତାବଳୀ ଗ୍ରହଣ କରାଯାଇଛି',
+    'share_payment_details': 'ପେମେଣ୍ଟ ବିବରଣୀ ସେୟାର କରନ୍ତୁ',
+    'share_payment_details_hint':
+        'ଆପଣଙ୍କ ପେମେଣ୍ଟ ବିବରଣୀ (UPI/QR/ପାସବୁକ୍) ସେୟାର କରନ୍ତୁ ଯାହା ଦ୍ଵାରା କ୍ରେତା ପେମେଣ୍ଟ କରିପାରିବେ।',
+    'waiting_for_payment_details': 'ବିକ୍ରେତା ପେମେଣ୍ଟ ବିବରଣୀ ସେୟାର କରିବା ପର୍ଯ୍ୟନ୍ତ ଅପେକ୍ଷା କରନ୍ତୁ...',
+    'deal_closed_title': 'ଚୁକ୍ତି ସମାପ୍ତ!',
+    'payment_details_shared': 'ପେମେଣ୍ଟ ବିବରଣୀ ସେୟାର କରାଯାଇଛି',
+    'i_have_paid': 'ମୁଁ ପେମେଣ୍ଟ କରିଛି',
+    'seller_payment_details_hint':
+        'ବିକ୍ରେତା ଉପରେ ପେମେଣ୍ଟ ବିବରଣୀ ସେୟାର କରିଛନ୍ତି। ପେମେଣ୍ଟ କରିବା ପରେ ତଳେ ନିଶ୍ଚିତ କରନ୍ତୁ।',
+    'waiting_for_buyer_to_pay': 'କ୍ରେତା ପେମେଣ୍ଟ କରିବା ପର୍ଯ୍ୟନ୍ତ ଅପେକ୍ଷା କରନ୍ତୁ...',
+    'payment_sent_by_buyer': 'କ୍ରେତାଙ୍କ ଦ୍ଵାରା ପେମେଣ୍ଟ ପଠାଗଲା',
+    'buyer_paid_conf_hint':
+        'କ୍ରେତା କହୁଛନ୍ତି ଯେ ସେ ପେମେଣ୍ଟ କରିଛନ୍ତି। ଆପଣ ପେମେଣ୍ଟ ପାଇଛନ୍ତି କି?',
+    'not_received': 'ପାଇନାହିଁ',
+    'received': 'ପାଇଛି',
+    'waiting_for_seller_to_confirm_pay': 'ବିକ୍ରେତା ପେମେଣ୍ଟ ନିଶ୍ଚିତ କରିବା ପର୍ଯ୍ୟନ୍ତ ଅපେକ୍ଷା କରନ୍ତୁ...',
+    'cancel_deal_q': 'ଚୁକ୍ତି ବାତିଲ କରିବେ କି?',
+    'cancel_deal_hint': 'ଆପଣ ନିଶ୍ଚିତ ଭାବରେ ଏହି ଚୁକ୍ତିକୁ ବାତିଲ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି? ଉଭୟ ପକ୍ଷଙ୍କୁ ଜଣାଯିବ।',
+    'go_back': 'ଫେରିଯାଅ',
+    'yes_cancel_deal': 'ହଁ, ଚୁକ୍ତି ବାତିଲ କରନ୍ତୁ',
+    'deal_cancelled_msg': '❌ ଚୁକ୍ତି ବାତିଲ କରାଗଲା।',
+    'accept_deal_terms_q': 'ଚୁକ୍ତିର ସର୍ତ୍ତାବଳୀ ଗ୍ରହଣ କରିବେ କି?',
+    'agreeing_to_deal_hint': 'ଆପଣ ନିମ୍ନଲିଖିତ ଚୁକ୍ତି ପାଇଁ ସହମତ ହେଉଛନ୍ତି:',
+    'yes_accept': 'ହଁ, ଗ୍ରହଣ କରନ୍ତୁ',
+    'deal_terms_accepted_msg':
+        '✅ ଚୁକ୍ତିର ସର୍ତ୍ତାବଳୀ ଗ୍ରହଣ କରାଗଲା! ପେମେଣ୍ଟ ବିବରଣୀ ପାଇଁ ଅପେକ୍ଷା କରନ୍ତୁ।',
+    'share_payment_details_q': 'ପେମେଣ୍ଟ ବିବରଣୀ ସେୟାର କରିବେ କି?',
+    'share_payment_details_modal_hint':
+        'ଆପଣ ଆପଣଙ୍କ ପେମେଣ୍ଟ ବିବରଣୀ (UPI/QR/ପାସବୁକ୍) ସେୟାର କରିବେ ଯାହା ଦ୍ଵାରা କ୍ରେତା ପେମેଣ୍ଟ କରିପାରିବେ।',
+    'not_now': 'ଏବେ ନୁହେଁ',
+    'small': 'ଛୋଟ',
+    'medium': 'ମଧ୍ୟମ',
+    'large': 'ବଡ',
+    'good': 'ଭଲ',
+    'average': 'ହାରାହାରି',
+    'low': 'କମ୍',
+    'navigate': 'ନେଭିଗେଟ୍ କରନ୍ତୁ',
+    'tap_to_navigate': 'ନେଭିଗେଟ୍ କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ',
+    'tap_to_view_on_map': 'ଗୁଗଲ୍ ମ୍ୟାପ୍ସରେ ଦେଖିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ',
+    'loading_map': 'ମ୍ୟାପ୍ ଲୋଡ୍ ହେଉଛି...',
+    'packet': 'ପ୍ୟାକେଟ୍',
+    'quintal': 'କ୍ୱିଣ୍ଟାଲ୍',
+    'kg': 'କିଲୋଗ୍ରାମ',
+    'selling': 'ବିକ୍ରି',
+    'auto_fetched_dummy': 'ସ୍ୱତଃ-ଆସିଛି (ଡମି CS)',
+    'from_field': 'ଜମିରୁ',
+    'from_cold_storage': 'କୋଲ୍ଡ ଷ୍ଟୋରେଜରୁ',
+    'live_location': 'ଲାଇଭ୍ ଲୋକେସନ',
+    'storage': 'ଷ୍ଟୋରେଜ',
+    'enter_variety_name': 'ଜାତିର ନାମ ଲେଖନ୍ତୁ',
+    'type_variety_hint': 'ଏଠାରେ ଜାତିର ନାମ ଟାଇପ୍ କରନ୍ତୁ...',
+    'opening_camera': 'କ୍ୟାମେରା ଖୁଲୁଛି...',
+    'captured_location': 'ଧରାଯାଇଥିବା ସ୍ଥାନ',
+    'select_cold_storage_hint': 'କୋଲ୍ଡ ଷ୍ଟୋରେଜ ଚୟନ କରନ୍ତୁ',
+    'auto_fetched': 'ସ୍ୱତଃ-ଆସିଛି',
+    'packet_label': 'ପ୍ୟାକେଟ୍',
+    'quintal_label': 'କ୍ୱିଣ୍ଟାଲ୍',
+    'kg_label': 'କିଲୋଗ୍ରାମ',
+    'quality_good': 'ଭଲ',
+    'quality_avg': 'ହାରାହାରି',
+    'quality_low': 'କମ୍',
   };
 }
 

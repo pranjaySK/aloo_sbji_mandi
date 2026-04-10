@@ -27,6 +27,7 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
 
   /// Get images from listing
   List<String> get _images {
+    print('Listing: $listing');
     final imgs = listing['images'];
     if (imgs is List && imgs.isNotEmpty) {
       return imgs.cast<String>();
@@ -42,6 +43,7 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
 
   /// Build image widget handling base64 and network URLs
   Widget _buildListingImage(String url, {BoxFit fit = BoxFit.cover}) {
+    print('Image URL: $url');
     if (url.startsWith('data:image')) {
       final base64Str = url.split(',').last;
       return Image.memory(
@@ -116,13 +118,13 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
         expiryText = tr('expired');
         expiryColor = Colors.red;
       } else if (remaining.inDays > 0) {
-        expiryText = '${remaining.inDays}d left';
+        expiryText = '${remaining.inDays} ${tr('days_left')}';
         expiryColor = remaining.inDays <= 3 ? Colors.orange : Colors.green;
       } else if (remaining.inHours > 0) {
-        expiryText = '${remaining.inHours}h left';
+        expiryText = '${remaining.inHours} ${tr('hours_left')}';
         expiryColor = Colors.orange;
       } else {
-        expiryText = '${remaining.inMinutes}m left';
+        expiryText = '${remaining.inMinutes} ${tr('minutes_left')}';
         expiryColor = Colors.red;
       }
     }
@@ -482,7 +484,7 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
                               children: [
                                 Expanded(child: _infoTile(Icons.inventory_2_outlined, tr('quantity'), '$quantity ${unitPlural(unit)}')),
                                 const SizedBox(width: 12),
-                                Expanded(child: _infoTile(Icons.straighten, tr('size'), size)),
+                                Expanded(child: _infoTile(Icons.straighten, tr('size'), tr(size.toLowerCase()))),
                               ],
                             ),
                             if (quality.isNotEmpty || (unit == 'Packet' && packetWeight != null)) ...[
@@ -490,7 +492,7 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
                               Row(
                                 children: [
                                   if (quality.isNotEmpty)
-                                    Expanded(child: _infoTile(Icons.star_outline, tr('quality'), quality))
+                                    Expanded(child: _infoTile(Icons.star_outline, tr('quality'), tr(quality.toLowerCase())))
                                   else
                                     const Expanded(child: SizedBox()),
                                   const SizedBox(width: 12),
@@ -498,7 +500,7 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
                                     Expanded(
                                       child: _infoTile(
                                         Icons.monitor_weight_outlined,
-                                        'Packet Weight',
+                                        tr('packet_weight'),
                                         '${packetWeight is num ? packetWeight.round() : packetWeight} kg',
                                       ),
                                     )
@@ -616,7 +618,7 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
                           captureLocation['latitude'] != null &&
                           captureLocation['longitude'] != null) ...[
                         Text(
-                          'Capture Location',
+                          tr('capture_location'),
                           style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 10),
@@ -660,7 +662,7 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Photo Captured Location',
+                                        tr('photo_captured_location'),
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.green.shade600,
@@ -700,7 +702,7 @@ class _MyListingDetailScreenState extends State<MyListingDetailScreen> {
                               Icon(Icons.calendar_today, size: 18, color: Colors.grey[600]),
                               const SizedBox(width: 10),
                               Text(
-                                'Listed on ${DateFormat('dd MMM yyyy, hh:mm a').format(createdAt.toIST())}',
+                                '${tr('listed_on')} ${DateFormat('dd MMM yyyy, hh:mm a').format(createdAt.toIST())}',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Colors.grey[700],

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -227,7 +228,10 @@ class ListingService {
     String? contactPhone,
   }) async {
     try {
+
       final headers = await _getHeaders();
+      debugPrint('images: ${images?.length}');
+
       final response = await http.post(
         Uri.parse('$baseUrl/listings/create'),
         headers: headers,

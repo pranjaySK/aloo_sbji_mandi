@@ -578,7 +578,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               onTap: _showClosingCallDialog,
               child: Container(
                 margin: const EdgeInsets.only(right: 4),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -592,12 +595,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Text('👉 ', style: const TextStyle(fontSize: 14)),
                     Text(
-                      '👉 ',
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                    Text(
-                      'Deal Pakki Kare',
+                      tr('close_the_deal'),
                       style: GoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -2623,7 +2623,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     // Distinct bubble colors for sender vs receiver
     final bubbleColor = isMe
         ? const Color(0xFFDCF8C6) // WhatsApp-style light green for sender
-        : Colors.white;           // White for receiver
+        : Colors.white; // White for receiver
     final textColor = Colors.black87; // Dark text for both (good readability)
     final timeColor = isMe ? Colors.grey[600] : Colors.grey[500];
 
@@ -2665,10 +2665,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             else
               Text(
                 message.content,
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 15,
-                ),
+                style: TextStyle(color: textColor, fontSize: 15),
               ),
             const SizedBox(height: 4),
             Padding(
@@ -2680,10 +2677,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 children: [
                   Text(
                     _formatTime(message.createdAt),
-                    style: TextStyle(
-                      color: timeColor,
-                      fontSize: 11,
-                    ),
+                    style: TextStyle(color: timeColor, fontSize: 11),
                   ),
                   if (isMe) ...[
                     const SizedBox(width: 4),
@@ -2705,7 +2699,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final buyerName = details?.buyerName ?? '';
     final quantity = details?.quantity?.toStringAsFixed(0) ?? '0';
     final price = details?.pricePerKg?.toStringAsFixed(0) ?? '0';
-    final totalAmount = (details?.quantity != null && details?.pricePerKg != null)
+    final totalAmount =
+        (details?.quantity != null && details?.pricePerKg != null)
         ? (details!.quantity! * details.pricePerKg!).toStringAsFixed(0)
         : '0';
     final listingRefId = details?.listingRefId ?? widget.listingRefId;
@@ -2743,7 +2738,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   const Text('🤝', style: TextStyle(fontSize: 20)),
                   const SizedBox(width: 8),
                   Text(
-                    'Closing Call',
+                    tr('closing_call'),
                     style: GoogleFonts.inter(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -2762,20 +2757,56 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   // Seller
                   Row(
                     children: [
-                      Icon(Icons.person, size: 18, color: Colors.green.shade700),
+                      Icon(
+                        Icons.person,
+                        size: 18,
+                        color: Colors.green.shade700,
+                      ),
                       const SizedBox(width: 6),
-                      Text('Seller: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Expanded(child: Text(sellerName, style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800))),
+                      Text(
+                        '${tr('seller')} ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          sellerName,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
                   // Buyer
                   Row(
                     children: [
-                      Icon(Icons.person_outline, size: 18, color: Colors.blue.shade700),
+                      Icon(
+                        Icons.person_outline,
+                        size: 18,
+                        color: Colors.blue.shade700,
+                      ),
                       const SizedBox(width: 6),
-                      Text('Buyer: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Expanded(child: Text(buyerName, style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800))),
+                      Text(
+                        '${tr('buyer')} ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          buyerName,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -2786,8 +2817,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('🥔', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 6),
-                      Text('Quantity: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Text('$quantity kg', style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                      Text(
+                        '${tr('quantity')} ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '$quantity kg',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -2796,8 +2839,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('💰', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 6),
-                      Text('Price: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Text('₹$price/kg', style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                      Text(
+                        '${tr('price')}: ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '₹$price/kg',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -2806,8 +2861,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('💰', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 6),
-                      Text('Total Price: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Text('₹$totalAmount', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green.shade700)),
+                      Text(
+                        '${tr('total_price')}: ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '₹$totalAmount',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade700,
+                        ),
+                      ),
                     ],
                   ),
                   // Listing Reference ID
@@ -2817,8 +2885,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       children: [
                         const Text('📋', style: TextStyle(fontSize: 16)),
                         const SizedBox(width: 6),
-                        Text('Listing ID: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                        Text(listingRefId, style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.orange.shade700)),
+                        Text(
+                          '${tr('listing_id')}: ',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          listingRefId,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange.shade700,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -2830,59 +2911,87 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               Container(
                 padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
                 child: _processedMessageIds.contains(message.id)
-                  ? Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    ? Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.check_circle,
+                              size: 18,
+                              color: Colors.grey.shade500,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              tr('response_submitted'),
+                              style: GoogleFonts.inter(
+                                fontSize: 13,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Row(
                         children: [
-                          Icon(Icons.check_circle, size: 18, color: Colors.grey.shade500),
-                          const SizedBox(width: 6),
-                          Text('Response submitted', style: GoogleFonts.inter(fontSize: 13, color: Colors.grey.shade500)),
+                          // Cancel button
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () async {
+                                await _handleClosingCallCancel(message);
+                              },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.red.shade700,
+                                side: BorderSide(color: Colors.red.shade400),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                tr('cancel'),
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          // Accept button
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () async {
+                                await _handleClosingCallAccept(message);
+                              },
+                              icon: const Icon(Icons.check, size: 18),
+                              label: Text(
+                                tr('accept'),
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF4CAF50),
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation: 2,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                    )
-                  : Row(
-                  children: [
-                    // Cancel button
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () async {
-                          await _handleClosingCallCancel(message);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.red.shade700,
-                          side: BorderSide(color: Colors.red.shade400),
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                        ),
-                        child: Text('Cancel', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    // Accept button
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () async {
-                          await _handleClosingCallAccept(message);
-                        },
-                        icon: const Icon(Icons.check, size: 18),
-                        label: Text('Accept', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF4CAF50),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          elevation: 2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             // Timestamp
             Padding(
@@ -2920,7 +3029,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final listingRefId = details?.listingRefId ?? widget.listingRefId;
 
     // Determine if the current user is the seller
-    final isSeller = _currentUserName == sellerName ||
+    final isSeller =
+        _currentUserName == sellerName ||
         (_currentUserRole == 'farmer' && sellerName.isNotEmpty);
 
     return Align(
@@ -2949,7 +3059,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.teal.shade500,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(14),
+                ),
               ),
               child: Row(
                 children: [
@@ -2957,7 +3069,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Deal Terms Accepted',
+                      tr('deal_terms_accepted'),
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -2978,7 +3090,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('🥔', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
-                      Text('$quantity kg @ ₹$price/kg', style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                      Text(
+                        '$quantity kg @ ₹$price/kg',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -2986,7 +3104,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('💰', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
-                      Text('Total: ₹$total', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green.shade700)),
+                      Text(
+                        '${tr('total_amount_label')}: ₹$total',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade700,
+                        ),
+                      ),
                     ],
                   ),
                   // Listing Reference ID
@@ -2996,7 +3121,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       children: [
                         const Text('📋', style: TextStyle(fontSize: 15)),
                         const SizedBox(width: 6),
-                        Text('Listing: $listingRefId', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.orange.shade700)),
+                        Text(
+                          '${tr('listing')}: $listingRefId',
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.orange.shade700,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -3004,39 +3136,59 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   if (isSeller && !isMe)
                     // Seller (who didn't send this message) sees "Share Payment Details" button
                     _processedMessageIds.contains(message.id)
-                      ? Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.check_circle, size: 18, color: Colors.grey.shade500),
-                              const SizedBox(width: 6),
-                              Text('Response submitted', style: GoogleFonts.inter(fontSize: 13, color: Colors.grey.shade500)),
-                            ],
-                          ),
-                        )
-                      : SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: () async {
-                          await _handleSharePaymentDetails(message);
-                        },
-                        icon: const Icon(Icons.payment, size: 18),
-                        label: Text('Share Payment Details', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.teal.shade600,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          elevation: 2,
-                        ),
-                      ),
-                    )
+                        ? Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  size: 18,
+                                  color: Colors.grey.shade500,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  tr('response_submitted'),
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: () async {
+                                await _handleSharePaymentDetails(message);
+                              },
+                              icon: const Icon(Icons.payment, size: 18),
+                              label: Text(
+                                tr('share_payment_details'),
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.teal.shade600,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation: 2,
+                              ),
+                            ),
+                          )
                   else if (isSeller && isMe)
                     // Seller sent this message (shouldn't normally happen, but handle)
                     Container(
@@ -3049,12 +3201,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.info_outline, size: 18, color: Colors.amber.shade700),
+                          Icon(
+                            Icons.info_outline,
+                            size: 18,
+                            color: Colors.amber.shade700,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Share your payment details (UPI/QR/Passbook) so the buyer can pay.',
-                              style: TextStyle(fontSize: 13, color: Colors.amber.shade800, fontWeight: FontWeight.w500),
+                              tr('share_payment_details_hint'),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.amber.shade800,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
@@ -3072,12 +3232,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.hourglass_top, size: 18, color: Colors.amber.shade700),
+                          Icon(
+                            Icons.hourglass_top,
+                            size: 18,
+                            color: Colors.amber.shade700,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Waiting for seller to share payment details...',
-                              style: TextStyle(fontSize: 13, color: Colors.amber.shade800, fontWeight: FontWeight.w500),
+                              tr('waiting_for_payment_details'),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.amber.shade800,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
@@ -3117,7 +3285,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final quantity = details?.quantity?.toStringAsFixed(0) ?? '0';
     final price = details?.pricePerKg?.toStringAsFixed(0) ?? '0';
     final totalAmount = (details?.quantity ?? 0) * (details?.pricePerKg ?? 0);
-    final total = details?.totalAmount?.toStringAsFixed(0) ?? totalAmount.toStringAsFixed(0);
+    final total =
+        details?.totalAmount?.toStringAsFixed(0) ??
+        totalAmount.toStringAsFixed(0);
     final listingRefId = details?.listingRefId ?? widget.listingRefId;
 
     return Align(
@@ -3154,14 +3324,18 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     color: Colors.green.shade100,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(Icons.storefront, size: 35, color: Colors.green.shade700),
+                  child: Icon(
+                    Icons.storefront,
+                    size: 35,
+                    color: Colors.green.shade700,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 10),
             // Deal Closed! Title
             Text(
-              'Deal Closed!',
+              tr('deal_closed_title'),
               style: GoogleFonts.inter(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -3182,26 +3356,66 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     height: 2,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.transparent, Colors.amber.shade400, Colors.transparent],
+                        colors: [
+                          Colors.transparent,
+                          Colors.amber.shade400,
+                          Colors.transparent,
+                        ],
                       ),
                     ),
                   ),
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Icon(Icons.person, size: 18, color: Colors.green.shade700),
+                      Icon(
+                        Icons.person,
+                        size: 18,
+                        color: Colors.green.shade700,
+                      ),
                       const SizedBox(width: 6),
-                      Text('Seller: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Expanded(child: Text(sellerName, style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800))),
+                      Text(
+                        '${tr('seller')} ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          sellerName,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      Icon(Icons.person_outline, size: 18, color: Colors.blue.shade700),
+                      Icon(
+                        Icons.person_outline,
+                        size: 18,
+                        color: Colors.blue.shade700,
+                      ),
                       const SizedBox(width: 6),
-                      Text('Buyer: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Expanded(child: Text(buyerName, style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800))),
+                      Text(
+                        '${tr('buyer')} ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          buyerName,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -3209,8 +3423,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('🥔', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 6),
-                      Text('Quantity: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Text('$quantity kg', style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                      Text(
+                        '${tr('quantity')} ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '$quantity kg',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -3218,8 +3444,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('💰', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 6),
-                      Text('Price: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Text('₹$price/kg', style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                      Text(
+                        '${tr('price')}: ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '₹$price/kg',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -3227,8 +3465,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('💰', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 6),
-                      Text('Total Price: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                      Text('₹$total', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green.shade700)),
+                      Text(
+                        '${tr('total_price')}: ',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '₹$total',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade700,
+                        ),
+                      ),
                     ],
                   ),
                   // Listing Reference ID
@@ -3238,8 +3489,21 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       children: [
                         const Text('📋', style: TextStyle(fontSize: 16)),
                         const SizedBox(width: 6),
-                        Text('Listing ID: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                        Text(listingRefId, style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.orange.shade700)),
+                        Text(
+                          '${tr('listing_id')}: ',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          listingRefId,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange.shade700,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -3282,8 +3546,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final listingRefId = details?.listingRefId ?? widget.listingRefId;
 
     // Determine if current user is the buyer
-    final isBuyer = _currentUserName != sellerName &&
-        _currentUserRole != 'farmer';
+    final isBuyer =
+        _currentUserName != sellerName && _currentUserRole != 'farmer';
 
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
@@ -3311,7 +3575,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.blue.shade500,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(14),
+                ),
               ),
               child: Row(
                 children: [
@@ -3319,7 +3585,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Payment Details Shared',
+                      tr('payment_details_shared'),
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -3340,7 +3606,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('🥔', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
-                      Text('$quantity kg @ ₹$price/kg', style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                      Text(
+                        '$quantity kg @ ₹$price/kg',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -3348,7 +3620,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('💰', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
-                      Text('Total: ₹$total', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green.shade700)),
+                      Text(
+                        '${tr('total_amount_label')}: ₹$total',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade700,
+                        ),
+                      ),
                     ],
                   ),
                   // Listing Reference ID
@@ -3358,7 +3637,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       children: [
                         const Text('📋', style: TextStyle(fontSize: 15)),
                         const SizedBox(width: 6),
-                        Text('Listing: $listingRefId', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.orange.shade700)),
+                        Text(
+                          '${tr('listing')}: $listingRefId',
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.orange.shade700,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -3366,48 +3652,74 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   if (isBuyer && !isMe)
                     // Buyer (receiver of this message) sees "I Have Paid" button
                     _processedMessageIds.contains(message.id)
-                      ? Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.check_circle, size: 18, color: Colors.grey.shade500),
-                              const SizedBox(width: 6),
-                              Text('Response submitted', style: GoogleFonts.inter(fontSize: 13, color: Colors.grey.shade500)),
-                            ],
-                          ),
-                        )
-                      : Column(
-                      children: [
-                        Text(
-                          'Seller has shared payment details above. After paying, confirm below.',
-                          style: GoogleFonts.inter(fontSize: 13, color: Colors.grey.shade600),
-                        ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton.icon(
-                            onPressed: () async {
-                              await _handleBuyerConfirmPaid(message);
-                            },
-                            icon: const Icon(Icons.check_circle, size: 18),
-                            label: Text('I Have Paid', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green.shade600,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                              elevation: 2,
+                        ? Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                        ),
-                      ],
-                    )
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  size: 18,
+                                  color: Colors.grey.shade500,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'Response submitted',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Text(
+                                tr('seller_payment_details_hint'),
+                                style: GoogleFonts.inter(
+                                  fontSize: 13,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton.icon(
+                                  onPressed: () async {
+                                    await _handleBuyerConfirmPaid(message);
+                                  },
+                                  icon: const Icon(
+                                    Icons.check_circle,
+                                    size: 18,
+                                  ),
+                                  label: Text(
+                                    tr('i_have_paid'),
+                                    style: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green.shade600,
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    elevation: 2,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
                   else
                     // Seller sees waiting message
                     Container(
@@ -3420,12 +3732,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.hourglass_top, size: 18, color: Colors.amber.shade700),
+                          Icon(
+                            Icons.hourglass_top,
+                            size: 18,
+                            color: Colors.amber.shade700,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Waiting for buyer to make payment...',
-                              style: TextStyle(fontSize: 13, color: Colors.amber.shade800, fontWeight: FontWeight.w500),
+                              tr('waiting_for_buyer_to_pay'),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.amber.shade800,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
@@ -3469,7 +3789,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final listingRefId = details?.listingRefId ?? widget.listingRefId;
 
     // Determine if current user is the seller
-    final isSeller = _currentUserName == sellerName ||
+    final isSeller =
+        _currentUserName == sellerName ||
         (_currentUserRole == 'farmer' && sellerName.isNotEmpty);
 
     return Align(
@@ -3498,7 +3819,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.purple.shade500,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(14),
+                ),
               ),
               child: Row(
                 children: [
@@ -3506,7 +3829,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Payment Sent by Buyer',
+                      tr('payment_sent_by_buyer'),
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -3527,7 +3850,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('🥔', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
-                      Text('$quantity kg @ ₹$price/kg', style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                      Text(
+                        '$quantity kg @ ₹$price/kg',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.grey.shade800,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -3535,7 +3864,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     children: [
                       const Text('💰', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
-                      Text('Total: ₹$total', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green.shade700)),
+                      Text(
+                        '${tr('total_amount_label')}: ₹$total',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade700,
+                        ),
+                      ),
                     ],
                   ),
                   // Listing Reference ID
@@ -3545,7 +3881,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       children: [
                         const Text('📋', style: TextStyle(fontSize: 15)),
                         const SizedBox(width: 6),
-                        Text('Listing: $listingRefId', style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.orange.shade700)),
+                        Text(
+                          '${tr('listing')}: $listingRefId',
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.orange.shade700,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -3553,66 +3896,110 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   if (isSeller && !isMe)
                     // Seller sees confirm/not received buttons
                     _processedMessageIds.contains(message.id)
-                      ? Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        ? Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade100,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  size: 18,
+                                  color: Colors.grey.shade500,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'Response submitted',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Column(
                             children: [
-                              Icon(Icons.check_circle, size: 18, color: Colors.grey.shade500),
-                              const SizedBox(width: 6),
-                              Text('Response submitted', style: GoogleFonts.inter(fontSize: 13, color: Colors.grey.shade500)),
+                              Text(
+                                tr('buyer_paid_conf_hint'),
+                                style: GoogleFonts.inter(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey.shade700,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: OutlinedButton(
+                                      onPressed: () async {
+                                        await _handlePaymentNotReceived(
+                                          message,
+                                        );
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        foregroundColor: Colors.red.shade700,
+                                        side: BorderSide(
+                                          color: Colors.red.shade400,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        tr('not_received'),
+                                        style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: ElevatedButton.icon(
+                                      onPressed: () async {
+                                        await _handleConfirmPaymentReceived(
+                                          message,
+                                        );
+                                      },
+                                      icon: const Icon(Icons.check, size: 18),
+                                      label: Text(
+                                        tr('received'),
+                                        style: GoogleFonts.inter(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green.shade600,
+                                        foregroundColor: Colors.white,
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                        elevation: 2,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
-                          ),
-                        )
-                      : Column(
-                      children: [
-                        Text(
-                          'Buyer says they have paid. Did you receive the payment?',
-                          style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.grey.shade700),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton(
-                                onPressed: () async {
-                                  await _handlePaymentNotReceived(message);
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: Colors.red.shade700,
-                                  side: BorderSide(color: Colors.red.shade400),
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                ),
-                                child: Text('Not Received', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 13)),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                onPressed: () async {
-                                  await _handleConfirmPaymentReceived(message);
-                                },
-                                icon: const Icon(Icons.check, size: 18),
-                                label: Text('Received', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 13)),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green.shade600,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  elevation: 2,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
+                          )
                   else
                     // Buyer sees waiting message
                     Container(
@@ -3625,12 +4012,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.hourglass_top, size: 18, color: Colors.amber.shade700),
+                          Icon(
+                            Icons.hourglass_top,
+                            size: 18,
+                            color: Colors.amber.shade700,
+                          ),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Waiting for seller to confirm payment received...',
-                              style: TextStyle(fontSize: 13, color: Colors.amber.shade800, fontWeight: FontWeight.w500),
+                              tr('waiting_for_seller_to_confirm_pay'),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.amber.shade800,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
@@ -3683,25 +4078,31 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                'Cancel Closing Call?',
-                style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 17),
+                tr('cancel_deal_q'),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                ),
               ),
             ),
           ],
         ),
         content: Text(
-          'Are you sure you want to cancel this deal? Both parties will be notified.',
+          tr('cancel_deal_hint'),
           style: TextStyle(color: Colors.grey.shade700),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Go Back', style: TextStyle(color: Colors.grey.shade600)),
+            child: Text(
+              tr('go_back'),
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
           ),
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
             icon: const Icon(Icons.cancel, size: 18),
-            label: const Text('Yes, Cancel Deal'),
+            label: Text(tr('yes_cancel_deal')),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red.shade600,
               foregroundColor: Colors.white,
@@ -3719,14 +4120,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     try {
       await _chatService.sendMessage(
         widget.conversationId,
-        '❌ Closing Call was cancelled.',
+        tr('deal_cancelled_msg'),
       );
       await _loadMessages();
       _scrollToBottom();
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to cancel: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Failed to cancel: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -3747,13 +4151,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 color: Colors.green.shade100,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.handshake, color: Colors.green.shade700, size: 24),
+              child: Icon(
+                Icons.handshake,
+                color: Colors.green.shade700,
+                size: 24,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                'Accept Deal Terms?',
-                style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 17),
+                tr('accept_deal_terms_q'),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                ),
               ),
             ),
           ],
@@ -3763,7 +4174,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'You are agreeing to the following deal:',
+              tr('agreeing_to_deal_hint'),
               style: TextStyle(color: Colors.grey.shade700),
             ),
             const SizedBox(height: 10),
@@ -3776,10 +4187,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('🥔 Quantity: ${message.dealDetails?.quantity?.toStringAsFixed(0) ?? '0'} kg'),
-                  Text('💰 Price: ₹${message.dealDetails?.pricePerKg?.toStringAsFixed(0) ?? '0'}/kg'),
-                  Text('💵 Total: ₹${message.dealDetails?.totalAmount?.toStringAsFixed(0) ?? '0'}',
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    '🥔 ${tr('quantity')} ${message.dealDetails?.quantity?.toStringAsFixed(0) ?? '0'} kg',
+                  ),
+                  Text(
+                    '💰 ${tr('price')}: ₹${message.dealDetails?.pricePerKg?.toStringAsFixed(0) ?? '0'}/kg',
+                  ),
+                  Text(
+                    '💵 ${tr('total_price')}: ₹${message.dealDetails?.totalAmount?.toStringAsFixed(0) ?? '0'}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
@@ -3788,12 +4205,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Cancel', style: TextStyle(color: Colors.grey.shade600)),
+            child: Text(
+              tr('cancel'),
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
           ),
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
             icon: const Icon(Icons.check, size: 18),
-            label: const Text('Yes, Accept'),
+            label: Text(tr('yes_accept')),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green.shade600,
               foregroundColor: Colors.white,
@@ -3812,7 +4232,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       final details = message.dealDetails;
       final msg = await _chatService.sendMessage(
         widget.conversationId,
-        '✅ Deal terms accepted! Waiting for payment details.',
+        tr('deal_terms_accepted_msg'),
         messageType: 'closing_call_accepted',
         dealDetailsMap: {
           'quantity': details?.quantity,
@@ -3820,7 +4240,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           'totalAmount': details?.totalAmount,
           'sellerName': details?.sellerName,
           'buyerName': details?.buyerName,
-          if (details?.listingRefId != null) 'listingRefId': details!.listingRefId,
+          if (details?.listingRefId != null)
+            'listingRefId': details!.listingRefId,
         },
       );
       setState(() {
@@ -3858,25 +4279,31 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                'Share Payment Details?',
-                style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 17),
+                tr('share_payment_details_q'),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                ),
               ),
             ),
           ],
         ),
         content: Text(
-          'You will share your payment details (UPI/QR/Passbook) so the buyer can make the payment.',
+          tr('share_payment_details_modal_hint'),
           style: TextStyle(color: Colors.grey.shade700),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Not Now', style: TextStyle(color: Colors.grey.shade600)),
+            child: Text(
+              tr('not_now'),
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
           ),
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
             icon: const Icon(Icons.check, size: 18),
-            label: const Text('Yes, Share'),
+            label: Text(tr('yes_accept')),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.teal.shade600,
               foregroundColor: Colors.white,
@@ -3925,7 +4352,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   color: Colors.green.shade100,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(Icons.account_balance, color: Colors.green.shade700),
+                child: Icon(
+                  Icons.account_balance,
+                  color: Colors.green.shade700,
+                ),
               ),
               title: Text(tr('send_upi_id')),
               subtitle: Text(tr('type_upi_address')),
@@ -3999,7 +4429,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 labelText: tr('your_upi_id'),
                 hintText: 'name@upi / 9876543210@paytm',
                 prefixIcon: const Icon(Icons.payment),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               keyboardType: TextInputType.emailAddress,
             ),
@@ -4036,7 +4468,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     setState(() => _isSending = true);
     try {
       // Send UPI message first
-      final msg = await _chatService.sendMessage(widget.conversationId, content);
+      final msg = await _chatService.sendMessage(
+        widget.conversationId,
+        content,
+      );
       setState(() {
         if (!_messages.any((m) => m.id == msg.id)) _messages.add(msg);
       });
@@ -4046,7 +4481,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(tr('failed_to_send')), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(tr('failed_to_send')),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -4079,7 +4517,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(tr('failed_send_qr')), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(tr('failed_send_qr')),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -4137,7 +4578,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(tr('failed_send_passbook')), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(tr('failed_send_passbook')),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -4157,7 +4601,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           'totalAmount': details?.totalAmount,
           'sellerName': details?.sellerName,
           'buyerName': details?.buyerName,
-          if (details?.listingRefId != null) 'listingRefId': details!.listingRefId,
+          if (details?.listingRefId != null)
+            'listingRefId': details!.listingRefId,
         },
       );
       setState(() {
@@ -4191,13 +4636,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 color: Colors.green.shade100,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.payment, color: Colors.green.shade700, size: 24),
+              child: Icon(
+                Icons.payment,
+                color: Colors.green.shade700,
+                size: 24,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 'Confirm Payment Sent?',
-                style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 17),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                ),
               ),
             ),
           ],
@@ -4220,12 +4672,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.warning_amber, color: Colors.amber.shade700, size: 20),
+                  Icon(
+                    Icons.warning_amber,
+                    color: Colors.amber.shade700,
+                    size: 20,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'Only confirm if you have already sent the payment.',
-                      style: TextStyle(fontSize: 12, color: Colors.amber.shade800, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.amber.shade800,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
@@ -4236,7 +4696,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Not Yet', style: TextStyle(color: Colors.grey.shade600)),
+            child: Text(
+              'Not Yet',
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
           ),
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
@@ -4268,7 +4731,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           'totalAmount': details?.totalAmount,
           'sellerName': details?.sellerName,
           'buyerName': details?.buyerName,
-          if (details?.listingRefId != null) 'listingRefId': details!.listingRefId,
+          if (details?.listingRefId != null)
+            'listingRefId': details!.listingRefId,
         },
       );
       setState(() {
@@ -4301,13 +4765,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 color: Colors.green.shade100,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.account_balance_wallet, color: Colors.green.shade700, size: 24),
+              child: Icon(
+                Icons.account_balance_wallet,
+                color: Colors.green.shade700,
+                size: 24,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 'Confirm Payment Received?',
-                style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 17),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                ),
               ),
             ),
           ],
@@ -4319,7 +4790,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Not Yet', style: TextStyle(color: Colors.grey.shade600)),
+            child: Text(
+              'Not Yet',
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
           ),
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
@@ -4351,14 +4825,18 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           'totalAmount': details?.totalAmount,
           'sellerName': details?.sellerName,
           'buyerName': details?.buyerName,
-          if (details?.listingRefId != null) 'listingRefId': details!.listingRefId,
+          if (details?.listingRefId != null)
+            'listingRefId': details!.listingRefId,
         },
       );
       await _loadMessages();
       _scrollToBottom();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Deal closed successfully!'), backgroundColor: Colors.green),
+          const SnackBar(
+            content: Text('Deal closed successfully!'),
+            backgroundColor: Colors.green,
+          ),
         );
       }
     } catch (e) {
@@ -4386,13 +4864,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 color: Colors.red.shade100,
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.money_off, color: Colors.red.shade700, size: 24),
+              child: Icon(
+                Icons.money_off,
+                color: Colors.red.shade700,
+                size: 24,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 'Payment Not Received?',
-                style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 17),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                ),
               ),
             ),
           ],
@@ -4404,7 +4889,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Go Back', style: TextStyle(color: Colors.grey.shade600)),
+            child: Text(
+              'Go Back',
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
           ),
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
@@ -4504,10 +4992,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
               child: Text(
                 caption,
-                style: const TextStyle(
-                  color: Colors.black87,
-                  fontSize: 14,
-                ),
+                style: const TextStyle(color: Colors.black87, fontSize: 14),
               ),
             ),
         ],
@@ -4516,10 +5001,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       // If parsing fails, show the content as text
       return Text(
         message.content,
-        style: const TextStyle(
-          color: Colors.black87,
-          fontSize: 15,
-        ),
+        style: const TextStyle(color: Colors.black87, fontSize: 15),
       );
     }
   }
@@ -4756,14 +5238,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Closing Call',
+                          tr('closing_call'),
                           style: GoogleFonts.inter(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: const Color(0xFF2D5A27),
                           ),
                         ),
-                        if (widget.listingRefId != null && widget.listingRefId!.isNotEmpty)
+                        if (widget.listingRefId != null &&
+                            widget.listingRefId!.isNotEmpty)
                           Text(
                             'Listing: ${widget.listingRefId}',
                             style: GoogleFonts.inter(
@@ -4789,22 +5272,54 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.person, size: 18, color: Colors.green.shade700),
+                        Icon(
+                          Icons.person,
+                          size: 18,
+                          color: Colors.green.shade700,
+                        ),
                         const SizedBox(width: 6),
-                        Text('Seller: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
+                        Text(
+                          '${tr('seller')}: ',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
                         Expanded(
-                          child: Text(sellerName, style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                          child: Text(
+                            sellerName,
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              color: Colors.grey.shade800,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        Icon(Icons.person_outline, size: 18, color: Colors.blue.shade700),
+                        Icon(
+                          Icons.person_outline,
+                          size: 18,
+                          color: Colors.blue.shade700,
+                        ),
                         const SizedBox(width: 6),
-                        Text('Buyer: ', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
+                        Text(
+                          '${tr('buyer')}: ',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
                         Expanded(
-                          child: Text(buyerName, style: GoogleFonts.inter(fontSize: 14, color: Colors.grey.shade800)),
+                          child: Text(
+                            buyerName,
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              color: Colors.grey.shade800,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -4816,12 +5331,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               TextField(
                 controller: quantityController,
                 keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                ],
                 decoration: InputDecoration(
-                  labelText: '🥔  Quantity (kg)',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  labelText: '🥔  ${tr('quantity')} (kg)',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   prefixIcon: const Icon(Icons.inventory_2),
-                  hintText: 'Enter quantity in kg',
+                  hintText: tr('enter_quantity_in_kg'),
                 ),
               ),
               const SizedBox(height: 14),
@@ -4829,12 +5348,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               TextField(
                 controller: priceController,
                 keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                ],
                 decoration: InputDecoration(
-                  labelText: '💰  Negotiated Price (₹/kg)',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  labelText: '💰  ${tr('negotiated_price')} (₹/kg)',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   prefixIcon: const Icon(Icons.currency_rupee),
-                  hintText: 'Enter price per kg',
+                  hintText: tr('enter_price_per_kg'),
                 ),
               ),
               const SizedBox(height: 20),
@@ -4843,11 +5366,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    final quantity = double.tryParse(quantityController.text.trim());
+                    final quantity = double.tryParse(
+                      quantityController.text.trim(),
+                    );
                     final price = double.tryParse(priceController.text.trim());
-                    if (quantity == null || price == null || quantity <= 0 || price <= 0) {
+                    if (quantity == null ||
+                        price == null ||
+                        quantity <= 0 ||
+                        price <= 0) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please enter valid quantity and price')),
+                        const SnackBar(
+                          content: Text(
+                            'Please enter valid quantity and price',
+                          ),
+                        ),
                       );
                       return;
                     }
@@ -4861,14 +5393,19 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   },
                   icon: const Icon(Icons.send, size: 20),
                   label: Text(
-                    'Send Final Call',
-                    style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.bold),
+                    tr('send_final_call'),
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF4CAF50),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     elevation: 3,
                   ),
                 ),
@@ -4914,7 +5451,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send closing call: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('Failed to send closing call: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }

@@ -13,7 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="in.aloomarket.app.MainActivity"
+            android:name="com.mandi.aloo_market.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""

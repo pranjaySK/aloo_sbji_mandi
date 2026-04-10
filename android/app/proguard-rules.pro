@@ -1,5 +1,5 @@
 # ============================================================
-# ProGuard / R8 rules for Aloo Market (in.aloomarket.app)
+# ProGuard / R8 rules for Aloo Market (com.mandi.aloo_market)
 # ============================================================
 
 # ──── Flutter & Dart ────

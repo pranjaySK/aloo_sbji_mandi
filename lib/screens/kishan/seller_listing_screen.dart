@@ -595,7 +595,7 @@ class _ListingCard extends StatelessWidget {
     final isActive = listing['isActive'] ?? true;
     final type = listing['type'] ?? 'sell';
     final sourceType = listing['sourceType'] ?? 'field';
-    final unit = listing['unit'] ?? 'Quintal';
+    final unit = listing['unit'] ?? tr('quintal');
     final packetWeight = listing['packetWeight'];
     final listingType = listing['listingType'] ?? 'crop';
     final isSeed = listingType == 'seed';
@@ -615,16 +615,16 @@ class _ListingCard extends StatelessWidget {
       if (expiresAt != null) {
         final remaining = expiresAt.difference(DateTime.now());
         if (remaining.isNegative) {
-          expiryText = 'Expired';
+          expiryText = tr('expired');
           expiryColor = Colors.red;
         } else if (remaining.inDays > 0) {
-          expiryText = '${remaining.inDays}d left';
+          expiryText = '${remaining.inDays} ${tr('days_left')}';
           expiryColor = remaining.inDays <= 3 ? Colors.orange : Colors.green;
         } else if (remaining.inHours > 0) {
-          expiryText = '${remaining.inHours}h left';
+          expiryText = '${remaining.inHours} ${tr('hours_left')}';
           expiryColor = Colors.orange;
         } else {
-          expiryText = '${remaining.inMinutes}m left';
+          expiryText = '${remaining.inMinutes} ${tr('minutes_left')}';
           expiryColor = Colors.red;
         }
       }
@@ -822,7 +822,7 @@ class _ListingCard extends StatelessWidget {
                     ],
                     const SizedBox(height: 4),
                     Text(
-                      "₹ $price / ${unit.toString().toLowerCase()}",
+                      "₹ $price / ${unitAbbr(unit.toString())}",
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         color: AppColors.primaryGreen,
@@ -832,13 +832,13 @@ class _ListingCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     if (unit == 'Packet' && packetWeight != null) ...[
                       Text(
-                        'Packet: ${packetWeight is num ? packetWeight.round() : packetWeight} kg',
+                        '${tr('packet')}: ${packetWeight is num ? packetWeight.round() : packetWeight} ${tr('kg')}',
                         style: TextStyle(fontSize: 10, color: Colors.grey[600]),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 2), 
                     ],
                     Text(
-                      "$quantity ${unit.toString().toLowerCase()}s",
+                      "$quantity ${unitPlural(unit.toString())}",
                       style: TextStyle(fontSize: 11, color: Colors.grey[600]),
                     ),
                     if (locationAddress.isNotEmpty) ...[
@@ -948,6 +948,7 @@ class _ListingCard extends StatelessWidget {
     final images = listing['images'];
     if (images is List && images.isNotEmpty) {
       final url = images[0].toString();
+      debugPrint('ImageUrl: $url');
       if (url.startsWith('data:image')) {
         final base64Str = url.split(',').last;
         return Image.memory(

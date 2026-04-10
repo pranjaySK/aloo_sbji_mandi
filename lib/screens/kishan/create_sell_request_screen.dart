@@ -87,7 +87,8 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
   double? _captureLatitude2;
   double? _captureLongitude2;
 
-  bool _isCapturing = false;
+  bool _isCapturing1 = false;
+  bool _isCapturing2 = false;
   bool _isSubmitting = false;
 
   // Services
@@ -396,6 +397,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
     required String label,
     required VoidCallback onCapture,
     required VoidCallback onRemove,
+    required bool isCapturing,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,7 +412,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
         ),
         const SizedBox(height: 6),
         GestureDetector(
-          onTap: _isCapturing ? null : onCapture,
+          onTap: isCapturing ? null : onCapture,
           child: Container(
             width: double.infinity,
             height: image != null ? 250 : 90,
@@ -492,7 +494,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _isCapturing
+                      isCapturing
                           ? const SizedBox(
                               width: 24,
                               height: 24,
@@ -505,8 +507,8 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
                             ),
                       const SizedBox(height: 6),
                       Text(
-                        _isCapturing
-                            ? "Opening camera..."
+                        isCapturing
+                            ? tr('opening_camera')
                             : tr('capture_live_photo'),
                         style: GoogleFonts.inter(
                           fontSize: 13,
@@ -523,7 +525,13 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
   }
 
   Future<void> _capturePhoto({bool isSecond = false}) async {
-    setState(() => _isCapturing = true);
+    setState(() {
+      if (isSecond) {
+        _isCapturing2 = true;
+      } else {
+        _isCapturing1 = true;
+      }
+    });
 
     try {
       // Step 1: Get GPS location with address
@@ -697,17 +705,20 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
         );
       }
     } finally {
-      setState(() => _isCapturing = false);
+      setState(() {
+        _isCapturing1 = false;
+        _isCapturing2 = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     // Get listing type and source labels
-    String listingTypeLabel = widget.listingType == 'seed' ? 'Seed' : 'Crop';
+    String listingTypeLabel = widget.listingType == 'seed' ? tr('seed') : tr('crop');
     String sourceLabel = _selectedSourceType == 'field'
-        ? 'From Field'
-        : 'From Cold Storage';
+        ? tr('from_field')
+        : tr('from_cold_storage');
     Color sourceColor = _selectedSourceType == 'field'
         ? AppColors.primaryGreen
         : Colors.blue;
@@ -750,7 +761,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Selling: $listingTypeLabel',
+                        '${tr('selling')}: $listingTypeLabel',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -778,8 +789,8 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
                     ),
                     child: Text(
                       _selectedSourceType == 'field'
-                          ? '📍 Live Location'
-                          : '🏭 Storage',
+                          ? '📍 ${tr('live_location')}'
+                          : '🏭 ${tr('storage')}',
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         color: Colors.white,
@@ -849,11 +860,11 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
 
             if (selectedVariety == "Others") ...[
               const SizedBox(height: 12),
-              label("Enter Variety Name"),
+              label(tr('enter_variety_name')),
               TextField(
                 controller: _customVarietyController,
                 decoration: InputDecoration(
-                  hintText: "Type variety name here...",
+                  hintText: tr('type_variety_hint'),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(color: AppColors.border),
@@ -906,7 +917,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
                               return DropdownMenuItem(
                                 value: unit,
                                 child: Text(
-                                  unit,
+                                  tr(unit.toLowerCase()),
                                   style: GoogleFonts.inter(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -1068,7 +1079,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
 
             const SizedBox(height: 16),
 
-            label('${tr('price_per')} $selectedUnit*'),
+            label('${tr('price_per')} ${tr(selectedUnit.toLowerCase())}*'),
             TextField(
               controller: _pricePerUnitController,
               keyboardType: TextInputType.number,
@@ -1167,6 +1178,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
             _buildPhotoSlot(
               image: _capturedImage,
               label: '${tr('photo')} 1 *',
+              isCapturing: _isCapturing1,
               onCapture: () => _capturePhoto(),
               onRemove: () => setState(() {
                 _capturedImage = null;
@@ -1183,6 +1195,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
             _buildPhotoSlot(
               image: _capturedImage2,
               label: '${tr('photo')} 2 (${tr('optional')})',
+              isCapturing: _isCapturing2,
               onCapture: () => _capturePhoto(isSecond: true),
               onRemove: () => setState(() {
                 _capturedImage2 = null;
@@ -1197,7 +1210,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
             if (_captureLocation != null && _capturedImage != null) ...[
               const SizedBox(height: 12),
               _buildCapturedLocationCard(
-                label: '${tr('photo')} 1 - Captured Location',
+                label: '${tr('photo')} 1 - ${tr('captured_location')}',
                 address: _captureLocation!,
                 dateTime: _captureDateTime,
                 latitude: _captureLatitude,
@@ -1209,7 +1222,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
             if (_captureLocation2 != null && _capturedImage2 != null) ...[
               const SizedBox(height: 12),
               _buildCapturedLocationCard(
-                label: '${tr('photo')} 2 - Captured Location',
+                label: '${tr('photo')} 2 - ${tr('captured_location')}',
                 address: _captureLocation2!,
                 dateTime: _captureDateTime2,
                 latitude: _captureLatitude2,
@@ -1246,8 +1259,8 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
                     isExpanded: true,
                     hint: Text(
                       _allColdStorages.isEmpty
-                          ? "Loading..."
-                          : "Select a cold storage",
+                          ? tr('loading')
+                          : tr('select_cold_storage_hint'),
                       style: GoogleFonts.inter(color: Colors.grey[600]),
                     ),
                     dropdownColor: AppColors.cardBg(context),
@@ -1398,7 +1411,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        "Auto-fetched",
+                        tr('auto_fetched'),
                         style: GoogleFonts.inter(
                           fontSize: 10,
                           color: AppColors.primaryGreen,
@@ -1820,7 +1833,7 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: ChoiceChip(
-        label: Text(size),
+        label: Text(tr(size.toLowerCase())),
         selected: isSelected,
         selectedColor: AppColors.primaryGreen,
         labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),

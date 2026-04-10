@@ -74,22 +74,34 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
       case 'vyapari':
         return [
           _TabConfig(
-            tab: Tab(icon: const Icon(Icons.analytics, size: 20), text: tr('market_ai_tab')),
+            tab: Tab(
+              icon: const Icon(Icons.analytics, size: 20),
+              text: tr('market_ai_tab'),
+            ),
             builder: () => _buildMarketAITab(),
           ),
           _TabConfig(
-            tab: Tab(icon: const Icon(Icons.today, size: 20), text: tr('today_tab')),
+            tab: Tab(
+              icon: const Icon(Icons.today, size: 20),
+              text: tr('today_tab'),
+            ),
             builder: () => _buildTodayAdviceTab(),
           ),
         ];
       case 'cold_storage':
         return [
           _TabConfig(
-            tab: Tab(icon: const Icon(Icons.analytics, size: 20), text: tr('market_ai_tab')),
+            tab: Tab(
+              icon: const Icon(Icons.analytics, size: 20),
+              text: tr('market_ai_tab'),
+            ),
             builder: () => _buildMarketAITab(),
           ),
           _TabConfig(
-            tab: Tab(icon: const Icon(Icons.today, size: 20), text: tr('today_tab')),
+            tab: Tab(
+              icon: const Icon(Icons.today, size: 20),
+              text: tr('today_tab'),
+            ),
             builder: () => _buildTodayAdviceTab(),
           ),
         ];
@@ -97,19 +109,31 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
       default:
         return [
           _TabConfig(
-            tab: Tab(icon: const Icon(Icons.today, size: 20), text: tr('today_tab')),
+            tab: Tab(
+              icon: const Icon(Icons.today, size: 20),
+              text: tr('today_tab'),
+            ),
             builder: () => _buildTodayAdviceTab(),
           ),
           _TabConfig(
-            tab: Tab(icon: const Icon(Icons.analytics, size: 20), text: tr('market_ai_tab')),
+            tab: Tab(
+              icon: const Icon(Icons.analytics, size: 20),
+              text: tr('market_ai_tab'),
+            ),
             builder: () => _buildMarketAITab(),
           ),
           _TabConfig(
-            tab: Tab(icon: const Icon(Icons.eco, size: 20), text: tr('seeds_tab')),
+            tab: Tab(
+              icon: const Icon(Icons.eco, size: 20),
+              text: tr('seeds_tab'),
+            ),
             builder: () => _buildSeedGuideTab(),
           ),
           _TabConfig(
-            tab: Tab(icon: const Icon(Icons.bug_report, size: 20), text: tr('disease_tab')),
+            tab: Tab(
+              icon: const Icon(Icons.bug_report, size: 20),
+              text: tr('disease_tab'),
+            ),
             builder: () => _buildDiseaseGuideTab(),
           ),
         ];
@@ -567,7 +591,7 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
                 child: Text(
                   marketAdvice['timing'] ?? '',
                   style: GoogleFonts.poppins(
-                    fontSize: 12,
+                    fontSize: 10,
                     color: outlookColors[marketAdvice['priceOutlook']],
                     fontWeight: FontWeight.w600,
                   ),
@@ -589,6 +613,7 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(14),
+      width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -1700,15 +1725,11 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.isHindi
-                    ? '${tr('expected_change_label')}: ${_decision!.expectedPriceChange >= 0 ? '+' : ''}${_decision!.expectedPriceChange.toStringAsFixed(1)}%'
-                    : 'Expected Change: ${_decision!.expectedPriceChange >= 0 ? '+' : ''}${_decision!.expectedPriceChange.toStringAsFixed(1)}%',
+                '${tr('expected_change_label')}: ${_decision!.expectedPriceChange >= 0 ? '+' : ''}${_decision!.expectedPriceChange.toStringAsFixed(1)}%',
                 style: GoogleFonts.poppins(color: Colors.white70, fontSize: 12),
               ),
               Text(
-                widget.isHindi
-                    ? '${tr('valid_until_label')}: ${_decision!.validUntil.day}/${_decision!.validUntil.month}'
-                    : 'Valid until: ${_decision!.validUntil.day}/${_decision!.validUntil.month}',
+                '${tr('valid_until_label')}: ${_decision!.validUntil.day}/${_decision!.validUntil.month}',
                 style: GoogleFonts.poppins(color: Colors.white70, fontSize: 12),
               ),
             ],
@@ -1876,7 +1897,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                 child: Text(
                   '${_forecast!['confidence']}% ${tr('confidence')}',
                   style: GoogleFonts.poppins(
-                    fontSize: 10,
+                    fontSize: 8,
                     color: Colors.purple,
                     fontWeight: FontWeight.w600,
                   ),
