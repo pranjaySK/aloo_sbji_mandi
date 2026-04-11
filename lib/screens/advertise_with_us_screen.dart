@@ -48,8 +48,10 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
   final List<String?> _slideImages = List.filled(5, null);
 
   // Per-slide redirect URLs
-  final List<TextEditingController> _slideLinkControllers =
-      List.generate(5, (_) => TextEditingController());
+  final List<TextEditingController> _slideLinkControllers = List.generate(
+    5,
+    (_) => TextEditingController(),
+  );
 
   // Per-slide pricing (fetched from backend, defaults below)
   List<Map<String, dynamic>> _slidePricing = [
@@ -155,7 +157,8 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       if (response.message != null) {
         final errData = json.decode(response.message!);
         if (errData is Map) {
-          errorMessage = errData['error']?['description'] ??
+          errorMessage =
+              errData['error']?['description'] ??
               errData['description'] ??
               response.message!;
         } else {
@@ -315,8 +318,14 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
             'utib': {
               'name': tr('pay_upi_qr'),
               'instruments': [
-                {'method': 'upi', 'flows': ['qr']},
-                {'method': 'upi', 'flows': ['collect', 'intent']},
+                {
+                  'method': 'upi',
+                  'flows': ['qr'],
+                },
+                {
+                  'method': 'upi',
+                  'flows': ['collect', 'intent'],
+                },
               ],
             },
             'other': {
@@ -348,8 +357,12 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     }
   }
 
-  Widget _paymentDetailRow(String label, String value,
-      {bool isBold = false, Color? valueColor}) {
+  Widget _paymentDetailRow(
+    String label,
+    String value, {
+    bool isBold = false,
+    Color? valueColor,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -598,10 +611,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     setState(() => _isLoading = false);
 
     if (result['success']) {
-      ToastHelper.showSuccess(
-        context,
-        tr('ad_request_success'),
-      );
+      ToastHelper.showSuccess(context, tr('ad_request_success'));
       _clearForm();
       _loadData();
     } else {
@@ -692,7 +702,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                tr('promote_your_business'),
+                                tr('promote_business'),
                                 style: GoogleFonts.inter(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -763,8 +773,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                             tr('ad_title'),
                             Icons.title,
                           ),
-                          validator: (v) =>
-                              v?.isEmpty ?? true ? tr('title_required_err') : null,
+                          validator: (v) => v?.isEmpty ?? true
+                              ? tr('title_required_err')
+                              : null,
                         ),
                         const SizedBox(height: 16),
 
@@ -852,7 +863,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        trArgs('slide_n', {'number': '${index + 1}'}),
+                                        trArgs('slide_n', {
+                                          'number': '${index + 1}',
+                                        }),
                                         style: GoogleFonts.inter(
                                           fontWeight: FontWeight.w600,
                                           color: hasImage
@@ -982,8 +995,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                       10,
                                     ),
                                     child: TextFormField(
-                                      controller:
-                                          _slideLinkControllers[index],
+                                      controller: _slideLinkControllers[index],
                                       decoration: InputDecoration(
                                         hintText: tr('link_url_hint'),
                                         hintStyle: TextStyle(
@@ -1002,22 +1014,25 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                               vertical: 10,
                                             ),
                                         border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                           borderSide: BorderSide(
                                             color: Colors.grey[300]!,
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                           borderSide: BorderSide(
                                             color: Colors.grey[300]!,
                                           ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                           borderSide: const BorderSide(
                                             color: AppColors.primaryGreen,
                                           ),
@@ -1071,7 +1086,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                 Text(
                                   trArgs('slide_count_args', {
                                     'count':
-                                        '${_slideImages.where((s) => s != null).length}'
+                                        '${_slideImages.where((s) => s != null).length}',
                                   }),
                                   style: TextStyle(
                                     color: Colors.grey[600],
@@ -1228,9 +1243,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                 const SizedBox(width: 6),
                                 Text(
                                   trArgs('ad_start_on', {
-                                'date':
-                                    '${_startDate!.day.toString().padLeft(2, '0')}/${_startDate!.month.toString().padLeft(2, '0')}/${_startDate!.year}${_startTime != null ? ' at ${_startTime!.format(context)}' : ''}'
-                              }),
+                                    'date':
+                                        '${_startDate!.day.toString().padLeft(2, '0')}/${_startDate!.month.toString().padLeft(2, '0')}/${_startDate!.year}${_startTime != null ? ' at ${_startTime!.format(context)}' : ''}',
+                                  }),
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 12,
@@ -1276,11 +1291,14 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                   children: [
                                     Text(
                                       opt['key'] == 'n_days'
-                                          ? trArgs('n_days', {'days': '${opt['days']}'})
+                                          ? trArgs('n_days', {
+                                              'days': '${opt['days']}',
+                                            })
                                           : opt['key'] == 'n_months'
-                                              ? trArgs('n_months',
-                                                  {'count': '${opt['days'] ~/ 30}'})
-                                              : tr(opt['key'] ?? ''),
+                                          ? trArgs('n_months', {
+                                              'count': '${opt['days'] ~/ 30}',
+                                            })
+                                          : tr(opt['key'] ?? ''),
                                       style: TextStyle(
                                         color: isSelected
                                             ? Colors.white
@@ -1289,8 +1307,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                       ),
                                     ),
                                     Text(
-                                      trArgs('days_count',
-                                          {'days': '${opt['days']}'}),
+                                      trArgs('days_count', {
+                                        'days': '${opt['days']}',
+                                      }),
                                       style: TextStyle(
                                         color: isSelected
                                             ? Colors.white70
@@ -1348,9 +1367,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                   children: [
                                     Text(
                                       trArgs('ad_duration_details', {
-                                'days': '$_selectedDuration',
-                                'multiplier': '$_selectedMultiplier'
-                              }),
+                                        'days': '$_selectedDuration',
+                                        'multiplier': '$_selectedMultiplier',
+                                      }),
                                       style: GoogleFonts.inter(
                                         color: Colors.grey[700],
                                         fontSize: 14,
@@ -1469,7 +1488,11 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     );
   }
 
-  InputDecoration _inputDecoration(String label, IconData icon, {String? hint}) {
+  InputDecoration _inputDecoration(
+    String label,
+    IconData icon, {
+    String? hint,
+  }) {
     return InputDecoration(
       labelText: label,
       hintText: hint,
@@ -1577,15 +1600,16 @@ class _AdRequestCard extends StatelessWidget {
           Text(
             trArgs('ad_duration_price_summary', {
               'days': '${ad['durationDays']}',
-              'price': '${ad['price']}'
+              'price': '${ad['price']}',
             }),
             style: TextStyle(color: Colors.grey[600], fontSize: 13),
           ),
           if (status == 'rejected' && ad['rejectionReason'] != null) ...[
             const SizedBox(height: 8),
             Text(
-              trArgs('rejection_reason_label',
-                  {'reason': '${ad['rejectionReason']}'}),
+              trArgs('rejection_reason_label', {
+                'reason': '${ad['rejectionReason']}',
+              }),
               style: TextStyle(color: Colors.red[700], fontSize: 13),
             ),
           ],

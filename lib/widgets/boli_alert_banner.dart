@@ -62,7 +62,6 @@ class _BoliAlertBannerState extends State<BoliAlertBanner> {
           // Header
           Row(
             children: [
-              const Text('ðŸ””', style: TextStyle(fontSize: 20)),
               const SizedBox(width: 8),
               Text(
                 tr('upcoming_auctions'),
@@ -364,14 +363,6 @@ class _BoliAlertDetailsSheetState extends State<BoliAlertDetailsSheet> {
                   // Header
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryGreen.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Text('ðŸ””', style: TextStyle(fontSize: 32)),
-                      ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: Column(
@@ -469,9 +460,15 @@ class _BoliAlertDetailsSheetState extends State<BoliAlertDetailsSheet> {
                       ),
                       _infoRow(
                         tr('date'),
-                        DateFormat('dd MMMM yyyy').format(alert.nextBoliDate.toIST()),
+                        DateFormat(
+                          'dd MMMM yyyy',
+                        ).format(alert.nextBoliDate.toIST()),
                       ),
-                      _infoRow(tr('time'), alert.boliTimeFormatted, isBold: true),
+                      _infoRow(
+                        tr('time'),
+                        alert.boliTimeFormatted,
+                        isBold: true,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -712,17 +709,17 @@ class _BoliAlertDetailsSheetState extends State<BoliAlertDetailsSheet> {
   void _shareAlert(BoliAlert alert) {
     final message =
         '''
-ðŸ”” *${alert.title}*
+ *${alert.title}*
 
-ðŸ“… ${tr('day')}: ${AppLocalizations.isHindi ? alert.dayNameHindi : alert.dayName}
-ðŸ“† ${tr('date')}: ${DateFormat('dd MMM yyyy').format(alert.nextBoliDate.toIST())}
-â° ${tr('time')}: ${alert.boliTimeFormatted}
+ ${tr('day')}: ${AppLocalizations.isHindi ? alert.dayNameHindi : alert.dayName}
+ ${tr('date')}: ${DateFormat('dd MMM yyyy').format(alert.nextBoliDate.toIST())}
+ ${tr('time')}: ${alert.boliTimeFormatted}
 
-ðŸ“ ${tr('location')}:
+  ${tr('location')}:
 ${alert.location.fullAddress}
 
-ðŸ“ž ${tr('contact')}: ${alert.contactPerson}
-â˜Žï¸ ${alert.contactPhone}
+ ${tr('contact')}: ${alert.contactPerson}
+ ${alert.contactPhone}
 
 ${alert.location.googleMapsLink ?? ''}
 

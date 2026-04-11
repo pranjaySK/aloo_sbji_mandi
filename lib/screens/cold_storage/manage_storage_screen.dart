@@ -63,8 +63,8 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
             Expanded(
               child: Text(
                 currentStatus
-                    ? 'Mark Unavailable? / अनुपलब्ध करें?'
-                    : 'Mark Available? / उपलब्ध करें?',
+                    ? tr('mark_unavailable')
+                    : tr('mark_available'),
                 style: const TextStyle(fontSize: 16),
               ),
             ),
@@ -72,15 +72,15 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
         ),
         content: Text(
           currentStatus
-              ? 'Farmers will not be able to book this storage.\nकिसान इस स्टोरेज को बुक नहीं कर पाएंगे।'
-              : 'Farmers will be able to book this storage.\nकिसान इस स्टोरेज को बुक कर सकेंगे।',
+              ? tr('storage_hidden_msg')
+              : tr('storage_visible_msg'),
           style: TextStyle(color: Colors.grey[700], height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
-              'Cancel / रद्द करें',
+              tr('cancel'),
               style: TextStyle(color: Colors.grey[600]),
             ),
           ),
@@ -95,7 +95,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
               ),
             ),
             child: Text(
-              currentStatus ? 'Yes, Unavailable / हाँ' : 'Yes, Available / हाँ',
+              currentStatus ? tr('yes_unavailable') : tr('yes_available'),
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -112,11 +112,11 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
       ToastHelper.showSuccess(
         context,
         currentStatus
-            ? 'Storage marked as unavailable'
-            : 'Storage marked as available',
+            ? tr('storage_hidden_msg')
+            : tr('storage_visible_msg'),
       );
     } else {
-      ToastHelper.showError(context, result['message'] ?? 'Failed to update');
+      ToastHelper.showError(context, result['message'] ?? tr('failed_to_update'));
     }
   }
 
@@ -129,14 +129,14 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
+        title: Row(
           children: [
             Icon(Icons.person_add, color: AppColors.primaryGreen),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Assign Manager\nमैनेजर नियुक्त करें',
-                style: TextStyle(fontSize: 15),
+                tr('assign_manager'),
+                style: const TextStyle(fontSize: 15),
               ),
             ),
           ],
@@ -147,7 +147,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Enter manager\'s phone number\nमैनेजर का फ़ोन नंबर दर्ज करें',
+                tr('enter_manager_phone'),
                 style: TextStyle(color: Colors.grey[600], fontSize: 13),
               ),
               const SizedBox(height: 16),
@@ -157,7 +157,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                 maxLength: 10,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
-                  labelText: 'Phone / फ़ोन नंबर',
+                  labelText: tr('phone_number'),
                   prefixText: '+91 ',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -166,7 +166,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                 ),
                 validator: (v) {
                   if (v == null || v.length != 10) {
-                    return '10 digit number required';
+                    return tr('invalid_phone_error');
                   }
                   return null;
                 },
@@ -178,7 +178,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancel / रद्द करें',
+              tr('cancel'),
               style: TextStyle(color: Colors.grey[600]),
             ),
           ),
@@ -194,9 +194,9 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text(
-              'Assign / नियुक्त करें',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              tr('assign'),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -214,14 +214,16 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
 
     if (result['success']) {
       _loadMyStorages();
+      if (!mounted) return;
       ToastHelper.showSuccess(
         context,
-        'Manager assigned / मैनेजर नियुक्त किया गया',
+        tr('manager_assigned'),
       );
     } else {
+      if (!mounted) return;
       ToastHelper.showError(
         context,
-        result['message'] ?? 'Failed to assign manager',
+        result['message'] ?? tr('failed_to_assign_manager'),
       );
     }
   }
@@ -231,27 +233,27 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.person_remove, color: Colors.red),
-            SizedBox(width: 8),
+            const Icon(Icons.person_remove, color: Colors.red),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Remove Manager?\nमैनेजर हटाएं?',
-                style: TextStyle(fontSize: 15),
+                tr('remove_manager'),
+                style: const TextStyle(fontSize: 15),
               ),
             ),
           ],
         ),
         content: Text(
-          'Manager will lose access to this storage.\nमैनेजर की इस स्टोरेज तक पहुँच समाप्त हो जाएगी।',
+          tr('manager_access_lost_msg'),
           style: TextStyle(color: Colors.grey[700], height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(
-              'Cancel / रद्द करें',
+              tr('cancel'),
               style: TextStyle(color: Colors.grey[600]),
             ),
           ),
@@ -263,9 +265,9 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text(
-              'Remove / हटाएं',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              tr('remove'),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -280,11 +282,13 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
 
     if (result['success']) {
       _loadMyStorages();
-      ToastHelper.showSuccess(context, 'Manager removed / मैनेजर हटा दिया गया');
+      if (!mounted) return;
+      ToastHelper.showSuccess(context, tr('manager_removed'));
     } else {
+      if (!mounted) return;
       ToastHelper.showError(
         context,
-        result['message'] ?? 'Failed to remove manager',
+        result['message'] ?? tr('failed_to_remove_manager'),
       );
     }
   }
@@ -316,9 +320,11 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
 
       if (result['success']) {
         _loadMyStorages();
-        ToastHelper.showDeleted(context, 'Cold Storage');
+        if (!mounted) return;
+        ToastHelper.showDeleted(context, tr('cold_storage'));
       } else {
-        ToastHelper.showError(context, result['message'] ?? 'Failed to delete');
+        if (!mounted) return;
+        ToastHelper.showError(context, result['message'] ?? tr('failed_to_delete'));
       }
     }
   }
@@ -331,7 +337,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
         backgroundColor: AppColors.primaryGreen,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          'Manage My Storage',
+          tr('manage_my_storage'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -351,7 +357,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
               backgroundColor: AppColors.primaryGreen,
               icon: const Icon(Icons.add, color: Colors.white),
               label: Text(
-                'Add Storage (${_myStorages.length}/1)',
+                '${tr('add_storage')} (${_myStorages.length}/1)',
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
@@ -376,7 +382,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
           Icon(Icons.ac_unit, size: 100, color: Colors.grey[300]),
           const SizedBox(height: 24),
           Text(
-            'No Cold Storage Added',
+            tr('no_storage_added'),
             style: GoogleFonts.inter(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -385,22 +391,22 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Add your cold storage facility to\nstart receiving bookings from farmers',
+            tr('storage_limit_msg'),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.grey[500]),
           ),
           const SizedBox(height: 8),
           Text(
-            'You can add up to 1 cold storage',
+            tr('storage_limit_msg'),
             style: TextStyle(color: Colors.grey[400], fontSize: 12),
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () => _navigateToAddEdit(null),
             icon: const Icon(Icons.add, color: Colors.white),
-            label: const Text(
-              'Add Cold Storage (0/1)',
-              style: TextStyle(color: Colors.white),
+            label: Text(
+              '${tr('add_storage')} (0/1)',
+              style: const TextStyle(color: Colors.white),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryGreen,
@@ -457,7 +463,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Your Listings Summary',
+                      tr('summary'),
                       style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: 18,
@@ -490,28 +496,28 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                     Expanded(
                       child: _summaryItem(
                         '${_myStorages.length}',
-                        'Total\nListings',
+                        tr('total_listings'),
                         Icons.list_alt,
                       ),
                     ),
                     Expanded(
                       child: _summaryItem(
                         '$activeListings',
-                        'Active\nListings',
+                        tr('active_listings'),
                         Icons.check_circle,
                       ),
                     ),
                     Expanded(
                       child: _summaryItem(
-                        '$totalCapacity Pckt',
-                        'Total\nCapacity',
+                        '$totalCapacity ${tr('packets')}',
+                        tr('total_capacity'),
                         Icons.inventory_2,
                       ),
                     ),
                     Expanded(
                       child: _summaryItem(
-                        '$totalAvailable Pckt',
-                        'Available\nSpace',
+                        '$totalAvailable ${tr('packets')}',
+                        tr('available_space'),
                         Icons.storage,
                       ),
                     ),
@@ -542,7 +548,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'You have reached the maximum limit of 1 cold storage. Delete the existing one to add a new storage.',
+                      tr('storage_limit_reached'),
                       style: TextStyle(
                         color: Colors.green.shade800,
                         fontSize: 13,
@@ -556,7 +562,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
           if (_myStorages.length >= 1) const SizedBox(height: 16),
 
           Text(
-            'My Cold Storages',
+            tr('my_cold_storages'),
             style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
           ),
 
@@ -572,31 +578,34 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
   }
 
   Widget _summaryItem(String value, String label, IconData icon) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: Colors.white70, size: 22),
-        const SizedBox(height: 4),
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            value,
-            style: GoogleFonts.inter(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: Colors.white70, size: 22),
+          const SizedBox(height: 4),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              style: GoogleFonts.inter(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: Colors.white70, fontSize: 10),
-        ),
-      ],
+          const SizedBox(height: 2),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.white70, fontSize: 10, height: 1.2),
+          ),
+        ],
+      ),
     );
   }
 
@@ -631,7 +640,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        storage['name'] ?? 'Cold Storage',
+                        storage['name'] ?? tr('cold_storage'),
                         style: GoogleFonts.inter(
                           color: Colors.white,
                           fontSize: 18,
@@ -673,7 +682,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                       activeTrackColor: Colors.green[300],
                     ),
                     Text(
-                      isAvailable ? 'Available' : 'Unavailable',
+                      isAvailable ? tr('available') : tr('unavailable'),
                       style: const TextStyle(color: Colors.white, fontSize: 10),
                     ),
                   ],
@@ -693,8 +702,8 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                     Expanded(
                       child: _statItem(
                         icon: Icons.inventory_2,
-                        label: 'Total Capacity',
-                        value: '$totalCapacity Packets',
+                        label: tr('total_capacity'),
+                        value: '$totalCapacity ${tr('packets')}',
                         color: Colors.blue,
                       ),
                     ),
@@ -702,8 +711,8 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                     Expanded(
                       child: _statItem(
                         icon: Icons.check_circle,
-                        label: 'Available',
-                        value: '$availableCapacity Packets',
+                        label: tr('available'),
+                        value: '$availableCapacity ${tr('packets')}',
                         color: Colors.green,
                       ),
                     ),
@@ -711,7 +720,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                     Expanded(
                       child: _statItem(
                         icon: Icons.currency_rupee,
-                        label: 'Price/Packet',
+                        label: tr('price_per_packet'),
                         value: '₹$pricePerTon',
                         color: Colors.orange,
                       ),
@@ -729,7 +738,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Capacity Usage',
+                          tr('capacity_usage'),
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 12,
@@ -777,7 +786,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                         size: 18,
                       ),
                       const SizedBox(width: 8),
-                      Text(storage['phone'] ?? 'N/A'),
+                      Text(storage['phone'] ?? tr('no_data')),
                       const Spacer(),
                       const Icon(
                         Icons.email,
@@ -787,7 +796,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          storage['email'] ?? 'N/A',
+                          storage['email'] ?? tr('no_data'),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -869,7 +878,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
               ),
               const SizedBox(width: 8),
               Text(
-                'Manager / मैनेजर',
+                tr('manager'),
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
@@ -883,9 +892,9 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                   child: ElevatedButton.icon(
                     onPressed: () => _assignManager(storage['_id']),
                     icon: const Icon(Icons.person_add, size: 14),
-                    label: const Text(
-                      'Assign / नियुक्त करें',
-                      style: TextStyle(fontSize: 11),
+                    label: Text(
+                      tr('assign'),
+                      style: const TextStyle(fontSize: 11),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryGreen,
@@ -941,7 +950,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
                     color: Colors.red,
                     size: 20,
                   ),
-                  tooltip: 'Remove Manager / मैनेजर हटाएं',
+                  tooltip: tr('remove_manager'),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -951,7 +960,7 @@ class _ManageStorageScreenState extends State<ManageStorageScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 6),
               child: Text(
-                'No manager assigned / कोई मैनेजर नियुक्त नहीं',
+                tr('no_manager_assigned'),
                 style: TextStyle(color: Colors.grey[500], fontSize: 12),
               ),
             ),
@@ -1119,7 +1128,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
         if (slot == 1) _captureGPSLocation();
       }
     } catch (e) {
-      ToastHelper.showError(context, 'Failed to pick image');
+      ToastHelper.showError(context, tr('failed_to_pick_image'));
     }
   }
 
@@ -1143,7 +1152,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
         if (slot == 1) _captureGPSLocation();
       }
     } catch (e) {
-      ToastHelper.showError(context, 'Failed to capture image');
+      ToastHelper.showError(context, tr('failed_to_capture_image'));
     }
   }
 
@@ -1158,7 +1167,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
           if (mounted) {
-            ToastHelper.showError(context, 'Location permission denied');
+            ToastHelper.showError(context, tr('location_permission_denied'));
           }
           setState(() => _isCapturingGPS = false);
           return;
@@ -1168,7 +1177,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
         if (mounted) {
           ToastHelper.showError(
             context,
-            'Location permission permanently denied. Enable in Settings.',
+            tr('location_permission_permanently_denied'),
           );
         }
         setState(() => _isCapturingGPS = false);
@@ -1203,12 +1212,13 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
           _capturedAddress = address ?? 'Lat: ${lat.toStringAsFixed(4)}, Lng: ${lng.toStringAsFixed(4)}';
           _isCapturingGPS = false;
         });
-        ToastHelper.showSuccess(context, 'GPS location captured!');
+        if (!mounted) return;
+        ToastHelper.showSuccess(context, tr('gps_location_captured'));
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isCapturingGPS = false);
-        ToastHelper.showError(context, 'Could not get GPS location');
+        ToastHelper.showError(context, tr('could_not_get_gps_location'));
       }
     }
   }
@@ -1308,7 +1318,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
       if (myResult['success'] == true) {
         final existingStorages = myResult['data']?['coldStorages'] ?? [];
         if (existingStorages.length >= 1) {
-          ToastHelper.showError(context, 'You can only add 1 cold storage. Delete existing one first.');
+          ToastHelper.showError(context, tr('one_storage_limit_msg'));
           Navigator.pop(context);
           return;
         }
@@ -1318,7 +1328,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
     // Validate first photo is mandatory
     if (_selectedImage1 == null &&
         (_existingImageUrl1 == null || _existingImageUrl1!.isEmpty)) {
-      ToastHelper.showError(context, 'Please add at least one photo of your cold storage');
+      ToastHelper.showError(context, tr('at_least_one_photo_msg'));
       return;
     }
 
@@ -1402,13 +1412,16 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
 
     if (result['success']) {
       if (isEditing) {
-        ToastHelper.showUpdated(context, 'Cold Storage');
+        if (!mounted) return;
+        ToastHelper.showUpdated(context, tr('cold_storage'));
       } else {
-        ToastHelper.showCreated(context, 'Cold Storage');
+        if (!mounted) return;
+        ToastHelper.showCreated(context, tr('cold_storage'));
       }
       Navigator.pop(context);
     } else {
-      ToastHelper.showError(context, result['message'] ?? 'Failed to save');
+      if (!mounted) return;
+      ToastHelper.showError(context, result['message'] ?? tr('failed_to_save'));
     }
   }
 
@@ -1420,7 +1433,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
         backgroundColor: AppColors.primaryGreen,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          isEditing ? 'Edit Storage' : 'Add New Storage',
+          isEditing ? tr('edit_storage') : tr('add_new_storage'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -1435,7 +1448,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Photo Section
-              _sectionTitle('Storage Photo'),
+              _sectionTitle(tr('storage_photo')),
               _buildPhotoSection(),
 
               // GPS Location Map Preview
@@ -1454,7 +1467,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Capturing GPS location...',
+                        tr('capturing_gps'),
                         style: TextStyle(color: Colors.grey[600], fontSize: 13),
                       ),
                     ],
@@ -1474,33 +1487,33 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
               const SizedBox(height: 16),
 
               // Basic Info Section
-              _sectionTitle('Basic Information'),
+              _sectionTitle(tr('basic_info')),
               _buildTextField(
                 controller: _nameController,
-                label: 'Storage Name',
-                hint: 'Enter cold storage name',
+                label: tr('storage_name'),
+                hint: tr('enter_storage_name_hint'),
                 icon: Icons.ac_unit,
-                validator: (v) => v!.isEmpty ? 'Name is required' : null,
+                validator: (v) => v!.isEmpty ? tr('name_is_required') : null,
               ),
               const SizedBox(height: 16),
 
               // Address Section
-              _sectionTitle('Address Details'),
+              _sectionTitle(tr('address_details')),
               _buildTextField(
                 controller: _addressController,
-                label: 'Address',
-                hint: 'Enter full address',
+                label: tr('address'),
+                hint: tr('enter_address_hint'),
                 icon: Icons.location_on,
                 maxLines: 2,
-                validator: (v) => v!.isEmpty ? 'Address is required' : null,
+                validator: (v) => v!.isEmpty ? tr('address_is_required') : null,
               ),
               const SizedBox(height: 12),
 
               // Pincode with auto-fetch location (FIRST - to auto-fill State/District/Village)
               _buildTextField(
                 controller: _pincodeController,
-                label: 'Pincode',
-                hint: '6-digit pincode (auto-fetches location)',
+                label: tr('pincode'),
+                hint: tr('pincode_hint'),
                 icon: Icons.pin_drop,
                 keyboardType: TextInputType.number,
                 maxLength: 6,
@@ -1534,8 +1547,8 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                         },
                       ),
                 validator: (v) {
-                  if (v!.isEmpty) return 'Pincode is required';
-                  if (v.length != 6) return 'Invalid pincode';
+                  if (v!.isEmpty) return tr('pincode_is_required');
+                  if (v.length != 6) return tr('invalid_pincode_error');
                   return null;
                 },
               ),
@@ -1545,7 +1558,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                 children: [
                   Expanded(
                     child: _buildDropdown(
-                      label: 'State',
+                      label: tr('state'),
                       value: _selectedState,
                       items: StateCityData.states,
                       onChanged: (v) {
@@ -1564,7 +1577,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildDropdown(
-                      label: 'District',
+                      label: tr('district'),
                       value: _selectedCity,
                       items: _availableCities,
                       onChanged: (v) {
@@ -1584,7 +1597,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
               const SizedBox(height: 12),
               // Village/Town dropdown
               _buildDropdown(
-                label: 'Village/Town',
+                label: tr('village_town'),
                 value: _selectedVillage,
                 items: _availableVillages,
                 onChanged: (v) => setState(() => _selectedVillage = v),
@@ -1593,25 +1606,25 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
               const SizedBox(height: 16),
 
               // Contact Section
-              _sectionTitle('Contact Information'),
+              _sectionTitle(tr('contact_info')),
               _buildTextField(
                 controller: _phoneController,
-                label: 'Phone Number',
-                hint: '10-digit phone number',
+                label: tr('phone_number'),
+                hint: tr('enter_phone_hint'),
                 icon: Icons.phone,
                 keyboardType: TextInputType.phone,
                 maxLength: 10,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: (v) {
-                  if (v!.isEmpty) return 'Phone is required';
-                  if (v.length != 10) return 'Invalid phone number';
+                  if (v!.isEmpty) return tr('phone_is_required');
+                  if (v.length != 10) return tr('invalid_phone_error');
                   return null;
                 },
               ),
               const SizedBox(height: 12),
               _buildTextField(
                 controller: _emailController,
-                label: 'Email (Optional)',
+                label: tr('email_optional'),
                 hint: 'email@example.com',
                 icon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
@@ -1619,27 +1632,27 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
               const SizedBox(height: 16),
 
               // Capacity Section
-              _sectionTitle('Capacity'),
+              _sectionTitle(tr('capacity')),
               _buildTextField(
                 controller: _capacityController,
-                label: 'Total Capacity (Packets)',
-                hint: 'e.g., 1000',
+                label: tr('total_capacity_packets'),
+                hint: tr('enter_capacity_hint'),
                 icon: Icons.inventory_2,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                validator: (v) => v!.isEmpty ? 'Capacity is required' : null,
+                validator: (v) => v!.isEmpty ? tr('capacity_is_required') : null,
               ),
               const SizedBox(height: 16),
 
               // Pricing Section
-              _sectionTitle('Pricing'),
+              _sectionTitle(tr('pricing')),
               _buildTextField(
                 controller: _priceController,
-                label: 'Price per Packet (₹)',
-                hint: 'e.g., 500',
+                label: tr('price_per_packet_inr'),
+                hint: tr('enter_price_hint'),
                 icon: Icons.currency_rupee,
                 keyboardType: TextInputType.number,
-                validator: (v) => v!.isEmpty ? 'Price is required' : null,
+                validator: (v) => v!.isEmpty ? tr('price_is_required') : null,
               ),
               const SizedBox(height: 16),
 
@@ -1664,14 +1677,14 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Storage Availability',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                            Text(
+                              tr('storage_availability'),
+                              style: const TextStyle(fontWeight: FontWeight.w600),
                             ),
                             Text(
                               _isAvailable
-                                  ? 'Visible to farmers'
-                                  : 'Hidden from farmers',
+                                  ? tr('visible_to_farmers')
+                                  : tr('hidden_from_farmers'),
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 12,
@@ -1713,7 +1726,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                           ),
                         )
                       : Text(
-                          isEditing ? 'Update Storage' : 'Add Storage',
+                          isEditing ? tr('update_storage') : tr('add_storage'),
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -1816,7 +1829,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
           .map((e) => DropdownMenuItem(value: e, child: Text(e)))
           .toList(),
       onChanged: enabled ? onChanged : null,
-      validator: (v) => v == null ? 'Please select $label' : null,
+      validator: (v) => v == null ? '${tr('please_select')} $label' : null,
     );
   }
 
@@ -1840,7 +1853,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                   slot: 1,
                   selectedImage: _selectedImage1,
                   existingUrl: _existingImageUrl1,
-                  label: 'Photo 1 *',
+                  label: tr('photo_1_mandatory'),
                   isMandatory: true,
                 ),
               ),
@@ -1851,7 +1864,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                   slot: 2,
                   selectedImage: _selectedImage2,
                   existingUrl: _existingImageUrl2,
-                  label: 'Photo 2',
+                  label: tr('photo_2_optional'),
                   isMandatory: false,
                 ),
               ),
@@ -1859,7 +1872,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            '* First photo is mandatory, second is optional',
+            tr('photo_mandatory_note'),
             style: TextStyle(color: Colors.grey[500], fontSize: 11),
           ),
         ],
@@ -1955,7 +1968,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                 Icon(Icons.delete, size: 14, color: Colors.red[400]),
                 const SizedBox(width: 4),
                 Text(
-                  'Remove',
+                  tr('remove'),
                   style: TextStyle(color: Colors.red[400], fontSize: 11),
                 ),
               ],
@@ -1973,7 +1986,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
         Icon(Icons.add_a_photo, size: 32, color: Colors.grey[400]),
         const SizedBox(height: 4),
         Text(
-          'Tap to add',
+          tr('tap_to_add'),
           style: TextStyle(color: Colors.grey[600], fontSize: 12),
         ),
       ],
@@ -1993,7 +2006,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Select Photo ${slot == 1 ? "(Required)" : "(Optional)"}',
+                '${tr('select_photo')} ${slot == 1 ? tr('required_label') : tr('optional_label')}',
                 style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

@@ -162,12 +162,12 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
     if (maxPrice < 1000) maxPrice = 1000;
 
     final sortOptions = [
-      {'value': 'newest', 'label': 'Newest First', 'icon': Icons.arrow_downward},
-      {'value': 'oldest', 'label': 'Oldest First', 'icon': Icons.arrow_upward},
-      {'value': 'qty_high', 'label': 'Quantity: High → Low', 'icon': Icons.inventory_2},
-      {'value': 'qty_low', 'label': 'Quantity: Low → High', 'icon': Icons.inventory_2_outlined},
-      {'value': 'price_high', 'label': 'Price: High → Low', 'icon': Icons.currency_rupee},
-      {'value': 'price_low', 'label': 'Price: Low → High', 'icon': Icons.currency_rupee_outlined},
+      {'value': 'newest', 'label': tr('newest_first'), 'icon': Icons.arrow_downward},
+      {'value': 'oldest', 'label': tr('oldest_first'), 'icon': Icons.arrow_upward},
+      {'value': 'qty_high', 'label': tr('qty_high_to_low'), 'icon': Icons.inventory_2},
+      {'value': 'qty_low', 'label': tr('qty_low_to_high'), 'icon': Icons.inventory_2_outlined},
+      {'value': 'price_high', 'label': tr('price_high_to_low'), 'icon': Icons.currency_rupee},
+      {'value': 'price_low', 'label': tr('price_low_to_high'), 'icon': Icons.currency_rupee_outlined},
     ];
 
     showModalBottomSheet(
@@ -195,7 +195,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Filter Bookings',
+                          tr('filter_bookings'),
                           style: GoogleFonts.inter(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -210,7 +210,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                     const SizedBox(height: 16),
 
                     // Sort By
-                    Text('Sort By', style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    Text(tr('sort_by'), style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
@@ -252,7 +252,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                     const SizedBox(height: 20),
 
                     // Date Range
-                    Text('Booking Date Range', style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    Text(tr('booking_date_range'), style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
                     const SizedBox(height: 8),
                     InkWell(
                       onTap: () async {
@@ -287,7 +287,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                             Text(
                               tempDateRange != null
                                   ? '${DateFormat('dd MMM yyyy').format(tempDateRange!.start)} – ${DateFormat('dd MMM yyyy').format(tempDateRange!.end)}'
-                                  : 'Select date range',
+                                  : tr('select_date_range'),
                               style: TextStyle(
                                 color: tempDateRange != null ? Colors.black : Colors.grey[600],
                               ),
@@ -305,7 +305,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                     const SizedBox(height: 20),
 
                     // Price Range
-                    Text('Price Range (₹)', style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    Text(tr('price_range_rupees'), style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
                     const SizedBox(height: 8),
                     RangeSlider(
                       values: tempPriceRange ?? RangeValues(0, maxPrice),
@@ -326,7 +326,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                     const SizedBox(height: 20),
 
                     // Quantity Range
-                    Text('Quantity Range (Packets)', style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
+                    Text(tr('quantity_range_packets'), style: GoogleFonts.inter(fontWeight: FontWeight.w500)),
                     const SizedBox(height: 8),
                     RangeSlider(
                       values: tempQuantityRange ?? RangeValues(0, maxQty),
@@ -341,7 +341,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                       onChanged: (v) => setSheetState(() => tempQuantityRange = v),
                     ),
                     Text(
-                      '${(tempQuantityRange?.start ?? 0).round()} – ${(tempQuantityRange?.end ?? maxQty).round()} Packets',
+                      '${(tempQuantityRange?.start ?? 0).round()} – ${(tempQuantityRange?.end ?? maxQty).round()} ${tr('packets')}',
                       style: TextStyle(color: Colors.grey[600], fontSize: 13),
                     ),
                     const SizedBox(height: 24),
@@ -364,7 +364,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                               side: BorderSide(color: Colors.grey.shade400),
                               padding: const EdgeInsets.symmetric(vertical: 14),
                             ),
-                            child: const Text('Clear All'),
+                            child: Text(tr('clear_all')),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -395,7 +395,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                               backgroundColor: AppColors.primaryGreen,
                               padding: const EdgeInsets.symmetric(vertical: 14),
                             ),
-                            child: const Text('Apply Filters', style: TextStyle(color: Colors.white)),
+                            child: Text(tr('apply_filters'), style: const TextStyle(color: Colors.white)),
                           ),
                         ),
                       ],
@@ -418,7 +418,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
         backgroundColor: AppColors.primaryGreen,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          'Booking Requests',
+          tr('booking_requests'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -430,7 +430,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
               IconButton(
                 icon: const Icon(Icons.filter_list, color: Colors.white),
                 onPressed: _showFilterSheet,
-                tooltip: 'Filter',
+                tooltip: tr('filter'),
               ),
               if (_hasActiveFilters)
                 Positioned(
@@ -456,7 +456,7 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
                 minimumSize: const Size(0, 36),
               ),
               child: Text(
-                'Clear All',
+                tr('clear_all'),
                 style: GoogleFonts.inter(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
@@ -472,10 +472,10 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
           indicatorColor: Colors.white,
           isScrollable: true,
           tabs: [
-            Tab(text: 'Pending (${_getBookingsByStatus('pending').length})'),
-            Tab(text: 'Accepted (${_getBookingsByStatus('accepted').length})'),
-            Tab(text: 'Rejected (${_getBookingsByStatus('rejected').length})'),
-            Tab(text: 'All (${_getBookingsByStatus('all').length})'),
+            Tab(text: '${tr('pending')} (${_getBookingsByStatus('pending').length})'),
+            Tab(text: '${tr('accepted')} (${_getBookingsByStatus('accepted').length})'),
+            Tab(text: '${tr('rejected')} (${_getBookingsByStatus('rejected').length})'),
+            Tab(text: '${tr('all')} (${_getBookingsByStatus('all').length})'),
           ],
         ),
       ),
@@ -519,8 +519,8 @@ class _BookingRequestsScreenState extends State<BookingRequestsScreen>
             const SizedBox(height: 16),
             Text(
               status == 'pending'
-                  ? 'No pending booking requests'
-                  : 'No ${status == 'all' ? '' : status} bookings',
+                  ? tr('no_pending_booking_requests')
+                  : tr('no_bookings'),
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
           ],
@@ -625,8 +625,8 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
           SnackBar(
             content: Text(
               action == 'accept'
-                  ? 'Booking accepted successfully!'
-                  : 'Booking rejected',
+                  ? tr('booking_accepted_success')
+                  : tr('booking_rejected_msg'),
             ),
             backgroundColor: action == 'accept' ? Colors.green : Colors.orange,
           ),
@@ -637,7 +637,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(result['message'] ?? 'Failed to $action booking'),
+            content: Text(result['message'] ?? tr('failed_to_action_booking')),
             backgroundColor: Colors.red,
           ),
         );
@@ -649,9 +649,9 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Booking'),
-        content: const Text(
-          'Are you sure you want to delete this booking? This action cannot be undone.',
+        title: Text(tr('delete_booking')),
+        content: Text(
+          tr('delete_booking_confirm'),
         ),
         actions: [
           TextButton(
@@ -661,7 +661,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Delete', style: TextStyle(color: Colors.white)),
+            child: Text(tr('delete'), style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -678,8 +678,8 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
     if (result['success']) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Booking deleted successfully'),
+          SnackBar(
+            content: Text(tr('booking_deleted_success')),
             backgroundColor: Colors.green,
           ),
         );
@@ -689,7 +689,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(result['message'] ?? 'Failed to delete booking'),
+            content: Text(result['message'] ?? tr('failed_to_delete_booking')),
             backgroundColor: Colors.red,
           ),
         );
@@ -833,7 +833,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    status.toUpperCase(),
+                    tr(status).toUpperCase(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -879,7 +879,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        coldStorage['name'] ?? 'Cold Storage',
+                        coldStorage['name'] ?? tr('cold_storage'),
                         style: GoogleFonts.inter(fontWeight: FontWeight.w500),
                       ),
                     ),
@@ -893,8 +893,8 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                   children: [
                     Expanded(
                       child: _infoItem(
-                        'Quantity',
-                        '${booking['quantity'] ?? 0} Packets',
+                        tr('quantity'),
+                        '${booking['quantity'] ?? 0} ${tr('packets')}',
                         Icons.inventory_2,
                       ),
                     ),
@@ -909,7 +909,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                   children: [
                     Expanded(
                       child: _infoItem(
-                        'Total Price',
+                        tr('total_price'),
                         '₹${booking['totalPrice'] ?? 0}',
                         Icons.currency_rupee,
                         valueColor: AppColors.primaryGreen,
@@ -917,7 +917,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                     ),
                     Expanded(
                       child: _infoItem(
-                        'Requested On',
+                        tr('requested_on'),
                         _formatDate(booking['createdAt']),
                         Icons.access_time,
                       ),
@@ -940,7 +940,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Message from Farmer:',
+                          tr('message_from_farmer'),
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 12,
@@ -972,7 +972,7 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Rejection Reason:',
+                          tr('rejection_reason'),
                           style: TextStyle(
                             color: Colors.red[700],
                             fontSize: 12,
@@ -1129,7 +1129,7 @@ class _ReasonDialogState extends State<_ReasonDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.action == 'reject' ? 'Rejection Reason' : 'Response'),
+      title: Text(widget.action == 'reject' ? tr('rejection_reason') : tr('response')),
       content: TextField(
         controller: _controller,
         maxLines: 3,
