@@ -61,10 +61,10 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
   ];
 
   List<Map<String, dynamic>> _durationOptions = [
-    {'days': 7, 'label': '1 Week', 'multiplier': 1},
-    {'days': 15, 'label': '15 Days', 'multiplier': 2},
-    {'days': 30, 'label': '1 Month', 'multiplier': 3},
-    {'days': 90, 'label': '3 Months', 'multiplier': 8},
+    {'days': 7, 'key': 'one_week', 'multiplier': 1},
+    {'days': 15, 'key': 'n_days', 'multiplier': 2},
+    {'days': 30, 'key': 'one_month', 'multiplier': 3},
+    {'days': 90, 'key': 'n_months', 'multiplier': 8},
   ];
 
   int get _slidesTotal {
@@ -123,7 +123,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
       if (result['success']) {
         Fluttertoast.showToast(
-          msg: 'Payment successful! Your ad is now active.',
+          msg: tr('ad_payment_success'),
           backgroundColor: Colors.green,
           toastLength: Toast.LENGTH_LONG,
         );
@@ -131,14 +131,14 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
         await _refreshAds();
       } else {
         Fluttertoast.showToast(
-          msg: result['message'] ?? 'Payment verification failed',
+          msg: result['message'] ?? tr('ad_payment_verify_failed'),
           backgroundColor: Colors.red,
           toastLength: Toast.LENGTH_LONG,
         );
       }
     } catch (e) {
       Fluttertoast.showToast(
-        msg: 'Verification error. If amount was deducted, your ad will activate automatically.',
+        msg: tr('ad_payment_verify_error'),
         backgroundColor: Colors.orange,
         toastLength: Toast.LENGTH_LONG,
       );
@@ -150,7 +150,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    String errorMessage = 'Payment failed';
+    String errorMessage = tr('payment_failed');
     try {
       if (response.message != null) {
         final errData = json.decode(response.message!);
@@ -167,7 +167,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     }
 
     Fluttertoast.showToast(
-      msg: 'Payment failed: $errorMessage',
+      msg: trArgs('ad_payment_failed_args', {'error': errorMessage}),
       backgroundColor: Colors.red,
       toastLength: Toast.LENGTH_LONG,
     );
@@ -179,7 +179,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     Fluttertoast.showToast(
-      msg: 'External wallet selected: ${response.walletName}',
+      msg: trArgs('ad_external_wallet', {'wallet': response.walletName ?? ''}),
       backgroundColor: Colors.blue,
     );
   }
@@ -210,7 +210,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
           children: [
             const Icon(Icons.payment, color: AppColors.primaryGreen),
             const SizedBox(width: 8),
-            const Text('Confirm Payment'),
+            Text(tr('confirm_payment')),
           ],
         ),
         content: Column(
@@ -225,10 +225,10 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            _paymentDetailRow('Duration', '$duration days'),
+            _paymentDetailRow(tr('duration'), '$duration days'),
             const Divider(height: 20),
             _paymentDetailRow(
-              'Amount',
+              tr('amount'),
               '\u{20B9}$price',
               isBold: true,
               valueColor: AppColors.primaryGreen,
@@ -246,7 +246,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Your ad will be activated immediately after payment.',
+                      tr('ad_activation_note'),
                       style: TextStyle(fontSize: 12, color: Colors.blue[700]),
                     ),
                   ),
@@ -258,7 +258,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(tr('cancel')),
           ),
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
@@ -267,7 +267,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
               foregroundColor: Colors.white,
             ),
             icon: const Icon(Icons.qr_code_2, size: 18),
-            label: const Text('Pay Now'),
+            label: Text(tr('pay_now')),
           ),
         ],
       ),
@@ -284,7 +284,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     if (!orderResult['success']) {
       if (mounted) setState(() => _isLoading = false);
       Fluttertoast.showToast(
-        msg: orderResult['message'] ?? 'Failed to create order',
+        msg: orderResult['message'] ?? tr('ad_order_failed'),
         backgroundColor: Colors.red,
       );
       _pendingAdId = null;
@@ -300,7 +300,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       'amount': orderData['amount'],
       'currency': orderData['currency'] ?? 'INR',
       'name': 'Aloo Sabji Mandi',
-      'description': 'Advertisement: $title',
+      'description': '${tr('advertisement')}: $title',
       'order_id': orderData['orderId'],
       'prefill': {
         'name': _userName ?? '',
@@ -313,14 +313,14 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
         'display': {
           'blocks': {
             'utib': {
-              'name': 'Pay using UPI QR',
+              'name': tr('pay_upi_qr'),
               'instruments': [
                 {'method': 'upi', 'flows': ['qr']},
                 {'method': 'upi', 'flows': ['collect', 'intent']},
               ],
             },
             'other': {
-              'name': 'Other Payment Methods',
+              'name': tr('other_payment_methods'),
               'instruments': [
                 {'method': 'card'},
                 {'method': 'netbanking'},
@@ -342,7 +342,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       _pendingAdId = null;
       _pendingOrderId = null;
       Fluttertoast.showToast(
-        msg: 'Error starting payment',
+        msg: tr('ad_payment_start_error'),
         backgroundColor: Colors.red,
       );
     }
@@ -496,7 +496,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
             sourcePath: image.path,
             uiSettings: [
               AndroidUiSettings(
-                toolbarTitle: 'Edit Banner Image',
+                toolbarTitle: tr('edit_banner_image'),
                 toolbarColor: AppColors.primaryGreen,
                 toolbarWidgetColor: Colors.white,
                 activeControlsWidgetColor: AppColors.primaryGreen,
@@ -511,7 +511,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                 ],
               ),
               IOSUiSettings(
-                title: 'Edit Banner Image',
+                title: tr('edit_banner_image'),
                 aspectRatioPresets: [
                   CropAspectRatioPreset.original,
                   CropAspectRatioPreset.ratio3x2,
@@ -535,7 +535,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ToastHelper.showError(context, 'Failed to pick image');
+        ToastHelper.showError(context, tr('failed_pick_image'));
       }
     }
   }
@@ -569,7 +569,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     }
 
     if (images.isEmpty) {
-      ToastHelper.showError(context, 'Please add at least one slide image');
+      ToastHelper.showError(context, tr('add_at_least_one_slide'));
       return;
     }
 
@@ -600,14 +600,14 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     if (result['success']) {
       ToastHelper.showSuccess(
         context,
-        'Advertisement request submitted successfully!',
+        tr('ad_request_success'),
       );
       _clearForm();
       _loadData();
     } else {
       ToastHelper.showError(
         context,
-        result['message'] ?? 'Failed to submit request',
+        result['message'] ?? tr('ad_request_failed'),
       );
     }
   }
@@ -651,7 +651,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
         backgroundColor: AppColors.primaryGreen,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          'Advertise with Us',
+          tr('advertise_with_us'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -692,7 +692,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Promote Your Business',
+                                tr('promote_your_business'),
                                 style: GoogleFonts.inter(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -701,7 +701,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Your ad slides will appear on all home page sliders',
+                                tr('ad_home_slider_note'),
                                 style: GoogleFonts.inter(
                                   color: Colors.white70,
                                   fontSize: 14,
@@ -719,7 +719,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                   // My Requests Section
                   if (_myAds.isNotEmpty) ...[
                     Text(
-                      'My Advertisement Requests',
+                      tr('my_ad_requests'),
                       style: GoogleFonts.inter(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -743,7 +743,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
                   // New Request Form
                   Text(
-                    'Submit New Request',
+                    tr('submit_new_request'),
                     style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -760,11 +760,11 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                         TextFormField(
                           controller: _titleController,
                           decoration: _inputDecoration(
-                            'Advertisement Title',
+                            tr('ad_title'),
                             Icons.title,
                           ),
                           validator: (v) =>
-                              v?.isEmpty ?? true ? 'Title is required' : null,
+                              v?.isEmpty ?? true ? tr('title_required_err') : null,
                         ),
                         const SizedBox(height: 16),
 
@@ -772,7 +772,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                         TextFormField(
                           controller: _descriptionController,
                           decoration: _inputDecoration(
-                            'Description (optional)',
+                            tr('description_optional'),
                             Icons.description,
                           ),
                           maxLines: 3,
@@ -781,7 +781,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
                         // ===== SLIDE IMAGES (5 slots) =====
                         Text(
-                          'Banner Slide Images (up to 5)',
+                          tr('banner_images_label'),
                           style: GoogleFonts.inter(
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
@@ -789,7 +789,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Recommended size: 1200x400 pixels. Add slides as per your need.',
+                          tr('ad_size_recommendation'),
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 12,
@@ -852,7 +852,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        'Slide ${index + 1}',
+                                        trArgs('slide_n', {'number': '${index + 1}'}),
                                         style: GoogleFonts.inter(
                                           fontWeight: FontWeight.w600,
                                           color: hasImage
@@ -961,7 +961,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                'Tap to add image',
+                                                tr('tap_to_add_image'),
                                                 style: TextStyle(
                                                   color: Colors.grey[500],
                                                   fontSize: 12,
@@ -985,8 +985,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                       controller:
                                           _slideLinkControllers[index],
                                       decoration: InputDecoration(
-                                        hintText:
-                                            'Link URL (e.g. https://example.com)',
+                                        hintText: tr('link_url_hint'),
                                         hintStyle: TextStyle(
                                           fontSize: 12,
                                           color: Colors.grey[400],
@@ -1054,7 +1053,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                 ),
                                 const SizedBox(width: 10),
                                 Text(
-                                  'Slides Total: ',
+                                  tr('slides_total_label'),
                                   style: GoogleFonts.inter(
                                     fontSize: 14,
                                     color: Colors.grey[700],
@@ -1070,7 +1069,10 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '${_slideImages.where((s) => s != null).length} slide(s)',
+                                  trArgs('slide_count_args', {
+                                    'count':
+                                        '${_slideImages.where((s) => s != null).length}'
+                                  }),
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 13,
@@ -1086,7 +1088,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                         if (_myColdStorages.isNotEmpty &&
                             _userRole == 'cold-storage') ...[
                           Text(
-                            'Select Cold Storage',
+                            tr('select_cold_storage_ad'),
                             style: GoogleFonts.inter(
                               fontWeight: FontWeight.w500,
                             ),
@@ -1107,7 +1109,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                 items: _myColdStorages.map((cs) {
                                   return DropdownMenuItem<String>(
                                     value: cs['_id'],
-                                    child: Text(cs['name'] ?? 'Unnamed'),
+                                    child: Text(cs['name'] ?? tr('unnamed')),
                                   );
                                 }).toList(),
                                 onChanged: (v) =>
@@ -1120,7 +1122,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
                         // Start Date & Time
                         Text(
-                          'Preferred Start Date & Time',
+                          tr('preferred_start_time'),
                           style: GoogleFonts.inter(fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 8),
@@ -1154,7 +1156,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                         child: Text(
                                           _startDate != null
                                               ? '${_startDate!.day.toString().padLeft(2, '0')}/${_startDate!.month.toString().padLeft(2, '0')}/${_startDate!.year}'
-                                              : 'Select Date',
+                                              : tr('select_date'),
                                           style: TextStyle(
                                             color: _startDate != null
                                                 ? Colors.black
@@ -1197,7 +1199,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                         child: Text(
                                           _startTime != null
                                               ? _startTime!.format(context)
-                                              : 'Select Time',
+                                              : tr('select_time'),
                                           style: TextStyle(
                                             color: _startTime != null
                                                 ? Colors.black
@@ -1225,7 +1227,10 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
-                                  'Ad will start on ${_startDate!.day.toString().padLeft(2, '0')}/${_startDate!.month.toString().padLeft(2, '0')}/${_startDate!.year}${_startTime != null ? ' at ${_startTime!.format(context)}' : ''}',
+                                  trArgs('ad_start_on', {
+                                'date':
+                                    '${_startDate!.day.toString().padLeft(2, '0')}/${_startDate!.month.toString().padLeft(2, '0')}/${_startDate!.year}${_startTime != null ? ' at ${_startTime!.format(context)}' : ''}'
+                              }),
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 12,
@@ -1238,7 +1243,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
                         // Duration Selection
                         Text(
-                          'Advertisement Duration',
+                          tr('ad_duration_selection'),
                           style: GoogleFonts.inter(fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 12),
@@ -1270,7 +1275,12 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                 child: Column(
                                   children: [
                                     Text(
-                                      opt['label'],
+                                      opt['key'] == 'n_days'
+                                          ? trArgs('n_days', {'days': '${opt['days']}'})
+                                          : opt['key'] == 'n_months'
+                                              ? trArgs('n_months',
+                                                  {'count': '${opt['days'] ~/ 30}'})
+                                              : tr(opt['key'] ?? ''),
                                       style: TextStyle(
                                         color: isSelected
                                             ? Colors.white
@@ -1279,7 +1289,8 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '${opt['days']} days',
+                                      trArgs('days_count',
+                                          {'days': '${opt['days']}'}),
                                       style: TextStyle(
                                         color: isSelected
                                             ? Colors.white70
@@ -1336,7 +1347,10 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Duration: $_selectedDuration days (x$_selectedMultiplier)',
+                                      trArgs('ad_duration_details', {
+                                'days': '$_selectedDuration',
+                                'multiplier': '$_selectedMultiplier'
+                              }),
                                       style: GoogleFonts.inter(
                                         color: Colors.grey[700],
                                         fontSize: 14,
@@ -1379,8 +1393,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                         TextFormField(
                           controller: _phoneController,
                           decoration: _inputDecoration(
-                            'Contact Phone',
+                            tr('contact_phone'),
                             Icons.phone,
+                            hint: tr('phone_hint'),
                           ),
                           keyboardType: TextInputType.phone,
                           maxLength: 10,
@@ -1407,7 +1422,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                     color: Colors.white,
                                   )
                                 : Text(
-                                    'Submit Request',
+                                    tr('submit_request'),
                                     style: GoogleFonts.inter(
                                       color: Colors.white,
                                       fontSize: 16,
@@ -1435,7 +1450,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
-                                  'Your request will be reviewed by admin. Once approved, you can make payment to activate the advertisement.',
+                                  tr('ad_request_review_note'),
                                   style: TextStyle(
                                     color: Colors.orange[700],
                                     fontSize: 13,
@@ -1454,9 +1469,10 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     );
   }
 
-  InputDecoration _inputDecoration(String label, IconData icon) {
+  InputDecoration _inputDecoration(String label, IconData icon, {String? hint}) {
     return InputDecoration(
       labelText: label,
+      hintText: hint,
       prefixIcon: Icon(icon, color: AppColors.primaryGreen),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       enabledBorder: OutlineInputBorder(
@@ -1516,7 +1532,7 @@ class _AdRequestCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  ad['title'] ?? 'Untitled',
+                  ad['title'] ?? tr('untitled_ad'),
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -1533,7 +1549,7 @@ class _AdRequestCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  status.toUpperCase(),
+                  tr(status).toUpperCase(),
                   style: TextStyle(
                     color: statusColor,
                     fontSize: 12,
@@ -1548,24 +1564,28 @@ class _AdRequestCard extends StatelessWidget {
           // Show slide count
           if (images.isNotEmpty)
             Text(
-              '${images.length} slide${images.length > 1 ? 's' : ''} uploaded',
+              trArgs('n_slides_uploaded', {'count': '${images.length}'}),
               style: TextStyle(color: Colors.grey[600], fontSize: 13),
             )
           else if (imageUrl.isNotEmpty)
             Text(
-              '1 image uploaded',
+              tr('one_image_uploaded'),
               style: TextStyle(color: Colors.grey[600], fontSize: 13),
             ),
           const SizedBox(height: 4),
 
           Text(
-            'Duration: ${ad['durationDays']} days  \u{2022}  Price: \u{20B9}${ad['price']}',
+            trArgs('ad_duration_price_summary', {
+              'days': '${ad['durationDays']}',
+              'price': '${ad['price']}'
+            }),
             style: TextStyle(color: Colors.grey[600], fontSize: 13),
           ),
           if (status == 'rejected' && ad['rejectionReason'] != null) ...[
             const SizedBox(height: 8),
             Text(
-              'Reason: ${ad['rejectionReason']}',
+              trArgs('rejection_reason_label',
+                  {'reason': '${ad['rejectionReason']}'}),
               style: TextStyle(color: Colors.red[700], fontSize: 13),
             ),
           ],

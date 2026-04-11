@@ -55,7 +55,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
     "Kufri Chandramukhi",
   ];
 
-  final List<String> _sizeList = ['Small', 'Medium', 'Large'];
+  final List<String> _sizeList = ['small', 'medium', 'large'];
 
   @override
   void initState() {
@@ -82,7 +82,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
     _phoneController = TextEditingController(text: phoneText);
 
     _selectedVariety = widget.listing['potatoVariety'];
-    _selectedSize = widget.listing['size'] ?? 'Medium';
+    _selectedSize = (widget.listing['size'] ?? 'medium').toString().toLowerCase();
     _isActive = widget.listing['isActive'] ?? true;
   }
 
@@ -104,7 +104,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
       potatoVariety: _selectedVariety,
       quantity: int.tryParse(_quantityController.text),
       pricePerQuintal: int.tryParse(_priceController.text),
-      size: _selectedSize,
+      size: _selectedSize[0].toUpperCase() + _selectedSize.substring(1), // Store as capitalized for DB compatibility if needed
       isActive: _isActive,
       contactPhone: _phoneController.text.isNotEmpty
           ? _phoneController.text
@@ -496,7 +496,7 @@ class _EditListingScreenState extends State<EditListingScreen> {
   Widget _buildSizeChip(String size) {
     final isSelected = _selectedSize == size;
     return ChoiceChip(
-      label: Text(size),
+      label: Text(tr(size)),
       selected: isSelected,
       selectedColor: AppColors.primaryGreen,
       labelStyle: TextStyle(

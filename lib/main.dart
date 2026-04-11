@@ -1,4 +1,7 @@
+import 'package:aloo_sbji_mandi/core/service/fcm_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:aloo_sbji_mandi/core/service/local_notification_service.dart';
 import 'package:aloo_sbji_mandi/core/service/socket_service.dart';
@@ -63,12 +66,6 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await AppLocalizations.init();
 
-  // ── Firebase & FCM (disabled until google-services.json is added) ──
-  // To re-enable:
-  //   1. Create a Firebase project at https://console.firebase.google.com
-  //   2. Download google-services.json → place in android/app/
-  //   3. Uncomment the block below
-  /*
   bool firebaseReady = false;
   if (!kIsWeb) {
     try {
@@ -79,7 +76,6 @@ void main() async {
       debugPrint('Firebase init failed (non-fatal): $e');
     }
   }
-  */
 
   // Initialize notification service & boli alert listener (mobile only)
   if (!kIsWeb) {
@@ -88,9 +84,9 @@ void main() async {
       _setupBoliAlertNotifications();
       _setupTokenQueueNotifications();
       // FCM disabled until Firebase is configured
-      // if (firebaseReady) {
-      //   await FCMService().initialize();
-      // }
+      if (firebaseReady) {
+        await FCMService().initialize();
+      }
     } catch (e) {
       debugPrint('Notification setup failed (non-fatal): $e');
     }

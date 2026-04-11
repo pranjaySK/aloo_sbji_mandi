@@ -714,7 +714,7 @@ class _ListingCard extends StatelessWidget {
                           const SizedBox(width: 4),
                           Text(
                             sourceType == 'cold_storage'
-                                ? tr('cold')
+                                ? tr('cold_storage')
                                 : tr('field'),
                             style: TextStyle(
                               fontSize: 10,

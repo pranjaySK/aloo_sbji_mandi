@@ -60,6 +60,8 @@ class _AutoSliderBannerState extends State<AutoSliderBanner> {
         final result = await _adService.getActiveAdvertisements();
         if (result['success'] && mounted) {
           final ads = result['data']['advertisements'] as List?;
+          debugPrint('ADS: ${ads?.length}');
+
           if (ads != null && ads.isNotEmpty) {
             _serverBanners = List<Map<String, dynamic>>.from(ads);
             _buildSlideData();
@@ -84,11 +86,13 @@ class _AutoSliderBannerState extends State<AutoSliderBanner> {
 
   void _buildSlideData() {
     _slideData = [];
+    debugPrint('ADs: ${_serverBanners.length}');
     for (final banner in _serverBanners) {
       final adId = (banner['_id'] ?? '').toString();
       final images = banner['images'] as List?;
       final redirectUrls = banner['redirectUrls'] as List? ?? [];
       final redirectUrl = (banner['redirectUrl'] ?? '').toString();
+      debugPrint('ads images: ${images?.length} and ');
 
       if (images != null && images.isNotEmpty) {
         for (int i = 0; i < images.length; i++) {
