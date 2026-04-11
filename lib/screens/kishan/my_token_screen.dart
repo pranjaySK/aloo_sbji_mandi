@@ -235,7 +235,6 @@ class _MyTokenScreenState extends State<MyTokenScreen> {
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            const Text('ðŸ”” ', style: TextStyle(fontSize: 28)),
             Expanded(
               child: Text(
                 tr('your_turn_now'),
