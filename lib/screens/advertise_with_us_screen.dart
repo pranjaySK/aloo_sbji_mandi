@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aloo_sbji_mandi/core/service/advertisement_service.dart';
 import 'package:aloo_sbji_mandi/core/service/cold_storage_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
+import 'package:aloo_sbji_mandi/core/utils/app_logger.dart';
 import 'package:aloo_sbji_mandi/core/utils/toast_helper.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -34,6 +35,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
   bool _isLoading = false;
   bool _isLoadingData = true;
+  bool _showValidationErrors = false;
   int _selectedDuration = 30;
   String? _selectedColdStorageId;
   List<dynamic> _myColdStorages = [];
@@ -97,6 +99,13 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
   String? _userEmail;
   String? _userPhone;
 
+  bool get _hasAnySlideImage => _slideImages.any((image) => image != null);
+  bool get _showImageError => _showValidationErrors && !_hasAnySlideImage;
+  bool get _showStartDateError =>
+      _showValidationErrors && _startDate == null;
+  bool get _showStartTimeError =>
+      _showValidationErrors && _startTime == null;
+
   @override
   void initState() {
     super.initState();
@@ -109,11 +118,25 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    AppLogger.info(
+      'Razorpay initialized for advertisement screen',
+      tag: 'AD_PAYMENT',
+    );
   }
 
   Future<void> _handlePaymentSuccess(PaymentSuccessResponse response) async {
     if (!mounted) return;
     setState(() => _isLoading = true);
+
+    AppLogger.success(
+      'Advertisement payment succeeded, starting verification',
+      tag: 'AD_PAYMENT',
+      data: {
+        'orderId': response.orderId,
+        'paymentId': response.paymentId,
+        'advertisementId': _pendingAdId,
+      },
+    );
 
     try {
       final result = await _adService.verifyAdPayment(
@@ -124,6 +147,11 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       );
 
       if (result['success']) {
+        AppLogger.success(
+          'Advertisement payment verified successfully',
+          tag: 'AD_PAYMENT',
+          data: result['data'],
+        );
         Fluttertoast.showToast(
           msg: tr('ad_payment_success'),
           backgroundColor: Colors.green,
@@ -132,13 +160,24 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
         // Refresh the ads list
         await _refreshAds();
       } else {
+        AppLogger.warning(
+          'Advertisement payment verification failed',
+          tag: 'AD_PAYMENT',
+          data: result,
+        );
         Fluttertoast.showToast(
           msg: result['message'] ?? tr('ad_payment_verify_failed'),
           backgroundColor: Colors.red,
           toastLength: Toast.LENGTH_LONG,
         );
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Advertisement payment verification threw an exception',
+        tag: 'AD_PAYMENT',
+        error: e,
+        stackTrace: stackTrace,
+      );
       Fluttertoast.showToast(
         msg: tr('ad_payment_verify_error'),
         backgroundColor: Colors.orange,
@@ -169,6 +208,16 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       errorMessage = response.message ?? 'Payment failed';
     }
 
+    AppLogger.error(
+      'Advertisement payment failed',
+      tag: 'AD_PAYMENT',
+      data: {
+        'code': response.code,
+        'message': response.message,
+        'resolvedMessage': errorMessage,
+      },
+    );
+
     Fluttertoast.showToast(
       msg: trArgs('ad_payment_failed_args', {'error': errorMessage}),
       backgroundColor: Colors.red,
@@ -181,6 +230,11 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
+    AppLogger.info(
+      'External wallet selected for advertisement payment',
+      tag: 'AD_PAYMENT',
+      data: {'wallet': response.walletName},
+    );
     Fluttertoast.showToast(
       msg: trArgs('ad_external_wallet', {'wallet': response.walletName ?? ''}),
       backgroundColor: Colors.blue,
@@ -188,6 +242,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
   }
 
   Future<void> _refreshAds() async {
+    AppLogger.info('Refreshing advertisement list', tag: 'AD_SCREEN');
     final adsResult = await _adService.getMyAdvertisements();
     if (adsResult['success']) {
       setState(() {
@@ -195,6 +250,20 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
           adsResult['data']['advertisements'] ?? [],
         );
       });
+      AppLogger.success(
+        'Advertisement list refreshed',
+        tag: 'AD_SCREEN',
+        data: {
+          'count': _myAds.length,
+          'advertisements': _myAds,
+        },
+      );
+    } else {
+      AppLogger.warning(
+        'Failed to refresh advertisements',
+        tag: 'AD_SCREEN',
+        data: adsResult,
+      );
     }
   }
 
@@ -278,6 +347,12 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
     if (confirmed != true || !mounted) return;
 
+    AppLogger.info(
+      'User confirmed advertisement payment',
+      tag: 'AD_PAYMENT',
+      data: {'adId': adId, 'price': price, 'title': title},
+    );
+
     setState(() => _isLoading = true);
     _pendingAdId = adId;
 
@@ -285,6 +360,11 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     final orderResult = await _adService.createAdPaymentOrder(adId);
 
     if (!orderResult['success']) {
+      AppLogger.warning(
+        'Failed to create advertisement payment order',
+        tag: 'AD_PAYMENT',
+        data: orderResult,
+      );
       if (mounted) setState(() => _isLoading = false);
       Fluttertoast.showToast(
         msg: orderResult['message'] ?? tr('ad_order_failed'),
@@ -296,6 +376,12 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
 
     final orderData = orderResult['data'];
     _pendingOrderId = orderData['orderId'];
+
+    AppLogger.success(
+      'Advertisement payment order created',
+      tag: 'AD_PAYMENT',
+      data: orderData,
+    );
 
     // Open Razorpay checkout
     var options = {
@@ -346,7 +432,14 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     try {
       if (mounted) setState(() => _isLoading = false);
       _razorpay.open(options);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to open Razorpay checkout for advertisement payment',
+        tag: 'AD_PAYMENT',
+        error: e,
+        stackTrace: stackTrace,
+        data: {'advertisementId': adId},
+      );
       if (mounted) setState(() => _isLoading = false);
       _pendingAdId = null;
       _pendingOrderId = null;
@@ -383,6 +476,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
   }
 
   Future<void> _loadData() async {
+    AppLogger.info('Loading advertisement screen data', tag: 'AD_SCREEN');
     final prefs = await SharedPreferences.getInstance();
     _userRole = prefs.getString('userRole') ?? '';
     final userJson = prefs.getString('user');
@@ -420,9 +514,19 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                 : 30;
           }
         }
+        AppLogger.success(
+          'Advertisement pricing loaded',
+          tag: 'AD_SCREEN',
+          data: pricingResult['data'],
+        );
       }
-    } catch (e) {
-      debugPrint('Failed to load pricing: $e');
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to load advertisement pricing',
+        tag: 'AD_SCREEN',
+        error: e,
+        stackTrace: stackTrace,
+      );
       // Keep defaults
     }
 
@@ -431,6 +535,17 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       final result = await _coldStorageService.getMyColdStorages();
       if (result['success']) {
         _myColdStorages = result['data']['coldStorages'] ?? [];
+        AppLogger.success(
+          'Loaded cold storages for advertisement request',
+          tag: 'AD_SCREEN',
+          data: {'count': _myColdStorages.length},
+        );
+      } else {
+        AppLogger.warning(
+          'Failed to load cold storages for advertisement request',
+          tag: 'AD_SCREEN',
+          data: result,
+        );
       }
     }
 
@@ -439,6 +554,20 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     if (adsResult['success']) {
       _myAds = List<Map<String, dynamic>>.from(
         adsResult['data']['advertisements'] ?? [],
+      );
+      AppLogger.success(
+        'Loaded my advertisements',
+        tag: 'AD_SCREEN',
+        data: {
+          'count': _myAds.length,
+          'advertisements': _myAds,
+        },
+      );
+    } else {
+      AppLogger.warning(
+        'Failed to load my advertisements',
+        tag: 'AD_SCREEN',
+        data: adsResult,
       );
     }
 
@@ -464,7 +593,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       },
     );
     if (picked != null) {
-      setState(() => _startDate = picked);
+      setState(() {
+        _startDate = picked;
+      });
     }
   }
 
@@ -484,12 +615,19 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       },
     );
     if (picked != null) {
-      setState(() => _startTime = picked);
+      setState(() {
+        _startTime = picked;
+      });
     }
   }
 
   Future<void> _pickSlideImage(int slideIndex) async {
     try {
+      AppLogger.info(
+        'Picking advertisement banner image',
+        tag: 'AD_FORM',
+        data: {'slideIndex': slideIndex + 1},
+      );
       final XFile? image = await _imagePicker.pickImage(
         source: ImageSource.gallery,
         imageQuality: 90,
@@ -502,7 +640,13 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
           final base64String = 'data:image/jpeg;base64,${base64Encode(bytes)}';
           setState(() {
             _slideImages[slideIndex] = base64String;
+            _showValidationErrors = false;
           });
+          AppLogger.success(
+            'Advertisement banner image selected',
+            tag: 'AD_FORM',
+            data: {'slideIndex': slideIndex + 1, 'platform': 'web'},
+          );
         } else {
           // Android/iOS: open native cropper with aspect ratio options
           final croppedFile = await ImageCropper().cropImage(
@@ -542,11 +686,24 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                 'data:image/jpeg;base64,${base64Encode(bytes)}';
             setState(() {
               _slideImages[slideIndex] = base64String;
+              _showValidationErrors = false;
             });
+            AppLogger.success(
+              'Advertisement banner image cropped and selected',
+              tag: 'AD_FORM',
+              data: {'slideIndex': slideIndex + 1, 'platform': 'mobile'},
+            );
           }
         }
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to pick advertisement banner image',
+        tag: 'AD_FORM',
+        error: e,
+        stackTrace: stackTrace,
+        data: {'slideIndex': slideIndex + 1},
+      );
       if (mounted) {
         ToastHelper.showError(context, tr('failed_pick_image'));
       }
@@ -561,11 +718,95 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
   void _removeSlideImage(int slideIndex) {
     setState(() {
       _slideImages[slideIndex] = null;
+      _slideLinkControllers[slideIndex].clear();
     });
+    AppLogger.info(
+      'Removed advertisement banner image',
+      tag: 'AD_FORM',
+      data: {'slideIndex': slideIndex + 1},
+    );
+  }
+
+  bool _isValidUrl(String value) {
+    final uri = Uri.tryParse(value.trim());
+    return uri != null &&
+        uri.hasScheme &&
+        (uri.scheme == 'http' || uri.scheme == 'https') &&
+        uri.host.isNotEmpty;
+  }
+
+  bool _validateSubmission(List<String> images, List<String> redirectUrls) {
+    setState(() {
+      _showValidationErrors = true;
+    });
+
+    if (_titleController.text.trim().isEmpty) {
+      ToastHelper.showError(context, tr('title_required_err'));
+      return false;
+    }
+
+    if (images.isEmpty) {
+      ToastHelper.showError(context, tr('add_at_least_one_slide'));
+      return false;
+    }
+
+    for (int i = 0; i < 5; i++) {
+      if (_slideImages[i] != null) {
+        final url = _slideLinkControllers[i].text.trim();
+        if (url.isEmpty) {
+          ToastHelper.showError(
+            context,
+            'Slide ${i + 1} URL link is required.',
+          );
+          return false;
+        }
+        if (!_isValidUrl(url)) {
+          ToastHelper.showError(
+            context,
+            'Slide ${i + 1} URL link must be a valid http or https link.',
+          );
+          return false;
+        }
+      }
+    }
+
+    if (_startDate == null) {
+      ToastHelper.showError(context, 'Preferred start date is required.');
+      return false;
+    }
+
+    if (_startTime == null) {
+      ToastHelper.showError(context, 'Preferred start time is required.');
+      return false;
+    }
+
+    final phone = _phoneController.text.trim();
+    if (phone.isEmpty) {
+      ToastHelper.showError(context, 'Contact phone is required.');
+      return false;
+    }
+
+    if (phone.length != 10) {
+      ToastHelper.showError(context, 'Contact phone must be 10 digits.');
+      return false;
+    }
+
+    if (redirectUrls.length != images.length) {
+      ToastHelper.showError(context, 'Each banner image must have a URL link.');
+      return false;
+    }
+
+    return true;
   }
 
   Future<void> _submitRequest() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      AppLogger.warning(
+        'Advertisement form validation failed at field level',
+        tag: 'AD_FORM',
+      );
+      return;
+    }
 
     // Collect non-null images
     final images = _slideImages
@@ -581,12 +822,48 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       }
     }
 
-    if (images.isEmpty) {
-      ToastHelper.showError(context, tr('add_at_least_one_slide'));
+    if (!_validateSubmission(images, redirectUrls)) {
+      AppLogger.warning(
+        'Advertisement form validation failed before submit',
+        tag: 'AD_FORM',
+        data: {
+          'title': _titleController.text.trim(),
+          'imageCount': images.length,
+          'hasStartDate': _startDate != null,
+          'hasStartTime': _startTime != null,
+          'phone': _phoneController.text.trim(),
+        },
+      );
       return;
     }
 
     setState(() => _isLoading = true);
+
+    final requestData = {
+      'title': _titleController.text.trim(),
+      'description': _descriptionController.text.trim(),
+      'imagesCount': images.length,
+      'redirectUrls': redirectUrls,
+      'advertiserType': _userRole.isNotEmpty ? _userRole : 'cold-storage',
+      'coldStorageId': _selectedColdStorageId,
+      'durationDays': _selectedDuration,
+      'contactPhone': _phoneController.text.trim(),
+      'startDate': _startDate != null
+          ? DateTime(
+              _startDate!.year,
+              _startDate!.month,
+              _startDate!.day,
+              _startTime!.hour,
+              _startTime!.minute,
+            ).toIso8601String()
+          : null,
+    };
+
+    AppLogger.info(
+      'Submitting advertisement request',
+      tag: 'AD_REQUEST',
+      data: requestData,
+    );
 
     final result = await _adService.createAdvertisementRequest(
       title: _titleController.text.trim(),
@@ -597,24 +874,33 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       coldStorageId: _selectedColdStorageId,
       durationDays: _selectedDuration,
       contactPhone: _phoneController.text.trim(),
-      startDate: _startDate != null
-          ? DateTime(
-              _startDate!.year,
-              _startDate!.month,
-              _startDate!.day,
-              _startTime?.hour ?? 0,
-              _startTime?.minute ?? 0,
-            )
-          : null,
+      startDate: DateTime(
+        _startDate!.year,
+        _startDate!.month,
+        _startDate!.day,
+        _startTime!.hour,
+        _startTime!.minute,
+      ),
     );
 
+    if (!mounted) return;
     setState(() => _isLoading = false);
 
     if (result['success']) {
+      AppLogger.success(
+        'Advertisement request submitted successfully',
+        tag: 'AD_REQUEST',
+        data: result['data'],
+      );
       ToastHelper.showSuccess(context, tr('ad_request_success'));
       _clearForm();
       _loadData();
     } else {
+      AppLogger.warning(
+        'Advertisement request submission failed',
+        tag: 'AD_REQUEST',
+        data: result,
+      );
       ToastHelper.showError(
         context,
         result['message'] ?? tr('ad_request_failed'),
@@ -629,6 +915,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
     _selectedDuration = 30;
     _startDate = null;
     _startTime = null;
+    _showValidationErrors = false;
     for (int i = 0; i < 5; i++) {
       _slideImages[i] = null;
       _slideLinkControllers[i].clear();
@@ -773,7 +1060,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                             tr('ad_title'),
                             Icons.title,
                           ),
-                          validator: (v) => v?.isEmpty ?? true
+                          validator: (v) => v?.trim().isEmpty ?? true
                               ? tr('title_required_err')
                               : null,
                         ),
@@ -796,16 +1083,30 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                           style: GoogleFonts.inter(
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
+                            color: _showImageError ? Colors.red[700] : null,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           tr('ad_size_recommendation'),
                           style: TextStyle(
-                            color: Colors.grey[600],
+                            color: _showImageError
+                                ? Colors.red[700]
+                                : Colors.grey[600],
                             fontSize: 12,
                           ),
                         ),
+                        if (_showImageError)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6, bottom: 8),
+                            child: Text(
+                              'Banner image is required',
+                              style: TextStyle(
+                                color: Colors.red[700],
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
                         const SizedBox(height: 12),
 
                         ...List.generate(5, (index) {
@@ -818,7 +1119,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: hasImage
+                                color: !hasImage && _showImageError
+                                    ? Colors.red
+                                    : hasImage
                                     ? AppColors.primaryGreen
                                     : Colors.grey[300]!,
                                 width: hasImage ? 2 : 1,
@@ -1040,6 +1343,19 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                       ),
                                       keyboardType: TextInputType.url,
                                       style: const TextStyle(fontSize: 13),
+                                      validator: (value) {
+                                        if (_slideImages[index] == null) {
+                                          return null;
+                                        }
+                                        final trimmed = value?.trim() ?? '';
+                                        if (trimmed.isEmpty) {
+                                          return 'URL link is required';
+                                        }
+                                        if (!_isValidUrl(trimmed)) {
+                                          return 'Enter a valid http/https URL';
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ),
                               ],
@@ -1138,7 +1454,12 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                         // Start Date & Time
                         Text(
                           tr('preferred_start_time'),
-                          style: GoogleFonts.inter(fontWeight: FontWeight.w500),
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w500,
+                            color: (_showStartDateError || _showStartTimeError)
+                                ? Colors.red[700]
+                                : null,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Row(
@@ -1155,7 +1476,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     border: Border.all(
-                                      color: Colors.grey[300]!,
+                                      color: _showStartDateError
+                                          ? Colors.red
+                                          : Colors.grey[300]!,
                                     ),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -1198,7 +1521,9 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     border: Border.all(
-                                      color: Colors.grey[300]!,
+                                      color: _showStartTimeError
+                                          ? Colors.red
+                                          : Colors.grey[300]!,
                                     ),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -1230,6 +1555,24 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                             ),
                           ],
                         ),
+                        if (_showStartDateError || _showStartTimeError)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                _showStartDateError && _showStartTimeError
+                                    ? 'Preferred start date and time are required'
+                                    : _showStartDateError
+                                    ? 'Preferred start date is required'
+                                    : 'Preferred start time is required',
+                                style: TextStyle(
+                                  color: Colors.red[700],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
                         if (_startDate != null)
                           Padding(
                             padding: const EdgeInsets.only(top: 6),
@@ -1421,6 +1764,16 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
+                          validator: (value) {
+                            final trimmed = value?.trim() ?? '';
+                            if (trimmed.isEmpty) {
+                              return 'Contact phone is required';
+                            }
+                            if (trimmed.length != 10) {
+                              return 'Enter a valid 10-digit phone number';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 24),
 
