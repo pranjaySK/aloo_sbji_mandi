@@ -5,6 +5,7 @@ import 'package:aloo_sbji_mandi/screens/cold_storage/cold_storage_home_screen.da
 import 'package:aloo_sbji_mandi/screens/profile_screen.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ColdStorageBottomNavBarPage extends StatefulWidget {
   const ColdStorageBottomNavBarPage({super.key});
@@ -36,13 +37,12 @@ class _ColdStorageBottomNavBarPageState
   }
 
   Future<bool> _onWillPop() async {
-    // If not on home tab, go back to home tab first
     if (_currentIndex != 0) {
       setState(() => _currentIndex = 0);
       return false;
     }
-    final parentContext = context;
-    return await showDialog(
+    final shouldExit =
+        await showDialog<bool>(
           context: context,
           builder: (dialogContext) => AlertDialog(
             title: Text(tr('exit_app')),
@@ -53,18 +53,19 @@ class _ColdStorageBottomNavBarPageState
                 child: Text(tr('no')),
               ),
               TextButton(
-                onPressed: () async {
-                  Navigator.of(dialogContext).pop();
-                  Navigator.of(
-                    parentContext,
-                  ).pushNamedAndRemoveUntil('/', (route) => false);
-                },
+                onPressed: () => Navigator.of(dialogContext).pop(true),
                 child: Text(tr('yes')),
               ),
             ],
           ),
         ) ??
         false;
+
+    if (shouldExit) {
+      await SystemNavigator.pop();
+    }
+
+    return false;
   }
 
   @override

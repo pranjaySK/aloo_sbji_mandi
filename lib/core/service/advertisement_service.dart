@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
+import 'package:aloo_sbji_mandi/core/utils/app_logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,13 +21,68 @@ class AdvertisementService {
     };
   }
 
+  Map<String, dynamic> _safeJsonDecode(String body) {
+    return json.decode(body) as Map<String, dynamic>;
+  }
+
+  void _logRequest(
+    String method,
+    String url, {
+    Map<String, dynamic>? headers,
+    Object? body,
+  }) {
+    AppLogger.request(
+      method,
+      url,
+      headers: headers,
+      body: body,
+      tag: 'AD_API_REQUEST',
+    );
+  }
+
+  void _logResponse(
+    String method,
+    String url,
+    http.Response response, {
+    Stopwatch? stopwatch,
+    Object? data,
+  }) {
+    AppLogger.response(
+      method,
+      url,
+      statusCode: response.statusCode,
+      duration: stopwatch?.elapsed,
+      data: data ?? response.body,
+      tag: 'AD_API_RESPONSE',
+    );
+  }
+
+  void _logError(
+    String method,
+    String url, {
+    Object? error,
+    StackTrace? stackTrace,
+    Object? data,
+  }) {
+    AppLogger.networkError(
+      method,
+      url,
+      error: error,
+      stackTrace: stackTrace,
+      data: data,
+      tag: 'AD_API_ERROR',
+    );
+  }
+
   // Get ad slide pricing (public)
   Future<Map<String, dynamic>> getAdPricing() async {
+    final url = '$baseUrl/advertisements/pricing';
+    final stopwatch = Stopwatch()..start();
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/advertisements/pricing'),
-      );
-      final data = json.decode(response.body);
+      _logRequest('GET', url);
+      final response = await http.get(Uri.parse(url));
+      final data = _safeJsonDecode(response.body);
+      _logResponse('GET', url, response, stopwatch: stopwatch, data: data);
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
       } else {
@@ -35,7 +91,8 @@ class AdvertisementService {
           'message': data['message'] ?? 'Failed to fetch pricing',
         };
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logError('GET', url, error: e, stackTrace: stackTrace);
       return {'success': false, 'message': 'Network error: $e'};
     }
   }
@@ -45,18 +102,22 @@ class AdvertisementService {
     List<Map<String, dynamic>>? slidePricing,
     List<Map<String, dynamic>>? durationOptions,
   }) async {
+    final url = '$baseUrl/advertisements/admin/pricing';
+    final stopwatch = Stopwatch()..start();
     try {
       final headers = await _getHeaders();
       final body = <String, dynamic>{};
       if (slidePricing != null) body['slidePricing'] = slidePricing;
       if (durationOptions != null) body['durationOptions'] = durationOptions;
+      _logRequest('PUT', url, headers: headers, body: body);
 
       final response = await http.put(
-        Uri.parse('$baseUrl/advertisements/admin/pricing'),
+        Uri.parse(url),
         headers: headers,
         body: json.encode(body),
       );
-      final data = json.decode(response.body);
+      final data = _safeJsonDecode(response.body);
+      _logResponse('PUT', url, response, stopwatch: stopwatch, data: data);
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
       } else {
@@ -65,18 +126,30 @@ class AdvertisementService {
           'message': data['message'] ?? 'Failed to update pricing',
         };
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logError(
+        'PUT',
+        url,
+        error: e,
+        stackTrace: stackTrace,
+        data: {
+          'slidePricing': slidePricing,
+          'durationOptions': durationOptions,
+        },
+      );
       return {'success': false, 'message': 'Network error: $e'};
     }
   }
 
   // Get active advertisements for slider (public)
   Future<Map<String, dynamic>> getActiveAdvertisements() async {
+    final url = '$baseUrl/advertisements/active';
+    final stopwatch = Stopwatch()..start();
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/advertisements/active'),
-      );
-      final data = json.decode(response.body);
+      _logRequest('GET', url);
+      final response = await http.get(Uri.parse(url));
+      final data = _safeJsonDecode(response.body);
+      _logResponse('GET', url, response, stopwatch: stopwatch, data: data);
 
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
@@ -86,7 +159,8 @@ class AdvertisementService {
           'message': data['message'] ?? 'Failed to fetch ads',
         };
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logError('GET', url, error: e, stackTrace: stackTrace);
       return {'success': false, 'message': 'Connection error: $e'};
     }
   }
@@ -106,6 +180,8 @@ class AdvertisementService {
     String? contactEmail,
     DateTime? startDate,
   }) async {
+    final url = '$baseUrl/advertisements/request';
+    final stopwatch = Stopwatch()..start();
     try {
       final headers = await _getHeaders();
       final body = {
@@ -127,13 +203,15 @@ class AdvertisementService {
       } else if (imageUrl != null && imageUrl.isNotEmpty) {
         body['imageUrl'] = imageUrl;
       }
+      _logRequest('POST', url, headers: headers, body: body);
 
       final response = await http.post(
-        Uri.parse('$baseUrl/advertisements/request'),
+        Uri.parse(url),
         headers: headers,
         body: json.encode(body),
       );
-      final data = json.decode(response.body);
+      final data = _safeJsonDecode(response.body);
+      _logResponse('POST', url, response, stopwatch: stopwatch, data: data);
 
       if (response.statusCode == 201) {
         return {'success': true, 'data': data['data']};
@@ -143,20 +221,25 @@ class AdvertisementService {
           'message': data['message'] ?? 'Failed to submit request',
         };
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logError('POST', url, error: e, stackTrace: stackTrace);
       return {'success': false, 'message': 'Connection error: $e'};
     }
   }
 
   // Get my advertisements
   Future<Map<String, dynamic>> getMyAdvertisements() async {
+    final url = '$baseUrl/advertisements/my';
+    final stopwatch = Stopwatch()..start();
     try {
       final headers = await _getHeaders();
+      _logRequest('GET', url, headers: headers);
       final response = await http.get(
-        Uri.parse('$baseUrl/advertisements/my'),
+        Uri.parse(url),
         headers: headers,
       );
-      final data = json.decode(response.body);
+      final data = _safeJsonDecode(response.body);
+      _logResponse('GET', url, response, stopwatch: stopwatch, data: data);
 
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
@@ -166,25 +249,34 @@ class AdvertisementService {
           'message': data['message'] ?? 'Failed to fetch ads',
         };
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logError('GET', url, error: e, stackTrace: stackTrace);
       return {'success': false, 'message': 'Connection error: $e'};
     }
   }
 
   // Track ad view
   Future<void> trackAdView(String adId) async {
+    final url = '$baseUrl/advertisements/$adId/view';
     try {
-      await http.post(Uri.parse('$baseUrl/advertisements/$adId/view'));
-    } catch (e) {
+      _logRequest('POST', url, body: {'adId': adId});
+      final response = await http.post(Uri.parse(url));
+      _logResponse('POST', url, response);
+    } catch (e, stackTrace) {
+      _logError('POST', url, error: e, stackTrace: stackTrace);
       // Silently fail
     }
   }
 
   // Track ad click
   Future<void> trackAdClick(String adId) async {
+    final url = '$baseUrl/advertisements/$adId/click';
     try {
-      await http.post(Uri.parse('$baseUrl/advertisements/$adId/click'));
-    } catch (e) {
+      _logRequest('POST', url, body: {'adId': adId});
+      final response = await http.post(Uri.parse(url));
+      _logResponse('POST', url, response);
+    } catch (e, stackTrace) {
+      _logError('POST', url, error: e, stackTrace: stackTrace);
       // Silently fail
     }
   }
@@ -194,12 +286,16 @@ class AdvertisementService {
   // Create Razorpay order for an approved advertisement
   Future<Map<String, dynamic>> createAdPaymentOrder(
       String advertisementId) async {
+    final url = '$baseUrl/advertisements/pay/create-order';
+    final stopwatch = Stopwatch()..start();
     try {
       final headers = await _getHeaders();
+      final body = {'advertisementId': advertisementId};
+      _logRequest('POST', url, headers: headers, body: body);
       final response = await http.post(
-        Uri.parse('$baseUrl/advertisements/pay/create-order'),
+        Uri.parse(url),
         headers: headers,
-        body: json.encode({'advertisementId': advertisementId}),
+        body: json.encode(body),
       );
 
       // Guard against non-JSON responses (HTML error pages, etc.)
@@ -207,6 +303,7 @@ class AdvertisementService {
       if (respBody.isEmpty ||
           respBody.startsWith('<') ||
           respBody.startsWith('<!')) {
+        _logResponse('POST', url, response, stopwatch: stopwatch, data: respBody);
         return {
           'success': false,
           'message':
@@ -215,7 +312,8 @@ class AdvertisementService {
         };
       }
 
-      final data = json.decode(respBody);
+      final data = _safeJsonDecode(respBody);
+      _logResponse('POST', url, response, stopwatch: stopwatch, data: data);
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
       } else {
@@ -224,7 +322,14 @@ class AdvertisementService {
           'message': data['message'] ?? 'Failed to create payment order',
         };
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logError(
+        'POST',
+        url,
+        error: e,
+        stackTrace: stackTrace,
+        data: {'advertisementId': advertisementId},
+      );
       return {'success': false, 'message': 'Network error: $e'};
     }
   }
@@ -236,17 +341,21 @@ class AdvertisementService {
     required String signature,
     required String advertisementId,
   }) async {
+    final url = '$baseUrl/advertisements/pay/verify';
+    final stopwatch = Stopwatch()..start();
     try {
       final headers = await _getHeaders();
+      final body = {
+        'razorpay_order_id': orderId,
+        'razorpay_payment_id': paymentId,
+        'razorpay_signature': signature,
+        'advertisementId': advertisementId,
+      };
+      _logRequest('POST', url, headers: headers, body: body);
       final response = await http.post(
-        Uri.parse('$baseUrl/advertisements/pay/verify'),
+        Uri.parse(url),
         headers: headers,
-        body: json.encode({
-          'razorpay_order_id': orderId,
-          'razorpay_payment_id': paymentId,
-          'razorpay_signature': signature,
-          'advertisementId': advertisementId,
-        }),
+        body: json.encode(body),
       );
 
       // Guard against non-JSON responses
@@ -254,6 +363,7 @@ class AdvertisementService {
       if (respBody.isEmpty ||
           respBody.startsWith('<') ||
           respBody.startsWith('<!')) {
+        _logResponse('POST', url, response, stopwatch: stopwatch, data: respBody);
         return {
           'success': false,
           'message':
@@ -262,7 +372,8 @@ class AdvertisementService {
         };
       }
 
-      final data = json.decode(respBody);
+      final data = _safeJsonDecode(respBody);
+      _logResponse('POST', url, response, stopwatch: stopwatch, data: data);
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
       } else {
@@ -271,7 +382,14 @@ class AdvertisementService {
           'message': data['message'] ?? 'Payment verification failed',
         };
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logError(
+        'POST',
+        url,
+        error: e,
+        stackTrace: stackTrace,
+        data: {'advertisementId': advertisementId},
+      );
       return {'success': false, 'message': 'Network error: $e'};
     }
   }
