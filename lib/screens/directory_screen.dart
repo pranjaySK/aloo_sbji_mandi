@@ -4,7 +4,7 @@ import 'package:aloo_sbji_mandi/screens/kishan/aloo_mitra_screen.dart';
 
 class DirectoryScreen extends StatelessWidget {
   final List<Map<String, dynamic>>? customItems;
-  
+
   const DirectoryScreen({super.key, this.customItems});
 
   static final List<Map<String, dynamic>> directoryItems = [
@@ -46,7 +46,8 @@ class DirectoryScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AlooMitraScreen(initialCategory: item['route']),
+            builder: (context) =>
+                AlooMitraScreen(initialCategory: item['route']),
           ),
         );
       },
@@ -63,46 +64,56 @@ class DirectoryScreen extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: item['image'].toString().startsWith('http')
-                ? Image.network(
-                    item['image'],
-                    width: 70,
-                    height: 70,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(Icons.image, size: 40, color: Colors.grey),
-                      );
-                    },
-                  )
-                : Image.asset(
-                    item['image'],
-                    width: 70,
-                    height: 70,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(Icons.image, size: 40, color: Colors.grey),
-                      );
-                    },
-                  ),
+                  ? Image.network(
+                      item['image'],
+                      width: 70,
+                      height: 70,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.image,
+                            size: 40,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
+                    )
+                  : Image.asset(
+                      item['image'],
+                      width: 70,
+                      height: 70,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.image,
+                            size: 40,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
+                    ),
             ),
             const SizedBox(height: 10),
             Text(
-              item['titleKey'] != null 
+              item['titleKey'] != null
                   ? AppLocalizations.tr(item['titleKey'])
-                  : (AppLocalizations.isHindi ? (item['title'] ?? '') : (item['titleEn'] ?? item['title'] ?? '')),
+                  : (AppLocalizations.isHindi
+                        ? (item['title'] ?? '')
+                        : (item['titleEn'] ?? item['title'] ?? '')),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 13,
@@ -119,7 +130,7 @@ class DirectoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = customItems ?? directoryItems;
-    
+
     return Scaffold(
       backgroundColor: const Color(0xFF0A5D1E),
       appBar: AppBar(
@@ -129,15 +140,16 @@ class DirectoryScreen extends StatelessWidget {
         ),
         title: Text(
           AppLocalizations.tr('directory'),
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: const Color(0xFF0A5D1E),
         elevation: 0,
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF0A5D1E),
-        ),
+        decoration: const BoxDecoration(color: Color(0xFF0A5D1E)),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: GridView.builder(

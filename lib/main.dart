@@ -22,8 +22,9 @@ import 'package:aloo_sbji_mandi/screens/cold_storage/cold_storage_home_screen.da
 import 'package:aloo_sbji_mandi/screens/cold_storage/cold_storage_notification_screen.dart';
 import 'package:aloo_sbji_mandi/screens/create_availbility_screen.dart';
 import 'package:aloo_sbji_mandi/screens/crop_analysis_screen.dart';
-import 'package:aloo_sbji_mandi/screens/dev_login_screen.dart';
+
 import 'package:aloo_sbji_mandi/screens/hire_rent_cold_storage_screen.dart';
+import 'package:aloo_sbji_mandi/screens/splash_screen.dart';
 import 'package:aloo_sbji_mandi/screens/kishan/buy_sell_screen.dart';
 import 'package:aloo_sbji_mandi/screens/kishan/create_sell_request_screen.dart';
 import 'package:aloo_sbji_mandi/screens/kishan/my_token_screen.dart';
@@ -138,7 +139,8 @@ void _setupTokenQueueNotifications() {
   socketService.addTokenEventListener((data) {
     final eventType = data['event'] as String? ?? '';
     final title = tokenEventTitles[eventType] ?? 'टोकन अपडेट / Token Update';
-    final message = data['message'] as String? ?? 'Your token status has been updated.';
+    final message =
+        data['message'] as String? ?? 'Your token status has been updated.';
     final tokenId = data['tokenId']?.toString();
     final coldStorageName = data['coldStorageName'] as String?;
 
@@ -221,9 +223,9 @@ class _MyAppState extends State<MyApp> {
           },
         );
       },
-      initialRoute: (kDebugMode) ? '/' : '/login',
+      initialRoute: '/',
       routes: {
-        '/': (context) => const DevLoginScreen(),
+        '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/sign_up': (context) => const SignUpScreen(),
         '/otp_login': (context) => const OTPLoginScreen(),
@@ -266,7 +268,8 @@ class _MyAppState extends State<MyApp> {
         '/crop_analysis': (context) => CropAnalysisScreen(),
         '/ai_analysis': (context) => const AICropAdvisorScreen(),
         '/notification': (context) => NotificationScreen(),
-        '/cold-storage-notifications': (context) => const ColdStorageNotificationScreen(),
+        '/cold-storage-notifications': (context) =>
+            const ColdStorageNotificationScreen(),
         '/transport_service': (context) => TransportServiceScreen(),
         '/buy_potatoes': (context) => BuyPotatoesScreen(),
         '/potatoes_detail_screen': (context) => PotatoDetailsScreen(),
