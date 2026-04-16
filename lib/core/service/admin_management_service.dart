@@ -202,14 +202,14 @@ class AdminManagementService {
   Future<Map<String, dynamic>> sendBroadcastNotification({
     required String title,
     required String message,
-    String? imageUrl,
+    String? imageBase64,
   }) async {
     try {
       final headers = await _getHeaders();
       final body = {
         'title': title,
         'message': message,
-        if (imageUrl != null && imageUrl.isNotEmpty) 'imageUrl': imageUrl,
+        if (imageBase64 != null && imageBase64.isNotEmpty) 'image': imageBase64,
       };
 
       final url = '$baseUrl/admin/broadcast-notification';

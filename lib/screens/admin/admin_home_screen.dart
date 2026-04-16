@@ -7,6 +7,7 @@ import 'package:aloo_sbji_mandi/screens/admin/admin_ads_screen.dart';
 import 'package:aloo_sbji_mandi/screens/admin/admin_broadcast_notification_screen.dart';
 import 'package:aloo_sbji_mandi/screens/admin/manage_admins_screen.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
+import 'package:aloo_sbji_mandi/widgets/language_toggle_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -103,6 +104,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           ),
         ),
         actions: [
+          const LanguageToggleWidget(),
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: _loadDashboard,
@@ -160,7 +162,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                               children: [
                                 Text(
                                   _isMaster
-                                      ? 'Welcome, Master'
+                                      ? tr('welcome_master')
                                       : tr('welcome_admin'),
                                   style: GoogleFonts.inter(
                                     color: Colors.white,
@@ -170,7 +172,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                 ),
                                 Text(
                                   _isMaster
-                                      ? 'Full control over platform & admins'
+                                      ? tr('full_control_platform_admins')
                                       : tr('manage_your_platform'),
                                   style: GoogleFonts.inter(
                                     color: Colors.white70,
@@ -243,7 +245,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     const SizedBox(height: 12),
 
                     _ActionCard(
-                      title: tr('manage_advertisements'),
+                      title: tr('manage_advertisements_title'),
                       subtitle:
                           '${_stats['pendingAds'] ?? 0} ${tr('pending_requests')}',
                       icon: Icons.campaign,
@@ -262,8 +264,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
                     // Send Broadcast Notification
                     _ActionCard(
-                      title: 'Send Notification',
-                      subtitle: 'Broadcast message to all users',
+                      title: tr('send_notification'),
+                      subtitle: tr('broadcast_message_users'),
                       icon: Icons.notifications_active,
                       color: Colors.blue,
                       onTap: () {
@@ -281,8 +283,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     if (_isMaster) ...[
                       const SizedBox(height: 12),
                       _ActionCard(
-                        title: 'Manage Admins',
-                        subtitle: 'Create, edit, or remove admin accounts',
+                        title: tr('manage_admins_title'),
+                        subtitle: tr('create_edit_remove_admins'),
                         icon: Icons.group,
                         color: const Color(0xFF8B6914),
                         onTap: () {

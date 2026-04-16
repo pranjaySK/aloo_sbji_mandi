@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:aloo_sbji_mandi/core/service/advertisement_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/core/utils/toast_helper.dart';
+import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -55,10 +56,13 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
   Future<void> _approveAd(String id) async {
     final result = await _adService.approveAdvertisement(id);
     if (result['success']) {
-      ToastHelper.showSuccess(context, 'Advertisement approved!');
+      ToastHelper.showSuccess(context, tr('advertisement_approved'));
       _loadAds();
     } else {
-      ToastHelper.showError(context, result['message'] ?? 'Failed to approve');
+      ToastHelper.showError(
+        context,
+        result['message'] ?? tr('failed_to_approve'),
+      );
     }
   }
 
@@ -92,12 +96,12 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
               );
               if (!mounted) return;
               if (result['success']) {
-                ToastHelper.showSuccess(outerCtx, 'Advertisement rejected');
+                ToastHelper.showSuccess(outerCtx, tr('advertisement_rejected'));
                 _loadAds();
               } else {
                 ToastHelper.showError(
                   outerCtx,
-                  result['message'] ?? 'Failed to reject',
+                  result['message'] ?? tr('failed_to_reject'),
                 );
               }
             },
@@ -118,9 +122,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
       context: context,
       builder: (dialogCtx) => AlertDialog(
         title: Text(tr('confirm_payment')),
-        content: const Text(
-          'Are you sure the payment has been received? This will activate the advertisement.',
-        ),
+        content: Text(tr('confirm_payment_message')),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogCtx),
@@ -134,13 +136,13 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
               if (result['success']) {
                 ToastHelper.showSuccess(
                   outerCtx,
-                  'Payment confirmed! Ad is now active.',
+                  tr('payment_confirmed_active'),
                 );
                 _loadAds();
               } else {
                 ToastHelper.showError(
                   outerCtx,
-                  result['message'] ?? 'Failed to confirm',
+                  result['message'] ?? tr('failed_to_confirm'),
                 );
               }
             },
@@ -195,12 +197,12 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
               final result = await _adService.adminDeleteAdvertisement(id);
               if (!mounted) return;
               if (result['success']) {
-                ToastHelper.showSuccess(outerCtx, 'Advertisement deleted!');
+                ToastHelper.showSuccess(outerCtx, tr('advertisement_deleted'));
                 _loadAds();
               } else {
                 ToastHelper.showError(
                   outerCtx,
-                  result['message'] ?? 'Failed to delete',
+                  result['message'] ?? tr('failed_to_delete'),
                 );
               }
             },
@@ -260,7 +262,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
             sourcePath: image.path,
             uiSettings: [
               AndroidUiSettings(
-                toolbarTitle: 'Edit Ad Image',
+                toolbarTitle: tr('edit_ad_image'),
                 toolbarColor: AppColors.primaryGreen,
                 toolbarWidgetColor: Colors.white,
                 activeControlsWidgetColor: AppColors.primaryGreen,
@@ -272,7 +274,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                   CropAspectRatioPreset.ratio16x9,
                 ],
               ),
-              IOSUiSettings(title: 'Edit Ad Image'),
+              IOSUiSettings(title: tr('edit_ad_image')),
             ],
           );
           if (croppedFile != null) {
@@ -376,8 +378,8 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                                     color: Colors.black54,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: const Text(
-                                    'New image • Tap to change',
+                                  child: Text(
+                                    tr('new_image_tap_change'),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 10,
@@ -406,8 +408,8 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                                     color: Colors.black54,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: const Text(
-                                    'Tap to replace',
+                                  child: Text(
+                                    tr('tap_to_replace'),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 10,
@@ -427,7 +429,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                'Tap to add image',
+                                tr('tap_add_image'),
                                 style: TextStyle(
                                   color: Colors.grey.shade600,
                                   fontSize: 12,
@@ -480,7 +482,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                           .map(
                             (d) => DropdownMenuItem(
                               value: d,
-                              child: Text('$d days'),
+                              child: Text('$d ${tr('days')}'),
                             ),
                           )
                           .toList(),
@@ -539,7 +541,10 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                   ? null
                   : () async {
                       if (titleController.text.trim().isEmpty) {
-                        ToastHelper.showError(dialogCtx, 'Title is required');
+                        ToastHelper.showError(
+                          dialogCtx,
+                          tr('title_required_error'),
+                        );
                         return;
                       }
                       setDialogState(() => isSaving = true);
@@ -561,13 +566,13 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                       if (result['success']) {
                         ToastHelper.showSuccess(
                           outerCtx,
-                          'Advertisement updated!',
+                          tr('advertisement_updated_success'),
                         );
                         _loadAds();
                       } else {
                         ToastHelper.showError(
                           outerCtx,
-                          result['message'] ?? 'Failed to update',
+                          result['message'] ?? tr('failed_to_update_msg'),
                         );
                       }
                     },
@@ -583,8 +588,8 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                         color: Colors.white,
                       ),
                     )
-                  : const Text(
-                      'Save Changes',
+                  : Text(
+                      tr('save_changes'),
                       style: TextStyle(color: Colors.white),
                     ),
             ),
@@ -654,7 +659,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
         backgroundColor: const Color(0xFF1E3A5F),
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          'Manage Advertisements',
+          tr('manage_advertisements_title'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -669,10 +674,10 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
           unselectedLabelColor: Colors.white60,
           indicatorColor: Colors.white,
           tabs: [
-            Tab(text: 'All (${_allAds.length})'),
-            Tab(text: 'Pending (${_pendingAds.length})'),
-            Tab(text: 'Approved (${_approvedAds.length})'),
-            Tab(text: 'Active (${_activeAds.length})'),
+            Tab(text: '${tr('all')} (${_allAds.length})'),
+            Tab(text: '${tr('pending_tab')} (${_pendingAds.length})'),
+            Tab(text: '${tr('approved_tab')} (${_approvedAds.length})'),
+            Tab(text: '${tr('active_ads')} (${_activeAds.length})'),
           ],
         ),
       ),
@@ -728,7 +733,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
             sourcePath: image.path,
             uiSettings: [
               AndroidUiSettings(
-                toolbarTitle: 'Edit Banner Image',
+                toolbarTitle: tr('edit_banner_image'),
                 toolbarColor: AppColors.primaryGreen,
                 toolbarWidgetColor: Colors.white,
                 activeControlsWidgetColor: AppColors.primaryGreen,
@@ -742,7 +747,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                 ],
               ),
               IOSUiSettings(
-                title: 'Edit Banner Image',
+                title: tr('edit_banner_image'),
                 aspectRatioPresets: [
                   CropAspectRatioPreset.original,
                   CropAspectRatioPreset.ratio3x2,
@@ -859,8 +864,8 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                                     color: Colors.black54,
                                     borderRadius: BorderRadius.circular(6),
                                   ),
-                                  child: const Text(
-                                    'Tap to change',
+                                  child: Text(
+                                    tr('tap_to_change_banner'),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 10,
@@ -880,7 +885,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Tap to upload banner image *',
+                                tr('tap_upload_banner_image'),
                                 style: TextStyle(
                                   color: Colors.grey.shade600,
                                   fontSize: 13,
@@ -889,7 +894,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'JPG, PNG • Gallery',
+                                tr('jpg_png_gallery'),
                                 style: TextStyle(
                                   color: Colors.grey.shade400,
                                   fontSize: 11,
@@ -922,7 +927,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                           .map(
                             (d) => DropdownMenuItem(
                               value: d,
-                              child: Text('$d days'),
+                              child: Text('$d ${tr('days')}'),
                             ),
                           )
                           .toList(),
@@ -946,14 +951,14 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                       if (titleController.text.trim().isEmpty) {
                         ToastHelper.showError(
                           context,
-                          'Banner title is required',
+                          tr('banner_title_required_error'),
                         );
                         return;
                       }
                       if (pickedBase64Image == null) {
                         ToastHelper.showError(
                           context,
-                          'Please upload a banner image',
+                          tr('please_upload_banner_image'),
                         );
                         return;
                       }
@@ -970,13 +975,13 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                       if (result['success']) {
                         ToastHelper.showSuccess(
                           context,
-                          'Banner created and activated!',
+                          tr('banner_created_activated'),
                         );
                         _loadAds();
                       } else {
                         ToastHelper.showError(
                           context,
-                          result['message'] ?? 'Failed to create banner',
+                          result['message'] ?? tr('failed_to_create_banner'),
                         );
                       }
                     },
@@ -992,8 +997,8 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                         color: Colors.white,
                       ),
                     )
-                  : const Text(
-                      'Create & Activate',
+                  : Text(
+                      tr('create_activate'),
                       style: TextStyle(color: Colors.white),
                     ),
             ),
@@ -1012,7 +1017,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
             Icon(Icons.campaign_outlined, size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text(
-              'No advertisements found',
+              tr('no_advertisements_found'),
               style: TextStyle(color: Colors.grey[600], fontSize: 16),
             ),
           ],
@@ -1039,7 +1044,7 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
                 ? () => _confirmPayment(ad['_id'])
                 : null,
             onEdit: () => _editAd(ad),
-            onDelete: () => _deleteAd(ad['_id'], ad['title'] ?? 'Untitled'),
+            onDelete: () => _deleteAd(ad['_id'], ad['title'] ?? tr('untitled')),
           );
         },
       ),
@@ -1137,7 +1142,7 @@ class _AdCard extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Text(
-                                      'Slide ${index + 1}',
+                                      '${tr('slide_prefix')}${index + 1}',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 10,
@@ -1164,7 +1169,7 @@ class _AdCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        ad['title'] ?? 'Untitled',
+                        ad['title'] ?? tr('untitled'),
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -1181,7 +1186,11 @@ class _AdCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        status.toUpperCase(),
+                        status.toUpperCase() == 'PENDING'
+                            ? tr('pending_tab')
+                            : status.toUpperCase() == 'APPROVED'
+                            ? tr('approved_tab')
+                            : status.toUpperCase(),
                         style: TextStyle(
                           color: statusColor,
                           fontSize: 11,
@@ -1208,7 +1217,7 @@ class _AdCard extends StatelessWidget {
                     const Icon(Icons.phone, size: 16, color: Colors.grey),
                     const SizedBox(width: 8),
                     Text(
-                      advertiser['phone'] ?? 'N/A',
+                      advertiser['phone'] ?? tr('not_available'),
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                   ],
@@ -1226,7 +1235,7 @@ class _AdCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${ad['durationDays']} days',
+                      '${ad['durationDays']} ${tr('days')}',
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     const SizedBox(width: 16),
@@ -1250,7 +1259,7 @@ class _AdCard extends StatelessWidget {
                 if (ad['startDate'] != null && ad['endDate'] != null) ...[
                   const SizedBox(height: 8),
                   Text(
-                    'Active: ${_formatDate(ad['startDate'])} - ${_formatDate(ad['endDate'])}',
+                    '${tr('active_ads')}: ${_formatDate(ad['startDate'])} - ${_formatDate(ad['endDate'])}',
                     style: TextStyle(color: Colors.grey[600], fontSize: 12),
                   ),
                 ],
@@ -1277,7 +1286,7 @@ class _AdCard extends StatelessWidget {
                         IconButton(
                           onPressed: onDelete,
                           icon: const Icon(Icons.delete, color: Colors.red),
-                          tooltip: 'Delete',
+                          tooltip: tr('delete'),
                           style: IconButton.styleFrom(
                             backgroundColor: Colors.red.withOpacity(0.1),
                           ),
@@ -1295,18 +1304,21 @@ class _AdCard extends StatelessWidget {
                               color: Colors.red,
                               size: 18,
                             ),
-                            label: const Text(
-                              'Reject',
-                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            label: Text(
+                              tr('reject'),
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         if (onApprove != null)
                           ElevatedButton.icon(
                             onPressed: onApprove,
                             icon: const Icon(Icons.check, size: 16),
-                            label: const Text(
-                              'Approve',
-                              style: TextStyle(fontSize: 12),
+                            label: Text(
+                              tr('approve'),
+                              style: const TextStyle(fontSize: 12),
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryGreen,
@@ -1321,8 +1333,8 @@ class _AdCard extends StatelessWidget {
                           ElevatedButton.icon(
                             onPressed: onConfirmPayment,
                             icon: const Icon(Icons.payment, size: 16),
-                            label: const Text(
-                              'Confirm Pay',
+                            label: Text(
+                              tr('confirm_pay_btn'),
                               style: TextStyle(fontSize: 12),
                             ),
                             style: ElevatedButton.styleFrom(
@@ -1366,7 +1378,7 @@ class _AdCard extends StatelessWidget {
   }
 
   String _formatDate(String? dateStr) {
-    if (dateStr == null) return 'N/A';
+    if (dateStr == null) return tr('not_available');
     try {
       final date = DateTime.parse(dateStr);
       return '${date.day}/${date.month}/${date.year}';

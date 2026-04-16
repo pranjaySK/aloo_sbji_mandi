@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:aloo_sbji_mandi/core/service/admin_management_service.dart';
@@ -8,10 +9,6 @@ import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminBroadcastNotificationScreen extends StatefulWidget {
   const AdminBroadcastNotificationScreen({super.key});
@@ -29,9 +26,7 @@ class _AdminBroadcastNotificationScreenState
   final ImagePicker _picker = ImagePicker();
 
   File? _selectedImage;
-  String? _uploadedImageUrl;
   bool _isSending = false;
-  bool _isUploading = false;
 
   @override
   void dispose() {
@@ -52,7 +47,6 @@ class _AdminBroadcastNotificationScreenState
       if (image != null) {
         setState(() {
           _selectedImage = File(image.path);
-          _uploadedImageUrl = null; // Reset uploaded URL when new image selected
         });
       }
     } catch (e) {
@@ -65,50 +59,7 @@ class _AdminBroadcastNotificationScreenState
   Future<void> _removeImage() async {
     setState(() {
       _selectedImage = null;
-      _uploadedImageUrl = null;
     });
-  }
-
-  Future<String?> _uploadImageToCloudinary(File imageFile) async {
-    try {
-      setState(() => _isUploading = true);
-
-      // Create multipart request
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse('https://api.cloudinary.com/v1_1/dphxleab3/image/upload'),
-      );
-
-      // Add image file
-      request.files.add(
-        await http.MultipartFile.fromPath('file', imageFile.path),
-      );
-
-      // Add upload preset (you may need to create an unsigned preset in Cloudinary)
-      request.fields['upload_preset'] = 'ml_default'; // Change this to your preset
-      request.fields['folder'] = 'notifications';
-
-      // Send request
-      final response = await request.send();
-      final responseData = await response.stream.toBytes();
-      final responseString = String.fromCharCodes(responseData);
-      final jsonResponse = json.decode(responseString);
-
-      if (response.statusCode == 200) {
-        return jsonResponse['secure_url'];
-      } else {
-        throw Exception('Upload failed: ${jsonResponse['error']['message']}');
-      }
-    } catch (e) {
-      if (mounted) {
-        ToastHelper.showError(context, 'Image upload failed: $e');
-      }
-      return null;
-    } finally {
-      if (mounted) {
-        setState(() => _isUploading = false);
-      }
-    }
   }
 
   Future<void> _sendNotification() async {
@@ -116,34 +67,29 @@ class _AdminBroadcastNotificationScreenState
     final message = _messageController.text.trim();
 
     if (title.isEmpty) {
-      ToastHelper.showError(context, 'Please enter a title');
+      ToastHelper.showError(context, tr('please_enter_a_title'));
       return;
     }
 
     if (message.isEmpty) {
-      ToastHelper.showError(context, 'Please enter a message');
+      ToastHelper.showError(context, tr('please_enter_a_message'));
       return;
     }
 
     if (title.length > 200) {
-      ToastHelper.showError(context, 'Title must be less than 200 characters');
+      ToastHelper.showError(context, tr('title_less_than_200'));
       return;
     }
 
     if (message.length > 1000) {
-      ToastHelper.showError(context, 'Message must be less than 1000 characters');
+      ToastHelper.showError(context, tr('message_less_than_1000'));
       return;
     }
 
-    // Upload image if selected and not already uploaded
-    String? imageUrl = _uploadedImageUrl;
-    if (_selectedImage != null && imageUrl == null) {
-      imageUrl = await _uploadImageToCloudinary(_selectedImage!);
-      if (imageUrl == null) {
-        ToastHelper.showError(context, 'Failed to upload image. Try again.');
-        return;
-      }
-      setState(() => _uploadedImageUrl = imageUrl);
+    String? imageBase64;
+    if (_selectedImage != null) {
+      final bytes = await _selectedImage!.readAsBytes();
+      imageBase64 = base64Encode(bytes);
     }
 
     // Confirm before sending
@@ -151,7 +97,7 @@ class _AdminBroadcastNotificationScreenState
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Confirm Broadcast',
+          tr('confirm_broadcast'),
           style: GoogleFonts.inter(fontWeight: FontWeight.bold),
         ),
         content: Column(
@@ -159,7 +105,7 @@ class _AdminBroadcastNotificationScreenState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'This will send a notification to ALL users in the app.',
+              tr('send_notification_to_all_msg'),
               style: GoogleFonts.inter(),
             ),
             const SizedBox(height: 16),
@@ -174,10 +120,10 @@ class _AdminBroadcastNotificationScreenState
               maxLines: 5,
               overflow: TextOverflow.ellipsis,
             ),
-            if (imageUrl != null) ...[
+            if (_selectedImage != null) ...[
               const SizedBox(height: 8),
               Text(
-                'With Image: Yes',
+                tr('with_image_yes'),
                 style: GoogleFonts.inter(color: Colors.green),
               ),
             ],
@@ -186,7 +132,7 @@ class _AdminBroadcastNotificationScreenState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel', style: GoogleFonts.inter()),
+            child: Text(tr('cancel'), style: GoogleFonts.inter()),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
@@ -194,7 +140,7 @@ class _AdminBroadcastNotificationScreenState
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
             ),
-            child: Text('Send to All', style: GoogleFonts.inter()),
+            child: Text(tr('send_to_all'), style: GoogleFonts.inter()),
           ),
         ],
       ),
@@ -209,7 +155,7 @@ class _AdminBroadcastNotificationScreenState
       final result = await _adminService.sendBroadcastNotification(
         title: title,
         message: message,
-        imageUrl: imageUrl,
+        imageBase64: imageBase64,
       );
 
       print('✅ Broadcast result received: $result');
@@ -221,7 +167,7 @@ class _AdminBroadcastNotificationScreenState
       if (result['success']) {
         ToastHelper.showSuccess(
           context,
-          result['message'] ?? 'Notification sent successfully!',
+          result['message'] ?? tr('notification_sent_successfully'),
         );
         Navigator.pop(context); // Go back to admin home
       } else {
@@ -231,11 +177,11 @@ class _AdminBroadcastNotificationScreenState
             context: context,
             builder: (context) => AlertDialog(
               title: Text(
-                'Authentication Required',
+                tr('authentication_required'),
                 style: GoogleFonts.inter(fontWeight: FontWeight.bold),
               ),
               content: Text(
-                'Your session may have expired. Please login again as admin.',
+                tr('session_expired_login_again'),
                 style: GoogleFonts.inter(),
               ),
               actions: [
@@ -244,7 +190,7 @@ class _AdminBroadcastNotificationScreenState
                     Navigator.pop(context); // Close dialog
                     Navigator.pop(context); // Go back
                   },
-                  child: Text('OK', style: GoogleFonts.inter()),
+                  child: Text(tr('ok'), style: GoogleFonts.inter()),
                 ),
               ],
             ),
@@ -252,7 +198,7 @@ class _AdminBroadcastNotificationScreenState
         } else {
           ToastHelper.showError(
             context,
-            result['message'] ?? 'Failed to send notification',
+            result['message'] ?? tr('failed_to_send_notification'),
           );
         }
       }
@@ -269,8 +215,8 @@ class _AdminBroadcastNotificationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg(context),
-      appBar: const CustomRoundedAppBar(
-        title: 'Send Broadcast Notification',
+      appBar:  CustomRoundedAppBar(
+        title: tr('send_broadcast_notification_title'),
       ),
       body: _isSending
           ? Center(
@@ -280,7 +226,7 @@ class _AdminBroadcastNotificationScreenState
                   const CircularProgressIndicator(),
                   const SizedBox(height: 16),
                   Text(
-                    'Sending notification to all users...',
+                    tr('sending_notification_to_all'),
                     style: GoogleFonts.inter(fontSize: 16),
                   ),
                 ],
@@ -306,7 +252,7 @@ class _AdminBroadcastNotificationScreenState
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            'This notification will be sent to all users (Farmers, Traders, Cold Storage, Aloo Mitra)',
+                            tr('broadcast_notification_info'),
                             style: GoogleFonts.inter(
                               color: Colors.blue.shade900,
                               fontSize: 13,
@@ -321,7 +267,7 @@ class _AdminBroadcastNotificationScreenState
 
                   // Title Field
                   Text(
-                    'Notification Title *',
+                    tr('notification_title_required'),
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -332,7 +278,7 @@ class _AdminBroadcastNotificationScreenState
                     controller: _titleController,
                     maxLength: 200,
                     decoration: InputDecoration(
-                      hintText: 'e.g., Important Update',
+                      hintText: tr('eg_important_update'),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -356,7 +302,7 @@ class _AdminBroadcastNotificationScreenState
 
                   // Message Field
                   Text(
-                    'Notification Message *',
+                    tr('notification_message_required'),
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -369,7 +315,7 @@ class _AdminBroadcastNotificationScreenState
                     maxLines: 5,
                     decoration: InputDecoration(
                       hintText:
-                          'e.g., Dear users, we have an important announcement...',
+                          tr('eg_important_announcement'),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -393,7 +339,7 @@ class _AdminBroadcastNotificationScreenState
 
                   // Image Section
                   Text(
-                    'Notification Image (Optional)',
+                    tr('notification_image_optional'),
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -419,10 +365,10 @@ class _AdminBroadcastNotificationScreenState
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: _isUploading ? null : _pickImage,
+                            onPressed: _pickImage,
                             icon: const Icon(Icons.edit),
                             label: Text(
-                              'Change Image',
+                              tr('change_image'),
                               style: GoogleFonts.inter(),
                             ),
                           ),
@@ -430,10 +376,10 @@ class _AdminBroadcastNotificationScreenState
                         const SizedBox(width: 8),
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: _isUploading ? null : _removeImage,
+                            onPressed: _removeImage,
                             icon: const Icon(Icons.delete, color: Colors.red),
                             label: Text(
-                              'Remove',
+                              tr('remove'),
                               style: GoogleFonts.inter(color: Colors.red),
                             ),
                             style: OutlinedButton.styleFrom(
@@ -443,26 +389,14 @@ class _AdminBroadcastNotificationScreenState
                         ),
                       ],
                     ),
-                    if (_isUploading) ...[
-                      const SizedBox(height: 8),
-                      const LinearProgressIndicator(),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Uploading image...',
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: Colors.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+
                   ] else ...[
                     // Pick image button
                     OutlinedButton.icon(
                       onPressed: _pickImage,
                       icon: const Icon(Icons.add_photo_alternate),
                       label: Text(
-                        'Add Image',
+                        tr('add_image'),
                         style: GoogleFonts.inter(),
                       ),
                       style: OutlinedButton.styleFrom(
@@ -476,10 +410,10 @@ class _AdminBroadcastNotificationScreenState
 
                   // Send Button
                   ElevatedButton.icon(
-                    onPressed: _isSending || _isUploading ? null : _sendNotification,
+                    onPressed: _isSending ? null : _sendNotification,
                     icon: const Icon(Icons.send, color: Colors.white),
                     label: Text(
-                      'Send to All Users',
+                      tr('send_to_all_users'),
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -499,11 +433,9 @@ class _AdminBroadcastNotificationScreenState
 
                   // Cancel Button
                   OutlinedButton(
-                    onPressed: _isSending || _isUploading
-                        ? null
-                        : () => Navigator.pop(context),
+                    onPressed: _isSending ? null : () => Navigator.pop(context),
                     child: Text(
-                      'Cancel',
+                      tr('cancel'),
                       style: GoogleFonts.inter(fontSize: 16),
                     ),
                     style: OutlinedButton.styleFrom(

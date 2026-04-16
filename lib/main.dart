@@ -66,7 +66,7 @@ void main() async {
   GoogleFonts.config.allowRuntimeFetching = true;
   await dotenv.load(fileName: ".env");
   await AppLocalizations.init();
-
+  
   bool firebaseReady = false;
   if (!kIsWeb) {
     try {
@@ -188,7 +188,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _onLocaleChanged() {
-    if (mounted) setState(() {});
+    if (mounted) {
+      setState(() {});
+      // Force all elements in the tree to rebuild to pick up new static tr() values
+      void rebuild(Element el) {
+        el.markNeedsBuild();
+        el.visitChildren(rebuild);
+      }
+      (context as Element).visitChildren(rebuild);
+    }
   }
 
   void updateTheme(bool isDark) {

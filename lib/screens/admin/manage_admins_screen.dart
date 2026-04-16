@@ -1,4 +1,5 @@
 import 'package:aloo_sbji_mandi/core/service/admin_management_service.dart';
+import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -30,7 +31,10 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
         _admins = List<Map<String, dynamic>>.from(result['data'] ?? []);
       });
     } else {
-      _showToast(result['message'] ?? 'Failed to load admins', isError: true);
+      _showToast(
+        result['message'] ?? tr('failed_to_load_admins'),
+        isError: true,
+      );
     }
     setState(() => _isLoading = false);
   }
@@ -75,7 +79,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
               ),
               const SizedBox(width: 12),
               Text(
-                'Create New Admin',
+                tr('create_new_admin'),
                 style: GoogleFonts.inter(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -89,33 +93,33 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
               children: [
                 _buildTextField(
                   firstNameController,
-                  'First Name',
+                  tr('first_name'),
                   Icons.person,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   lastNameController,
-                  'Last Name',
+                  tr('last_name'),
                   Icons.person_outline,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   phoneController,
-                  'Phone Number',
+                  tr('phone_number'),
                   Icons.phone,
                   keyboardType: TextInputType.phone,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   emailController,
-                  'Email (Optional)',
+                  tr('email_optional'),
                   Icons.email,
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   passwordController,
-                  'Password',
+                  tr('password'),
                   Icons.lock,
                   obscureText: true,
                 ),
@@ -125,7 +129,10 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
           actions: [
             TextButton(
               onPressed: isCreating ? null : () => Navigator.pop(context),
-              child: Text('Cancel', style: TextStyle(color: Colors.grey[600])),
+              child: Text(
+                tr('cancel'),
+                style: TextStyle(color: Colors.grey[600]),
+              ),
             ),
             ElevatedButton(
               onPressed: isCreating
@@ -136,16 +143,13 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                           phoneController.text.isEmpty ||
                           passwordController.text.isEmpty) {
                         _showToast(
-                          'Please fill all required fields',
+                          tr('fill_all_required_fields'),
                           isError: true,
                         );
                         return;
                       }
                       if (passwordController.text.length < 6) {
-                        _showToast(
-                          'Password must be at least 6 characters',
-                          isError: true,
-                        );
+                        _showToast(tr('password_min_6_chars'), isError: true);
                         return;
                       }
 
@@ -162,13 +166,13 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
 
                       if (result['success']) {
                         _showToast(
-                          result['message'] ?? 'Admin created successfully',
+                          result['message'] ?? tr('admin_created_success'),
                         );
                         if (context.mounted) Navigator.pop(context);
                         _loadAdmins();
                       } else {
                         _showToast(
-                          result['message'] ?? 'Failed to create admin',
+                          result['message'] ?? tr('failed_to_create_admin'),
                           isError: true,
                         );
                         setDialogState(() => isCreating = false);
@@ -189,8 +193,8 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                         strokeWidth: 2,
                       ),
                     )
-                  : const Text(
-                      'Create Admin',
+                  : Text(
+                      tr('create_admin_button'),
                       style: TextStyle(color: Colors.white),
                     ),
             ),
@@ -233,7 +237,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Edit Admin',
+                  tr('edit_admin'),
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -248,33 +252,33 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
               children: [
                 _buildTextField(
                   firstNameController,
-                  'First Name',
+                  tr('first_name'),
                   Icons.person,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   lastNameController,
-                  'Last Name',
+                  tr('last_name'),
                   Icons.person_outline,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   phoneController,
-                  'Phone Number',
+                  tr('phone_number'),
                   Icons.phone,
                   keyboardType: TextInputType.phone,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   emailController,
-                  'Email (Optional)',
+                  tr('email_optional'),
                   Icons.email,
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   passwordController,
-                  'New Password (leave empty to keep)',
+                  tr('new_password_optional'),
                   Icons.lock,
                   obscureText: true,
                 ),
@@ -284,7 +288,10 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
           actions: [
             TextButton(
               onPressed: isUpdating ? null : () => Navigator.pop(context),
-              child: Text('Cancel', style: TextStyle(color: Colors.grey[600])),
+              child: Text(
+                tr('cancel'),
+                style: TextStyle(color: Colors.grey[600]),
+              ),
             ),
             ElevatedButton(
               onPressed: isUpdating
@@ -305,12 +312,12 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                       );
 
                       if (result['success']) {
-                        _showToast('Admin updated successfully');
+                        _showToast(tr('admin_updated_success'));
                         if (context.mounted) Navigator.pop(context);
                         _loadAdmins();
                       } else {
                         _showToast(
-                          result['message'] ?? 'Failed to update admin',
+                          result['message'] ?? tr('failed_to_update_admin'),
                           isError: true,
                         );
                         setDialogState(() => isUpdating = false);
@@ -331,7 +338,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                         strokeWidth: 2,
                       ),
                     )
-                  : const Text('Update', style: TextStyle(color: Colors.white)),
+                  : Text(tr('update'), style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -353,19 +360,24 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
             ),
             const SizedBox(width: 8),
             Text(
-              'Delete Admin',
+              tr('delete_admin'),
               style: GoogleFonts.inter(fontWeight: FontWeight.bold),
             ),
           ],
         ),
         content: Text(
-          'Are you sure you want to permanently delete "${admin['firstName']} ${admin['lastName']}"?\n\nThis action cannot be undone.',
+          tr('are_you_sure_delete_admin') +
+              '"${admin['firstName']} ${admin['lastName']}"' +
+              tr('this_action_cannot_be_undone'),
           style: GoogleFonts.inter(fontSize: 15),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel', style: TextStyle(color: Colors.grey[600])),
+            child: Text(
+              tr('cancel'),
+              style: TextStyle(color: Colors.grey[600]),
+            ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
@@ -375,7 +387,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text('Delete', style: TextStyle(color: Colors.white)),
+            child: Text(tr('delete'), style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -384,11 +396,11 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
     if (confirmed == true) {
       final result = await _adminService.deleteAdmin(admin['_id']);
       if (result['success']) {
-        _showToast('Admin deleted successfully');
+        _showToast(tr('admin_deleted_success'));
         _loadAdmins();
       } else {
         _showToast(
-          result['message'] ?? 'Failed to delete admin',
+          result['message'] ?? tr('failed_to_delete_admin'),
           isError: true,
         );
       }
@@ -409,7 +421,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
               const Icon(Icons.arrow_downward, color: Colors.orange, size: 28),
               const SizedBox(width: 8),
               Text(
-                'Demote Admin',
+                tr('demote_admin'),
                 style: GoogleFonts.inter(fontWeight: FontWeight.bold),
               ),
             ],
@@ -419,7 +431,9 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Demote "${admin['firstName']} ${admin['lastName']}" to:',
+                tr('demote_prefix') +
+                    '${admin['firstName']} ${admin['lastName']}' +
+                    tr('demote_suffix'),
                 style: GoogleFonts.inter(fontSize: 15),
               ),
               const SizedBox(height: 16),
@@ -434,16 +448,22 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                     vertical: 10,
                   ),
                 ),
-                items: const [
-                  DropdownMenuItem(value: 'farmer', child: Text('Farmer')),
-                  DropdownMenuItem(value: 'trader', child: Text('Trader')),
+                items: [
+                  DropdownMenuItem(
+                    value: 'farmer',
+                    child: Text(tr('role_farmer')),
+                  ),
+                  DropdownMenuItem(
+                    value: 'trader',
+                    child: Text(tr('role_trader')),
+                  ),
                   DropdownMenuItem(
                     value: 'cold-storage',
-                    child: Text('Cold Storage'),
+                    child: Text(tr('role_cold_storage')),
                   ),
                   DropdownMenuItem(
                     value: 'aloo-mitra',
-                    child: Text('Aloo Mitra'),
+                    child: Text(tr('role_aloo_mitra')),
                   ),
                 ],
                 onChanged: (value) {
@@ -455,7 +475,10 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: Text('Cancel', style: TextStyle(color: Colors.grey[600])),
+              child: Text(
+                tr('cancel'),
+                style: TextStyle(color: Colors.grey[600]),
+              ),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
@@ -465,10 +488,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text(
-                'Demote',
-                style: TextStyle(color: Colors.white),
-              ),
+              child: Text(tr('demote'), style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -481,11 +501,11 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
         newRole: selectedRole,
       );
       if (result['success']) {
-        _showToast(result['message'] ?? 'Admin demoted successfully');
+        _showToast(result['message'] ?? tr('admin_demoted_success'));
         _loadAdmins();
       } else {
         _showToast(
-          result['message'] ?? 'Failed to demote admin',
+          result['message'] ?? tr('failed_to_demote_admin'),
           isError: true,
         );
       }
@@ -522,7 +542,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF1E3A5F),
         title: Text(
-          'Manage Admins',
+          tr('manage_admins'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -541,7 +561,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
         backgroundColor: const Color(0xFF1E3A5F),
         icon: const Icon(Icons.person_add, color: Colors.white),
         label: Text(
-          'Add Admin',
+          tr('add_admin_action'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -562,7 +582,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'No admins found',
+                    tr('no_admins_found'),
                     style: GoogleFonts.inter(
                       fontSize: 18,
                       color: Colors.grey[500],
@@ -571,7 +591,7 @@ class _ManageAdminsScreenState extends State<ManageAdminsScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Tap + to create a new admin',
+                    tr('tap_plus_create_admin'),
                     style: GoogleFonts.inter(color: Colors.grey[400]),
                   ),
                 ],
@@ -687,7 +707,7 @@ class _AdminCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              isMaster ? 'MASTER' : 'ADMIN',
+                              isMaster ? tr('master_badge') : tr('admin_badge'),
                               style: GoogleFonts.inter(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
@@ -751,21 +771,21 @@ class _AdminCard extends StatelessWidget {
                 children: [
                   _ActionButton(
                     icon: Icons.edit,
-                    label: 'Edit',
+                    label: tr('edit'),
                     color: Colors.blue,
                     onTap: onEdit,
                   ),
                   const SizedBox(width: 8),
                   _ActionButton(
                     icon: Icons.arrow_downward,
-                    label: 'Demote',
+                    label: tr('demote'),
                     color: Colors.orange,
                     onTap: onDemote,
                   ),
                   const SizedBox(width: 8),
                   _ActionButton(
                     icon: Icons.delete,
-                    label: 'Delete',
+                    label: tr('delete'),
                     color: Colors.red,
                     onTap: onDelete,
                   ),
@@ -788,9 +808,9 @@ class _AdminCard extends StatelessWidget {
                     Icon(Icons.lock, size: 14, color: Colors.amber.shade800),
                     const SizedBox(width: 6),
                     Text(
-                      'Protected — Cannot be modified or deleted',
+                      tr('protected_admin_msg'),
                       style: GoogleFonts.inter(
-                        fontSize: 12,
+                        fontSize: 10,
                         color: Colors.amber.shade800,
                         fontWeight: FontWeight.w500,
                       ),
