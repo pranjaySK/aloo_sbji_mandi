@@ -262,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     subtitle: tr('share_app_sub'),
                     onTap: () {
                       Share.share(
-                        'Ek share \u{1F64F} Aloo Parivar ki Unnati ke liye !\n\nDownload Aloo Market App now!\nhttps://play.google.com/store/apps/details?id=com.aloomarket.app',
+                        'Ek share \u{1F64F} Aloo Parivar ki Unnati ke liye !\n\nDownload Aloo Market App now!\nhttps://play.google.com/store/apps/details?id=com.mandi.aloo_market&hl=en_IN',
                       );
                     },
                   ),

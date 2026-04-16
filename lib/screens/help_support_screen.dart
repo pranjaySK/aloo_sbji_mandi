@@ -45,7 +45,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   Future<void> _launchEmail() async {
     final uri = Uri(
       scheme: 'mailto',
-      path: 'support@aloosbjimandi.com',
+      path: 'aloomarketfounder@gmail.com',
       query: 'subject=Help Request',
     );
     if (await canLaunchUrl(uri)) {
@@ -54,7 +54,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   }
 
   Future<void> _launchPhone() async {
-    final uri = Uri(scheme: 'tel', path: '+911234567890');
+    final uri = Uri(scheme: 'tel', path: '+918394086208');
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     }
@@ -207,7 +207,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
               icon: Icons.chat_outlined,
               title: 'WhatsApp',
               subtitle: tr('whatsapp_subtitle'),
-              onTap: () => _launchUrl('https://wa.me/911234567890'),
+              onTap: () => _launchUrl('https://wa.me/918394086208'),
             ),
 
             const SizedBox(height: 24),

@@ -45,7 +45,17 @@ class AppLocalizations extends ChangeNotifier {
   /// Get translated text for current locale
   static String tr(String key) {
     final map = _allTranslations[_currentLocale] ?? _en;
-    return map[key] ?? _en[key] ?? key;
+    final localized = map[key];
+    if (localized != null && localized.trim().isNotEmpty) {
+      return localized;
+    }
+
+    final english = _en[key];
+    if (english != null && english.trim().isNotEmpty) {
+      return english;
+    }
+
+    return key;
   }
 
   /// Get translated text with argument substitution.
@@ -511,16 +521,21 @@ Advisor''',
     'chat_to_connect': 'Chat to connect with farmer',
     'chat_with_farmer': 'Chat with Farmer',
     'chat_with_owner': 'Chat with Owner',
-    'chatbot_app_help_response': '',
-    'chatbot_cold_storage_response': '',
+    'chatbot_app_help_response':
+        'You can use this app to sell potatoes, check mandi prices, find traders, and book cold storage. Tell me what you want to do and I will guide you.',
+    'chatbot_cold_storage_response':
+        'You can store potatoes in cold storage to avoid distress selling. Check rent, distance, and storage duration before booking.',
     'chatbot_default_response':
         '''🤔 I didn't understand that. Please ask about selling, prices, seeds, or storage!''',
-    'chatbot_disease_response': '',
+    'chatbot_disease_response':
+        'If your crop has disease or pest issues, identify the symptoms early and use the right medicine as advised by an agriculture expert or dealer.',
     'chatbot_fertilizer_response': '🧪 Fertilizer Information:',
-    'chatbot_greeting_response': '',
+    'chatbot_greeting_response':
+        'Hello! I can help with potato selling, mandi prices, seeds, storage, irrigation, and app usage.',
     'chatbot_harvest_response': '🥔 Harvesting Information:',
     'chatbot_irrigation_response': '💧 Irrigation Information:',
-    'chatbot_loan_response': '',
+    'chatbot_loan_response':
+        'You can explore crop loans through banks, KCC, or local agriculture schemes. Keep Aadhaar, land records, and bank details ready.',
     'chatbot_price_response':
         '''📊 Today's estimated price is ₹{minPrice} - ₹{maxPrice}/quintal. Prices depend on quality and mandi.''',
     'chatbot_qr_ask_more': 'Ask more questions',
@@ -572,17 +587,23 @@ Advisor''',
     'chatbot_qr_which_medicine': 'Which medicine to use?',
     'chatbot_qr_which_seed': 'Which seed is best?',
     'chatbot_qr_which_variety_good': 'Which variety is good?',
-    'chatbot_seed_response': '',
-    'chatbot_sell_response': '',
-    'chatbot_sowing_response': '',
+    'chatbot_seed_response':
+        'Choose seed variety based on your area, sowing time, yield target, and market demand. Certified seed usually gives better results.',
+    'chatbot_sell_response':
+        'To sell potatoes, create a listing with quantity, quality, variety, and expected price. Traders can then contact you through the app.',
+    'chatbot_sowing_response':
+        'For sowing, use healthy seed, proper spacing, and the right planting time for your region. Timely sowing improves yield and quality.',
     'chatbot_suggestion_price': 'Tell me price',
     'chatbot_suggestion_seed': 'Which seed is best?',
     'chatbot_suggestion_sell': 'How to sell potato?',
-    'chatbot_thankyou_response': '',
+    'chatbot_thankyou_response':
+        'You are welcome. Ask another question if you need help with potato farming, trading, storage, or app usage.',
     'chatbot_trader_response': '🤝 Connect with Traders:',
-    'chatbot_transport_response': '',
+    'chatbot_transport_response':
+        'For transport, compare vehicle cost, travel time, loading support, and mandi distance before sending your crop.',
     'chatbot_weather_response': '🌤️ Weather Information:',
-    'chatbot_welcome': '',
+    'chatbot_welcome':
+        'Welcome to Aloo Market. Ask me about selling potatoes, mandi prices, seeds, storage, irrigation, or app help.',
     'chats': 'Chats',
     'chaupal': 'Chaupal',
     'chaupal_title': 'Chaupal',
@@ -1318,7 +1339,7 @@ Advisor''',
     'my_seed_listings': 'My Seed Listings',
     'my_token': 'My Token',
     'my_token_title': 'My Token',
-    'my_upi_id_msg': '',
+    'my_upi_id_msg': 'My UPI ID: {upiId}',
     'name_phone_required': 'Name and phone are required',
     'name_required': 'Name is required',
     'navigate': 'Navigate',

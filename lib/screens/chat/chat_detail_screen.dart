@@ -75,6 +75,26 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   // Pending closing call details for payment flow
   DealDetails? _pendingClosingCallDetails;
 
+  void _logPaymentFlow(String message, [Object? error, StackTrace? stackTrace]) {
+    final prefix = '[ChatPaymentFlow] $message';
+    if (error != null) {
+      debugPrint('$prefix | error=$error');
+      if (stackTrace != null) {
+        debugPrint(stackTrace.toString());
+      }
+      return;
+    }
+    debugPrint(prefix);
+  }
+
+  String _buildUpiMessageContent(String upiId) {
+    final localized = trArgs('my_upi_id_msg', {'upiId': upiId}).trim();
+    if (localized.isNotEmpty) {
+      return localized;
+    }
+    return 'My UPI ID: $upiId';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -563,6 +583,44 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (_) {
       return null;
     }
+  }
+
+  DealDetails? _resolvePaymentDetailsContext() {
+    if (_pendingClosingCallDetails != null) {
+      _logPaymentFlow('Using pending closing call details');
+      return _pendingClosingCallDetails;
+    }
+
+    for (final message in _messages.reversed) {
+      final details = message.dealDetails;
+      if (details == null) continue;
+      if (message.messageType == 'closing_call' ||
+          message.messageType == 'closing_call_accepted' ||
+          message.messageType == 'payment_shared' ||
+          message.messageType == 'payment_sent' ||
+          message.messageType == 'deal_closed') {
+        _logPaymentFlow(
+          'Using ${message.messageType} context from message ${message.id}',
+        );
+        return details;
+      }
+    }
+
+    final fallbackDeal = _activeDeal ?? _closedDeal;
+    if (fallbackDeal != null) {
+      _logPaymentFlow('Using fallback deal context from deal ${fallbackDeal.id}');
+      return DealDetails(
+        quantity: fallbackDeal.quantity,
+        pricePerKg: fallbackDeal.pricePerTon,
+        totalAmount: fallbackDeal.totalAmount,
+        sellerName: fallbackDeal.farmer.fullName.trim(),
+        buyerName: fallbackDeal.coldStorageOwner.fullName.trim(),
+        listingRefId: widget.listingRefId,
+      );
+    }
+
+    _logPaymentFlow('No deal context available for payment share');
+    return null;
   }
 
   @override
@@ -4230,18 +4288,23 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
     try {
       final details = message.dealDetails;
+      if (details == null) {
+        throw Exception('Missing deal details for payment share');
+      }
+      _logPaymentFlow(
+        'Sending payment_shared card for seller=${details.sellerName} buyer=${details.buyerName}',
+      );
       final msg = await _chatService.sendMessage(
         widget.conversationId,
         tr('deal_terms_accepted_msg'),
         messageType: 'closing_call_accepted',
         dealDetailsMap: {
-          'quantity': details?.quantity,
-          'pricePerKg': details?.pricePerKg,
-          'totalAmount': details?.totalAmount,
-          'sellerName': details?.sellerName,
-          'buyerName': details?.buyerName,
-          if (details?.listingRefId != null)
-            'listingRefId': details!.listingRefId,
+          'quantity': details.quantity,
+          'pricePerKg': details.pricePerKg,
+          'totalAmount': details.totalAmount,
+          'sellerName': details.sellerName,
+          'buyerName': details.buyerName,
+          if (details.listingRefId != null) 'listingRefId': details.listingRefId,
         },
       );
       setState(() {
@@ -4464,9 +4527,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   // Send UPI ID then send payment_shared card
   Future<void> _sendUpiAndPaymentShared(String upiId) async {
-    final content = trArgs('my_upi_id_msg', {'upiId': upiId});
+    final content = _buildUpiMessageContent(upiId);
     setState(() => _isSending = true);
     try {
+      _logPaymentFlow('Sending UPI ID and payment_shared card');
       // Send UPI message first
       final msg = await _chatService.sendMessage(
         widget.conversationId,
@@ -4478,6 +4542,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       // Then send payment_shared card
       await _sendPaymentSharedCard();
     } catch (e) {
+      _logPaymentFlow('Failed while sending UPI ID and payment_shared card', e);
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -4502,6 +4567,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       );
       if (image != null) {
         setState(() => _isSending = true);
+        _logPaymentFlow('Sending QR code and payment_shared card');
         final imageBytes = await image.readAsBytes();
         final msg = await _chatService.sendImageMessage(
           widget.conversationId,
@@ -4514,6 +4580,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         await _sendPaymentSharedCard();
       }
     } catch (e) {
+      _logPaymentFlow('Failed while sending QR code and payment_shared card', e);
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -4563,6 +4630,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       );
       if (image != null) {
         setState(() => _isSending = true);
+        _logPaymentFlow('Sending passbook image and payment_shared card');
         final imageBytes = await image.readAsBytes();
         final msg = await _chatService.sendImageMessage(
           widget.conversationId,
@@ -4575,6 +4643,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         await _sendPaymentSharedCard();
       }
     } catch (e) {
+      _logPaymentFlow(
+        'Failed while sending passbook image and payment_shared card',
+        e,
+      );
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -4590,7 +4662,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   /// Send payment_shared card — Seller shares payment details, Buyer will see "I Have Paid"
   Future<void> _sendPaymentSharedCard() async {
     try {
-      final details = _pendingClosingCallDetails;
+      final details = _resolvePaymentDetailsContext();
       final msg = await _chatService.sendMessage(
         widget.conversationId,
         '💳 Payment details shared. Please make the payment.',
@@ -5462,6 +5534,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   // Show payment options bottom sheet
   void _showPaymentOptionsSheet() {
+    _pendingClosingCallDetails = _resolvePaymentDetailsContext();
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -5590,7 +5663,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               final upiId = upiController.text.trim();
               if (upiId.isNotEmpty) {
                 Navigator.pop(context);
-                _sendUpiMessage(upiId);
+                if (_pendingClosingCallDetails != null) {
+                  _sendUpiAndPaymentShared(upiId);
+                } else {
+                  _sendUpiMessage(upiId);
+                }
               }
             },
             icon: const Icon(Icons.send, size: 18),
@@ -5607,10 +5684,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   // Send UPI ID as a formatted message
   Future<void> _sendUpiMessage(String upiId) async {
-    final content = trArgs('my_upi_id_msg', {'upiId': upiId});
+    final content = _buildUpiMessageContent(upiId);
 
     setState(() => _isSending = true);
     try {
+      _logPaymentFlow('Sending plain UPI text message');
       final message = await _chatService.sendMessage(
         widget.conversationId,
         content,
@@ -5625,6 +5703,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       });
       _scrollToBottom();
     } catch (e) {
+      _logPaymentFlow('Failed to send plain UPI text message', e);
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(
@@ -5648,6 +5727,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
       if (image != null) {
         setState(() => _isSending = true);
+        _logPaymentFlow('Sending QR code from generic payment sheet');
 
         // Read image bytes for both web and mobile
         final imageBytes = await image.readAsBytes();
@@ -5664,9 +5744,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           if (!_messages.any((m) => m.id == message.id)) {
             _messages.add(message);
           }
-          _isSending = false;
         });
-        _scrollToBottom();
+        if (_pendingClosingCallDetails != null) {
+          await _sendPaymentSharedCard();
+        } else {
+          setState(() => _isSending = false);
+          _scrollToBottom();
+        }
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -5678,6 +5762,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         }
       }
     } catch (e) {
+      _logPaymentFlow('Failed to send QR code from generic payment sheet', e);
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -5742,6 +5827,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
       if (image != null) {
         setState(() => _isSending = true);
+        _logPaymentFlow('Sending passbook image from generic payment sheet');
 
         final imageBytes = await image.readAsBytes();
 
@@ -5756,9 +5842,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           if (!_messages.any((m) => m.id == message.id)) {
             _messages.add(message);
           }
-          _isSending = false;
         });
-        _scrollToBottom();
+        if (_pendingClosingCallDetails != null) {
+          await _sendPaymentSharedCard();
+        } else {
+          setState(() => _isSending = false);
+          _scrollToBottom();
+        }
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -5770,6 +5860,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         }
       }
     } catch (e) {
+      _logPaymentFlow(
+        'Failed to send passbook image from generic payment sheet',
+        e,
+      );
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

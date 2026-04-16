@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -289,6 +290,10 @@ class ChatService {
         body['dealDetails'] = dealDetailsMap;
       }
 
+      debugPrint(
+        '[ChatService.sendMessage] conversationId=$conversationId messageType=$messageType hasDealDetails=${body['dealDetails'] != null}',
+      );
+
       final response = await http.post(
         Uri.parse('$baseUrl/chat/messages/$conversationId'),
         headers: headers,
@@ -299,6 +304,9 @@ class ChatService {
         final data = json.decode(response.body);
         return Message.fromJson(data['data']);
       } else {
+        debugPrint(
+          '[ChatService.sendMessage] failed status=${response.statusCode} body=${response.body}',
+        );
         throw Exception('Failed to send message');
       }
     } catch (e) {
@@ -461,6 +469,10 @@ class ChatService {
         'messageType': 'image',
       };
 
+      debugPrint(
+        '[ChatService.sendImageMessage] conversationId=$conversationId caption=${caption ?? ''}',
+      );
+
       final response = await http.post(
         Uri.parse('$baseUrl/chat/messages/$conversationId'),
         headers: headers,
@@ -471,6 +483,9 @@ class ChatService {
         final data = json.decode(response.body);
         return Message.fromJson(data['data']);
       } else {
+        debugPrint(
+          '[ChatService.sendImageMessage] failed status=${response.statusCode} body=${response.body}',
+        );
         throw Exception('Failed to send image message');
       }
     } catch (e) {
