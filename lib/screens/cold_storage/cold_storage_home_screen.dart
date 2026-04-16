@@ -444,7 +444,7 @@ class _ColdStorageHomeScreenState extends State<ColdStorageHomeScreen> {
               const SizedBox(height: 24),
 
               /// NEWS SECTION
-              const NewsSectionWidget(),
+              NewsSectionWidget(),
               const SizedBox(height: 24),
               // /// DIRECTORY
               // Text(

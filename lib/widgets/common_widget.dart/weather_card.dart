@@ -22,6 +22,19 @@ class _WeatherCardState extends State<WeatherCard> {
   void initState() {
     super.initState();
     _loadWeather();
+    AppLocalizations.instance.addListener(_onLocaleChanged);
+  }
+
+  @override
+  void dispose() {
+    AppLocalizations.instance.removeListener(_onLocaleChanged);
+    super.dispose();
+  }
+
+  void _onLocaleChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _loadWeather() async {

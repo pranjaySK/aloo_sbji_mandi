@@ -321,7 +321,8 @@ class _KishanHomeScreenState extends State<KishanHomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const AICropAdvisorScreen(userRole: 'farmer'),
+                          builder: (_) =>
+                              const AICropAdvisorScreen(userRole: 'farmer'),
                         ),
                       );
                     },
@@ -345,10 +346,8 @@ class _KishanHomeScreenState extends State<KishanHomeScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => _showComingSoonDialog(
-                      context,
-                      featureName: tr('loan'),
-                    ),
+                    onTap: () =>
+                        _showComingSoonDialog(context, featureName: tr('loan')),
                     child: ServiceCard(
                       title: tr('loan'),
                       image: "assets/loan.png",
@@ -365,7 +364,7 @@ class _KishanHomeScreenState extends State<KishanHomeScreen> {
               const SizedBox(height: 24),
 
               /// NEWS SECTION
-              const NewsSectionWidget(),
+              NewsSectionWidget(),
               const SizedBox(height: 24),
               WeatherCard(),
             ],
@@ -429,39 +428,39 @@ List<Map<String, String>> get kishanDirectoryItems => [
   {
     'image': 'assets/potato_seed.png',
     'title': tr('potato_seeds'),
-    'titleEn': 'Potato Seeds',
+    'titleEn': tr('potato_seeds'),
     'route': 'potato-seeds',
   },
   {
     'image':
         'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200&h=200&fit=crop',
     'title': tr('fertilizers_medicines'),
-    'titleEn': 'Fertilizers',
+    'titleEn': tr('fertilizers_medicines'),
     'route': 'fertilizers',
   },
   {
-    'image': 'assets/farming_labour.png',
+    // 'image': 'assets/farming_labour.png',
+    'image': 'assets/machine.png',
     'title': tr('machinery_new_rent'),
-    'titleEn': 'Machinery',
+    'titleEn': tr('machinery_new_rent'),
     'route': 'machinery',
   },
   {
     'image': 'assets/transport_service.png',
     'title': tr('transportation'),
-    'titleEn': 'Transportation',
+    'titleEn': tr('transportation'),
     'route': 'transportation',
   },
   {
-    'image':
-        'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?w=200&h=200&fit=crop',
+    'image': 'assets/gunny_bag.png',
     'title': tr('gunny_bag'),
-    'titleEn': 'Gunny Bag',
+    'titleEn': tr('gunny_bag'),
     'route': 'gunny-bag',
   },
   {
     'image': 'assets/farming_labour.png',
     'title': tr('majdoor'),
-    'titleEn': 'Majdoor',
+    'titleEn': tr('majdoor'),
     'route': 'majdoor',
   },
 ];

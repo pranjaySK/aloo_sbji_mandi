@@ -60,7 +60,6 @@ class _AutoSliderBannerState extends State<AutoSliderBanner> {
         final result = await _adService.getActiveAdvertisements();
         if (result['success'] && mounted) {
           final ads = result['data']['advertisements'] as List?;
-          debugPrint('ADS: ${ads?.length}');
 
           if (ads != null && ads.isNotEmpty) {
             _serverBanners = List<Map<String, dynamic>>.from(ads);
@@ -86,24 +85,21 @@ class _AutoSliderBannerState extends State<AutoSliderBanner> {
 
   void _buildSlideData() {
     _slideData = [];
-    debugPrint('ADs: ${_serverBanners.length}');
     for (final banner in _serverBanners) {
       final adId = (banner['_id'] ?? '').toString();
       final images = banner['images'] as List?;
       final redirectUrls = banner['redirectUrls'] as List? ?? [];
       final redirectUrl = (banner['redirectUrl'] ?? '').toString();
-      debugPrint('ads images: ${images?.length} and ');
 
       if (images != null && images.isNotEmpty) {
-        for (int i = 0; i < images.length; i++) {
-          final img = images[i]?.toString() ?? '';
-          if (img.isEmpty) continue;
-          // Per-slide link, fallback to ad-level redirectUrl
+        // Use only the first image from each ad for the home banner
+        final img = images[0]?.toString() ?? '';
+        if (img.isNotEmpty) {
           final link =
-              (i < redirectUrls.length &&
-                  redirectUrls[i] != null &&
-                  redirectUrls[i].toString().isNotEmpty)
-              ? redirectUrls[i].toString()
+              (redirectUrls.isNotEmpty &&
+                  redirectUrls[0] != null &&
+                  redirectUrls[0].toString().isNotEmpty)
+              ? redirectUrls[0].toString()
               : redirectUrl;
           _slideData.add({'image': img, 'link': link, 'adId': adId});
         }

@@ -21,16 +21,34 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
   void initState() {
     super.initState();
     _fetchNews();
+    AppLocalizations.instance.addListener(_onLocaleChanged);
   }
 
-  Future<void> _fetchNews() async {
-    try {
-      setState(() {
-        _isLoading = true;
-        _error = null;
-      });
+  @override
+  void dispose() {
+    AppLocalizations.instance.removeListener(_onLocaleChanged);
+    super.dispose();
+  }
 
-      final news = await NewsService.fetchFarmerNews();
+  void _onLocaleChanged() {
+    if (mounted) {
+      _fetchNews(forceRefresh: true);
+    }
+  }
+
+  Future<void> _fetchNews({bool forceRefresh = false}) async {
+    try {
+      if (mounted) {
+        setState(() {
+          _isLoading = true;
+          _error = null;
+        });
+      }
+
+      final news = await NewsService.fetchFarmerNews(
+        forceRefresh: forceRefresh,
+        locale: AppLocalizations.currentLocale,
+      );
       
       if (mounted) {
         setState(() {
