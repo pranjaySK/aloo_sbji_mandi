@@ -8,7 +8,11 @@ class NotificationService {
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('accessToken');
+    final token = prefs.getString('accessToken');
+    if (const bool.fromEnvironment('dart.vm.product') == false) {
+      print('[NotificationService] Token: $token');
+    }
+    return token;
   }
 
   Future<Map<String, String>> _getHeaders() async {

@@ -200,8 +200,10 @@ class _KishanHomeScreenState extends State<KishanHomeScreen> {
 
       //   ),
       backgroundColor: AppColors.scaffoldBg(context),
-      body: SafeArea(
-        bottom: false,
+      body: ListenableBuilder(
+        listenable: AppLocalizations.instance,
+        builder: (context, _) => SafeArea(
+          bottom: false,
         child: SingleChildScrollView(
           padding: RoleShellScrollPadding.home,
           child: Column(
@@ -370,6 +372,7 @@ class _KishanHomeScreenState extends State<KishanHomeScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

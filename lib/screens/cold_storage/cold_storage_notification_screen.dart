@@ -258,7 +258,10 @@ class _ColdStorageNotificationScreenState
                           itemBuilder: (context, index) {
                             final n = _notifications[index];
                             final type = n['type'] as String?;
+                            final data = n['data'] as Map<String, dynamic>?;
+                            final imageUrl = data?['imageUrl'] as String?;
                             return _ColdStorageNotificationCard(
+                              imageUrl: imageUrl,
                               date: _formatDate(n['createdAt']),
                               time: _formatTime(n['createdAt']),
                               title: n['title'] ?? '',
@@ -282,6 +285,7 @@ class _ColdStorageNotificationCard extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final VoidCallback onDelete;
+  final String? imageUrl;
 
   const _ColdStorageNotificationCard({
     required this.date,
@@ -291,6 +295,7 @@ class _ColdStorageNotificationCard extends StatelessWidget {
     required this.icon,
     required this.iconColor,
     required this.onDelete,
+    this.imageUrl,
   });
 
   @override
@@ -366,6 +371,20 @@ class _ColdStorageNotificationCard extends StatelessWidget {
                         height: 1.4,
                       ),
                     ),
+                    if (imageUrl != null && imageUrl!.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          imageUrl!,
+                          width: double.infinity,
+                          height: 150,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const SizedBox.shrink(),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),

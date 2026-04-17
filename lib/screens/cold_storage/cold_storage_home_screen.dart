@@ -47,7 +47,8 @@ class _ColdStorageHomeScreenState extends State<ColdStorageHomeScreen> {
       final data = csResult['data'];
       dynamic storages;
       if (data is Map) {
-        storages = data['coldStorages'] ?? data['data'] ?? data['cold_storages'];
+        storages =
+            data['coldStorages'] ?? data['data'] ?? data['cold_storages'];
       } else if (data is List) {
         storages = data;
       }
@@ -160,8 +161,10 @@ class _ColdStorageHomeScreenState extends State<ColdStorageHomeScreen> {
       ),
 
       backgroundColor: AppColors.scaffoldBg(context),
-      body: SafeArea(
-        bottom: false,
+      body: ListenableBuilder(
+        listenable: AppLocalizations.instance,
+        builder: (context, _) => SafeArea(
+          bottom: false,
         child: SingleChildScrollView(
           padding: RoleShellScrollPadding.home,
           child: Column(
@@ -366,8 +369,7 @@ class _ColdStorageHomeScreenState extends State<ColdStorageHomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              const TokenSystemScreen(),
+                          builder: (context) => const TokenSystemScreen(),
                         ),
                       );
                     },
@@ -391,7 +393,9 @@ class _ColdStorageHomeScreenState extends State<ColdStorageHomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const AICropAdvisorScreen(userRole: 'cold_storage'),
+                          builder: (_) => const AICropAdvisorScreen(
+                            userRole: 'cold_storage',
+                          ),
                         ),
                       );
                     },
@@ -459,6 +463,7 @@ class _ColdStorageHomeScreenState extends State<ColdStorageHomeScreen> {
           ),
         ),
       ),
+      ),
     );
   }
 }
@@ -467,20 +472,19 @@ List<Map<String, String>> get coldstoragedirectoryItems => [
   {
     'image': 'assets/farming_labour.png',
     'title': tr('majdoor'),
-    'titleEn': 'Majdoor',
+    'titleEn': tr('majdoor'),
     'route': 'majdoor',
   },
   {
     'image': 'assets/transport_service.png',
     'title': tr('transportation'),
-    'titleEn': 'Transportation',
+    'titleEn': tr('transportation'),
     'route': 'transportation',
   },
   {
-    'image':
-        'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?w=200&h=200&fit=crop',
+    'image': 'assets/gunny_bag.png',
     'title': tr('gunny_bag'),
-    'titleEn': 'Gunny Bag',
+    'titleEn': tr('gunny_bag'),
     'route': 'gunny-bag',
   },
 ];

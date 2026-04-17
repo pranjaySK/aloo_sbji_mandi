@@ -114,8 +114,10 @@ class VyapariHomeScreen extends StatelessWidget {
       ),
 
       backgroundColor: AppColors.scaffoldBg(context),
-      body: SafeArea(
-        bottom: false,
+      body: ListenableBuilder(
+        listenable: AppLocalizations.instance,
+        builder: (context, _) => SafeArea(
+          bottom: false,
         child: SingleChildScrollView(
           padding: RoleShellScrollPadding.home,
           child: Column(
@@ -238,7 +240,8 @@ class VyapariHomeScreen extends StatelessWidget {
                       );
                     },
                     child: ValueListenableBuilder<int>(
-                      valueListenable: BuyRequestNotificationState.newResponseCount,
+                      valueListenable:
+                          BuyRequestNotificationState.newResponseCount,
                       builder: (context, count, _) => ServiceCard(
                         title: tr('buy_request'),
                         image: "assets/potato_needed.png",
@@ -271,6 +274,7 @@ class VyapariHomeScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }
@@ -449,11 +453,11 @@ class _ImageCard extends StatelessWidget {
 }
 
 /// SERVICE CARD
-final List<Map<String, String>> vyapariDirectoryItems = [
+List<Map<String, String>> get vyapariDirectoryItems => [
   {
     'image': 'assets/transport_service.png',
-    'title': tr('transport_services_title'),
-    'titleEn': 'Transportation',
+    'title': tr('transportation'),
+    'titleEn': tr('transportation'),
     'route': 'transportation',
   },
 ];
