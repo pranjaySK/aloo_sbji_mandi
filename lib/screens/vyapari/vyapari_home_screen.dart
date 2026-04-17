@@ -29,7 +29,7 @@ class VyapariHomeScreen extends StatelessWidget {
     String? featureName,
     String? featureNameHindi,
   }) {
-    final displayName = featureName ?? "Feature";
+    final displayName = featureName ?? tr('feature_default');
     final displayNameHindi = featureNameHindi ?? tr('feature_default');
 
     showDialog(
@@ -395,7 +395,7 @@ class NewsHowToSection extends StatelessWidget {
             side: BorderSide(color: AppColors.primaryGreen),
           ),
           child: Text(
-            "View All",
+            tr('view_all'),
             style: GoogleFonts.inter(
               fontSize: 14,
               fontWeight: FontWeight.w700,
@@ -453,7 +453,7 @@ final List<Map<String, String>> vyapariDirectoryItems = [
   {
     'image': 'assets/transport_service.png',
     'title': tr('transport_services_title'),
-    'titleEn': 'Transportation',
+    'titleEn': tr('transportation'),
     'route': 'transportation',
   },
 ];

@@ -73,7 +73,7 @@ class _ColdStorageHomeScreenState extends State<ColdStorageHomeScreen> {
     BuildContext context, {
     String? featureName,
   }) {
-    final displayName = featureName ?? "Feature";
+    final displayName = featureName ?? tr('feature_default');
 
     showDialog(
       context: context,
@@ -109,7 +109,7 @@ class _ColdStorageHomeScreenState extends State<ColdStorageHomeScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                "$displayName ${tr('under_development')}.\nStay tuned!",
+                "$displayName ${tr('under_development')}",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(fontSize: 14, color: Colors.grey[600]),
               ),
@@ -467,20 +467,20 @@ List<Map<String, String>> get coldstoragedirectoryItems => [
   {
     'image': 'assets/farming_labour.png',
     'title': tr('majdoor'),
-    'titleEn': 'Majdoor',
+    'titleEn': tr('majdoor'),
     'route': 'majdoor',
   },
   {
     'image': 'assets/transport_service.png',
     'title': tr('transportation'),
-    'titleEn': 'Transportation',
+    'titleEn': tr('transportation'),
     'route': 'transportation',
   },
   {
     'image':
         'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?w=200&h=200&fit=crop',
     'title': tr('gunny_bag'),
-    'titleEn': 'Gunny Bag',
+    'titleEn': tr('gunny_bag'),
     'route': 'gunny-bag',
   },
 ];

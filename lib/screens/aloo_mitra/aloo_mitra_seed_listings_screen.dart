@@ -86,15 +86,13 @@ class _AlooMitraSeedListingsScreenState
     if (confirm == true) {
       final result = await _listingService.deleteListing(listingId);
       if (result['success']) {
-        ToastHelper.showSuccess(
-          context,
-          AppLocalizations.isHindi
-              ? tr('listing_deleted')
-              : "Listing deleted successfully",
-        );
+        ToastHelper.showSuccess(context, tr('listing_deleted'));
         _loadMyListings();
       } else {
-        ToastHelper.showError(context, result['message'] ?? 'Failed to delete');
+        ToastHelper.showError(
+          context,
+          result['message'] ?? tr('failed_to_delete'),
+        );
       }
     }
   }
@@ -125,28 +123,23 @@ class _AlooMitraSeedListingsScreenState
     if (result['success']) {
       ToastHelper.showSuccess(
         context,
-        !currentStatus
-            ? (AppLocalizations.isHindi
-                  ? tr('listing_activated')
-                  : "Listing activated")
-            : (AppLocalizations.isHindi
-                  ? tr('listing_deactivated')
-                  : "Listing deactivated"),
+        !currentStatus ? tr('listing_activated') : tr('listing_deactivated'),
       );
       _loadMyListings();
     } else {
-      ToastHelper.showError(context, result['message'] ?? 'Failed to update');
+      ToastHelper.showError(
+        context,
+        result['message'] ?? tr('failed_to_update_msg'),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isHindi = AppLocalizations.isHindi;
-
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg(context),
       appBar: CustomRoundedAppBar(
-        title: isHindi ? tr('my_seed_listings') : "My Seed Listings",
+        title: tr('my_seed_listings'),
         leadingIcon: Icons.arrow_back,
         actions: [
           IconButton(
@@ -170,7 +163,7 @@ class _AlooMitraSeedListingsScreenState
         backgroundColor: AppColors.primaryGreen,
         icon: const Icon(Icons.add, color: Colors.white),
         label: Text(
-          isHindi ? tr('new_listing') : "New Listing",
+          tr('new_listing'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -196,7 +189,6 @@ class _AlooMitraSeedListingsScreenState
   }
 
   Widget _buildEmptyState() {
-    final isHindi = AppLocalizations.isHindi;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -217,7 +209,7 @@ class _AlooMitraSeedListingsScreenState
             ),
             const SizedBox(height: 24),
             Text(
-              isHindi ? tr('no_seed_listings') : "No Seed Listings Yet",
+              tr('no_seed_listings'),
               style: GoogleFonts.inter(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -226,9 +218,7 @@ class _AlooMitraSeedListingsScreenState
             ),
             const SizedBox(height: 12),
             Text(
-              isHindi
-                  ? tr('create_first_listing_desc')
-                  : "Create your first seed listing and\nconnect with farmers!",
+              tr('create_first_listing_desc'),
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: 14,
@@ -251,7 +241,7 @@ class _AlooMitraSeedListingsScreenState
               },
               icon: const Icon(Icons.add),
               label: Text(
-                isHindi ? tr('create_first_listing') : "Create First Listing",
+                tr('create_first_listing'),
                 style: GoogleFonts.inter(fontWeight: FontWeight.w600),
               ),
               style: ElevatedButton.styleFrom(
@@ -273,11 +263,10 @@ class _AlooMitraSeedListingsScreenState
   }
 
   Widget _buildListingCard(Map<String, dynamic> listing) {
-    final isHindi = AppLocalizations.isHindi;
-    final variety = listing['potatoVariety'] ?? 'Unknown';
+    final variety = listing['potatoVariety'] ?? tr('unknown');
     final quantity = listing['quantity'] ?? 0;
     final price = listing['pricePerQuintal'] ?? 0;
-    final unit = listing['unit'] ?? 'Quintal';
+    final unit = listing['unit'] ?? tr('quintal');
     final isActive = listing['isActive'] ?? true;
     final listingId = listing['_id']?.toString() ?? '';
     final createdAt = listing['createdAt'] != null
@@ -341,9 +330,7 @@ class _AlooMitraSeedListingsScreenState
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    isActive
-                        ? (isHindi ? tr('active_status') : "Active")
-                        : (isHindi ? tr('inactive_status') : "Inactive"),
+                    isActive ? tr('active_status') : tr('inactive_status'),
                     style: GoogleFonts.inter(
                       color: Colors.white,
                       fontSize: 12,
@@ -365,14 +352,14 @@ class _AlooMitraSeedListingsScreenState
                     Expanded(
                       child: _buildInfoItem(
                         icon: Icons.inventory_2,
-                        label: isHindi ? tr('quantity_label') : "Quantity",
+                        label: tr('quantity_label'),
                         value: "$quantity ${unitAbbr(unit)}",
                       ),
                     ),
                     Expanded(
                       child: _buildInfoItem(
                         icon: Icons.attach_money,
-                        label: isHindi ? tr('price_label') : "Price",
+                        label: tr('price_label'),
                         value: "₹$price/${unitAbbr(unit)}",
                       ),
                     ),
@@ -437,20 +424,20 @@ class _AlooMitraSeedListingsScreenState
                 _buildActionButton(
                   icon: isActive ? Icons.visibility_off : Icons.visibility,
                   label: isActive
-                      ? (isHindi ? tr('deactivate_action') : "Deactivate")
-                      : (isHindi ? tr('activate_action') : "Activate"),
+                      ? tr('deactivate_action')
+                      : tr('activate_action'),
                   color: isActive ? Colors.orange : Colors.green,
                   onTap: () => _toggleListingStatus(listingId, isActive),
                 ),
                 _buildActionButton(
                   icon: Icons.edit,
-                  label: isHindi ? tr('edit_action') : "Edit",
+                  label: tr('edit_action'),
                   color: Colors.blue,
                   onTap: () => _editListing(listing),
                 ),
                 _buildActionButton(
                   icon: Icons.delete,
-                  label: isHindi ? tr('delete_action') : "Delete",
+                  label: tr('delete_action'),
                   color: Colors.red,
                   onTap: () => _deleteListing(listingId),
                 ),

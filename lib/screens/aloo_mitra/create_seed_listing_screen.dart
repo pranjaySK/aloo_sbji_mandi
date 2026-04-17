@@ -37,9 +37,9 @@ class _CreateSeedListingScreenState extends State<CreateSeedListingScreen> {
   // User data
   Map<String, dynamic>? _userData;
   
-  // Variety list with "Others" at top
+  // Variety list with tr('others') at top
   final List<String> _varietyList = [
-    "Others",
+    tr('others'),
     "Kufri Bahar (3797)",
     "Kufri Jyoti",
     "Kufri Pukhraj",
@@ -100,7 +100,7 @@ class _CreateSeedListingScreenState extends State<CreateSeedListingScreen> {
   Future<void> _submitListing() async {
     if (!_formKey.currentState!.validate()) return;
     
-    final variety = _selectedVariety == "Others" 
+    final variety = _selectedVariety == tr('others') 
         ? _customVarietyController.text.trim()
         : _selectedVariety;
     
@@ -223,15 +223,15 @@ class _CreateSeedListingScreenState extends State<CreateSeedListingScreen> {
                 onChanged: (value) {
                   setState(() {
                     _selectedVariety = value;
-                    if (value != "Others") {
+                    if (value != tr('others')) {
                       _customVarietyController.clear();
                     }
                   });
                 },
               ),
               
-              // Custom variety input (if "Others" selected)
-              if (_selectedVariety == "Others") ...[
+              // Custom variety input (if tr('others') selected)
+              if (_selectedVariety == tr('others')) ...[
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _customVarietyController,
@@ -244,7 +244,7 @@ class _CreateSeedListingScreenState extends State<CreateSeedListingScreen> {
                     fillColor: Colors.grey[50],
                   ),
                   validator: (value) {
-                    if (_selectedVariety == "Others" && (value == null || value.isEmpty)) {
+                    if (_selectedVariety == tr('others') && (value == null || value.isEmpty)) {
                       return tr("please_enter_variety_name");
                     }
                     return null;

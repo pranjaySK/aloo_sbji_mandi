@@ -154,7 +154,7 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
   }
 
   Widget _buildWelcomeCard() {
-    final businessName = _profileData?['businessName'] ?? 'Aloo Mitra';
+    final businessName = _profileData?['businessName'] ?? tr('aloo_mitra');
     final serviceType = _profileData?['serviceType'];
 
     return Container(
@@ -270,7 +270,7 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
               child: _buildActionCard(
                 icon: Icons.add_circle,
                 label: tr('add_service'),
-                onTap: () => _showComingSoonDialog('Add Service'),
+                onTap: () => _showComingSoonDialog(tr('add_service')),
               ),
             ),
           ],
@@ -433,7 +433,7 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
               ),
             ),
             TextButton(
-              onPressed: () => _showComingSoonDialog('All Enquiries'),
+              onPressed: () => _showComingSoonDialog(tr('all_enquiries')),
               child: Text(
                 tr('view_all'),
                 style: GoogleFonts.inter(
@@ -509,7 +509,7 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                "$featureName ${tr('under_development')}.\nStay tuned!",
+                "$featureName ${tr('under_development')}",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(fontSize: 14, color: Colors.grey[600]),
               ),
