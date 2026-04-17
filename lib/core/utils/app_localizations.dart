@@ -6264,7 +6264,7 @@ This action cannot be undone.''',
     'failed_to_update_admin': '''ਐਡਮਿਨ ਅੱਪਡੇਟ ਕਰਨ ਵਿੱਚ ਅਸਫਲ''',
     'delete_admin': '''ਐਡਮਿਨ ਮਿਟਾਓ''',
     'are_you_sure_delete_admin':
-        '''ਕੀ ਤੁਸੀਂ ਸਥਾਈ ਤੌਰ \'ਤੇ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ ''',
+        '''ਕੀ ਤੁਸੀਂ ਸਥਾਈ ਤੌਰਤੇ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ ''',
     'this_action_cannot_be_undone': '''?
 
 ਇਹ ਕਾਰਵਾਈ ਵਾਪਸ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ।''',
