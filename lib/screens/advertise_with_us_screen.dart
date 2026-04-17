@@ -865,6 +865,15 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       data: requestData,
     );
 
+    // Determine the slide number (1-based) from the first selected slide
+    int? slideNumber;
+    for (int i = 0; i < 5; i++) {
+      if (_slideImages[i] != null) {
+        slideNumber = i + 1;
+        break;
+      }
+    }
+
     final result = await _adService.createAdvertisementRequest(
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
@@ -873,6 +882,7 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       advertiserType: _userRole.isNotEmpty ? _userRole : 'cold-storage',
       coldStorageId: _selectedColdStorageId,
       durationDays: _selectedDuration,
+      slideNumber: slideNumber,
       contactPhone: _phoneController.text.trim(),
       startDate: DateTime(
         _startDate!.year,
