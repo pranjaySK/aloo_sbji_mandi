@@ -1,4 +1,5 @@
 import 'package:aloo_sbji_mandi/core/service/advertisement_service.dart';
+import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,12 +19,12 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
   String? _selectedRole;
 
   final List<Map<String, String>> _roleFilters = [
-    {'value': '', 'label': 'All Users'},
-    {'value': 'farmer', 'label': 'Farmers'},
-    {'value': 'trader', 'label': 'Traders'},
-    {'value': 'cold-storage', 'label': 'Cold Storage'},
-    {'value': 'aloo-mitra', 'label': 'Aloo Mitra'},
-    {'value': 'admin', 'label': 'Admins'},
+    {'value': '', 'label': tr('all_users')},
+    {'value': 'farmer', 'label': tr('farmers')},
+    {'value': 'trader', 'label': tr('traders')},
+    {'value': 'cold-storage', 'label': tr('cold_storage')},
+    {'value': 'aloo-mitra', 'label': tr('aloo_mitra')},
+    {'value': 'admin', 'label': tr('admins')},
   ];
 
   @override
@@ -54,7 +55,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
         backgroundColor: const Color(0xFF1E3A5F),
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          'Manage Users',
+          tr('manage_users'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -123,7 +124,7 @@ class _AdminUsersScreenState extends State<AdminUsersScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No users found',
+                          tr('no_users_found'),
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 16,
@@ -157,7 +158,7 @@ class _UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final role = user['role'] ?? 'unknown';
+    final role = user['role'] ?? tr('unknown');
     final roleColor = _getRoleColor(role);
     final address = user['address'] ?? {};
 
@@ -329,17 +330,17 @@ class _UserCard extends StatelessWidget {
   String _formatRoleName(String role) {
     switch (role) {
       case 'farmer':
-        return 'Farmer';
+        return tr('farmer');
       case 'trader':
-        return 'Trader';
+        return tr('trader');
       case 'cold-storage':
-        return 'Cold Storage';
+        return tr('cold_storage');
       case 'aloo-mitra':
-        return 'Aloo Mitra';
+        return tr('aloo_mitra');
       case 'admin':
-        return 'Admin';
+        return tr('admin');
       case 'master':
-        return 'Master';
+        return tr('master');
       default:
         return role;
     }

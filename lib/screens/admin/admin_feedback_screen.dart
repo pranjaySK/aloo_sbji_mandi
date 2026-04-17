@@ -104,16 +104,16 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
       final difference = now.difference(dateTime);
 
       if (difference.inMinutes < 60) {
-        return '${difference.inMinutes} min ago';
+        return trArgs('min_ago_args', {'count': '${difference.inMinutes}'});
       } else if (difference.inHours < 24) {
-        return '${difference.inHours} hours ago';
+        return trArgs('hours_ago_args', {'count': '${difference.inHours}'});
       } else if (difference.inDays < 7) {
-        return '${difference.inDays} days ago';
+        return trArgs('days_ago_args', {'count': '${difference.inDays}'});
       } else {
         return DateFormat('dd MMM yyyy').format(dateTime);
       }
     } catch (e) {
-      return 'Unknown';
+      return tr('unknown');
     }
   }
 
@@ -147,7 +147,7 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        feedback['userName'] ?? 'Unknown User',
+                        feedback['userName'] ?? tr('unknown_user'),
                         style: GoogleFonts.inter(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -189,13 +189,13 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                feedback['message'] ?? 'No message',
+                feedback['message'] ?? tr('no_message'),
                 style: GoogleFonts.inter(fontSize: 15, height: 1.5),
               ),
             ),
             const SizedBox(height: 20),
             Text(
-              'Update Status:',
+              tr('update_status'),
               style: GoogleFonts.inter(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -206,7 +206,7 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
               children: [
                 Expanded(
                   child: _StatusButton(
-                    label: 'Pending',
+                    label: tr('pending'),
                     color: Colors.orange,
                     isSelected: feedback['status'] == 'pending',
                     onTap: () => _updateStatus(feedback, 'pending'),
@@ -215,7 +215,7 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _StatusButton(
-                    label: 'Reviewed',
+                    label: tr('reviewed'),
                     color: Colors.blue,
                     isSelected: feedback['status'] == 'reviewed',
                     onTap: () => _updateStatus(feedback, 'reviewed'),
@@ -224,7 +224,7 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _StatusButton(
-                    label: 'Resolved',
+                    label: tr('resolved'),
                     color: Colors.green,
                     isSelected: feedback['status'] == 'resolved',
                     onTap: () => _updateStatus(feedback, 'resolved'),
@@ -255,15 +255,15 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
   String _formatRoleName(String? role) {
     switch (role) {
       case 'farmer':
-        return 'Farmer 👨‍🌾';
+        return tr('role_farmer_emoji');
       case 'trader':
-        return 'Trader 🏪';
+        return tr('role_trader_emoji');
       case 'cold-storage':
-        return 'Cold Storage ❄️';
+        return tr('role_cold_storage_emoji');
       case 'aloo-mitra':
-        return 'Aloo Mitra 🤝';
+        return tr('role_aloo_mitra_emoji');
       default:
-        return 'User';
+        return tr('user');
     }
   }
 
@@ -305,7 +305,7 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF1E3A5F),
         title: Text(
-          'User Feedbacks',
+          tr('user_feedbacks'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -337,26 +337,26 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _StatItem(
-                  label: 'Total',
+                  label: tr('total'),
                   count: _feedbacks.length,
                   color: Colors.white,
                 ),
                 _StatItem(
-                  label: 'Pending',
+                  label: tr('pending'),
                   count: _feedbacks
                       .where((f) => f['status'] == 'pending')
                       .length,
                   color: Colors.orange,
                 ),
                 _StatItem(
-                  label: 'Reviewed',
+                  label: tr('reviewed'),
                   count: _feedbacks
                       .where((f) => f['status'] == 'reviewed')
                       .length,
                   color: Colors.blue,
                 ),
                 _StatItem(
-                  label: 'Resolved',
+                  label: tr('resolved'),
                   count: _feedbacks
                       .where((f) => f['status'] == 'resolved')
                       .length,
@@ -374,27 +374,27 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
               child: Row(
                 children: [
                   _FilterChip(
-                    label: 'All',
+                    label: tr('all'),
                     isSelected: _selectedFilter == 'all',
                     onTap: () => setState(() => _selectedFilter = 'all'),
                   ),
                   const SizedBox(width: 8),
                   _FilterChip(
-                    label: 'Pending',
+                    label: tr('pending'),
                     isSelected: _selectedFilter == 'pending',
                     color: Colors.orange,
                     onTap: () => setState(() => _selectedFilter = 'pending'),
                   ),
                   const SizedBox(width: 8),
                   _FilterChip(
-                    label: 'Reviewed',
+                    label: tr('reviewed'),
                     isSelected: _selectedFilter == 'reviewed',
                     color: Colors.blue,
                     onTap: () => setState(() => _selectedFilter = 'reviewed'),
                   ),
                   const SizedBox(width: 8),
                   _FilterChip(
-                    label: 'Resolved',
+                    label: tr('resolved'),
                     isSelected: _selectedFilter == 'resolved',
                     color: Colors.green,
                     onTap: () => setState(() => _selectedFilter = 'resolved'),
@@ -420,7 +420,7 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No feedbacks yet',
+                          tr('no_feedbacks_yet'),
                           style: GoogleFonts.inter(
                             fontSize: 18,
                             color: Colors.grey[600],
@@ -428,7 +428,7 @@ class _AdminFeedbackScreenState extends State<AdminFeedbackScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'User feedbacks will appear here',
+                          tr('user_feedbacks_will_appear_here'),
                           style: TextStyle(color: Colors.grey[500]),
                         ),
                       ],
@@ -521,7 +521,7 @@ class _FeedbackCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          feedback['userName'] ?? 'Unknown User',
+                          feedback['userName'] ?? tr('unknown_user'),
                           style: GoogleFonts.inter(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
@@ -561,7 +561,7 @@ class _FeedbackCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                feedback['message'] ?? 'No message',
+                feedback['message'] ?? tr('no_message'),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(

@@ -173,16 +173,11 @@ class _AdminAdsScreenState extends State<AdminAdsScreen>
         ),
         content: RichText(
           text: TextSpan(
-            style: TextStyle(color: Colors.grey[800], fontSize: 15),
+            style: GoogleFonts.inter(color: Colors.black87),
             children: [
-              const TextSpan(
-                text: 'Are you sure you want to permanently delete ',
-              ),
               TextSpan(
-                text: '"$title"',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                text: trArgs('confirm_delete_permanent_args', {'name': title}),
               ),
-              const TextSpan(text: '?\n\nThis action cannot be undone.'),
             ],
           ),
         ),
