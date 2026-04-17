@@ -96,7 +96,7 @@ class _CounterDetailDashboardScreenState
     } else {
       setState(() {
         _isLoading = false;
-        _error = result['message'] ?? 'Failed to load';
+        _error = result['message'] ?? tr('failed_to_load');
       });
     }
   }
@@ -157,15 +157,13 @@ class _CounterDetailDashboardScreenState
 
       final tokenNum = tokenData?['tokenNumber'] ?? '';
       _showSnackBar(
-        isHindi
-            ? '🔄 टोकन $tokenNum प्रोसेसिंग में'
-            : '🔄 Token $tokenNum moved to processing',
+        '🔄 ${tr('token_processing_notif')} $tokenNum',
         AppColors.primaryGreen,
       );
       _loadAll();
     } else {
       Navigator.pop(context);
-      _showSnackBar(result['message'] ?? 'No waiting tokens', Colors.orange);
+      _showSnackBar(result['message'] ?? tr('no_waiting_tokens_msg'), Colors.orange);
     }
   }
 
@@ -178,14 +176,12 @@ class _CounterDetailDashboardScreenState
 
     if (result['success'] == true) {
       _showSnackBar(
-        isHindi
-            ? '✅ टोकन #${token.tokenNumber} पूरा हुआ'
-            : '✅ Token #${token.tokenNumber} completed',
+        '✅ ${tr('token_completed_notif')} #${token.tokenNumber}',
         AppColors.primaryGreen,
       );
       _loadAll();
     } else {
-      _showSnackBar(result['message'] ?? 'Failed', Colors.red);
+      _showSnackBar(result['message'] ?? tr('failed_msg'), Colors.red);
     }
   }
 
@@ -198,17 +194,17 @@ class _CounterDetailDashboardScreenState
           children: [
             const Icon(Icons.skip_next_rounded, color: Colors.orange, size: 28),
             const SizedBox(width: 8),
-            const Text('Skip Token'),
+            Text(tr('skip_token')),
           ],
         ),
         content: Text(
-          'Skip token #${token.tokenNumber} (${token.farmerName})?',
+          '${tr('skip_token')} #${token.tokenNumber} (${token.farmerName})?',
           style: GoogleFonts.inter(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(tr('cancel_btn')),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -216,7 +212,7 @@ class _CounterDetailDashboardScreenState
               backgroundColor: Colors.orange,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Skip'),
+            child: Text(tr('skip_btn')),
           ),
         ],
       ),
@@ -228,10 +224,10 @@ class _CounterDetailDashboardScreenState
       if (!mounted) return;
       Navigator.pop(context);
       if (result['success'] == true) {
-        _showSnackBar('Token #${token.tokenNumber} skipped', Colors.orange);
+        _showSnackBar('${tr('token_skipped')} #${token.tokenNumber}', Colors.orange);
         _loadAll();
       } else {
-        _showSnackBar(result['message'] ?? 'Failed', Colors.red);
+        _showSnackBar(result['message'] ?? tr('failed_msg'), Colors.red);
       }
     }
   }
@@ -269,7 +265,7 @@ class _CounterDetailDashboardScreenState
               foregroundColor: Colors.white,
               icon: const Icon(Icons.play_arrow_rounded),
               label: Text(
-                'Call Next',
+                tr('call_next'),
                 style: GoogleFonts.inter(fontWeight: FontWeight.w700),
               ),
             )
@@ -379,8 +375,8 @@ class _CounterDetailDashboardScreenState
                 const SizedBox(height: 4),
                 Text(
                   serving != null
-                      ? 'Now Serving: #$serving'
-                      : 'No token being served',
+                      ? '${tr('now_serving_label')} #$serving'
+                      : tr('no_token_serving'),
                   style: GoogleFonts.inter(
                     fontSize: 13,
                     color: Colors.white.withValues(alpha: 0.85),
@@ -402,7 +398,7 @@ class _CounterDetailDashboardScreenState
                   const Icon(Icons.circle, color: Colors.greenAccent, size: 10),
                   const SizedBox(width: 6),
                   Text(
-                    'LIVE',
+                    tr('live_label'),
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
@@ -812,7 +808,7 @@ class _CounterDetailDashboardScreenState
             onPressed: () => _skipToken(token),
             icon: Icon(Icons.skip_next_rounded,
                 color: Colors.orange.shade700, size: 24),
-            tooltip: 'Skip',
+            tooltip: tr('skip_tooltip'),
           ),
         ],
       ),
@@ -842,9 +838,7 @@ class _CounterDetailDashboardScreenState
           ],
         ),
         content: Text(
-          isHindi
-              ? 'टोकन #${token.tokenNumber} (${token.farmerName}) को पूर्ण करें?'
-              : 'Mark token #${token.tokenNumber} (${token.farmerName}) as finished?',
+          '${tr('mark_finished_confirm')} #${token.tokenNumber} (${token.farmerName})?',
           style: GoogleFonts.inter(fontSize: 14),
         ),
         actions: [
@@ -881,7 +875,7 @@ class _CounterDetailDashboardScreenState
           Icon(Icons.error_outline, size: 64, color: Colors.grey[300]),
           const SizedBox(height: 16),
           Text(
-            _error ?? 'Error',
+            _error ?? tr('error'),
             style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),

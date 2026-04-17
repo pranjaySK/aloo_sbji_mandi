@@ -67,7 +67,7 @@ class _TokenRequestsScreenState extends State<TokenRequestsScreen> {
             setState(() {
               _coldStorageId = storage['_id']?.toString();
               _coldStorageName =
-                  storage['name']?.toString() ?? 'My Cold Storage';
+                  storage['name']?.toString() ?? tr('cold_storage_not_found');
             });
           }
         } else {
@@ -124,9 +124,7 @@ class _TokenRequestsScreenState extends State<TokenRequestsScreen> {
       _loadPendingTokens();
       if (event == 'token_request_pending') {
         _showSnackBar(
-          isHindi
-              ? '🆕 ${trArgs('new_token_request_notif', {'name': data['farmerName'] ?? ''})}'
-              : '🆕 New token request: ${data['farmerName'] ?? ''}',
+          '🆕 ${trArgs('new_token_request_notif', {'name': data['farmerName'] ?? ''})}',
           Colors.blue,
         );
       }
@@ -160,7 +158,7 @@ class _TokenRequestsScreenState extends State<TokenRequestsScreen> {
           _isAuthError = isAuth;
           _error = isAuth
               ? AuthErrorHelper.getAuthErrorMessage(isHindi: isHindi)
-              : (result['message'] ?? 'Failed to load');
+              : (result['message'] ?? tr('failed_to_load'));
         });
       }
     } catch (e) {
@@ -460,7 +458,7 @@ class _TokenRequestsScreenState extends State<TokenRequestsScreen> {
           Icon(Icons.error_outline, size: 64, color: Colors.grey[300]),
           const SizedBox(height: 16),
           Text(
-            _error ?? 'Error',
+            _error ?? tr('error'),
             style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
@@ -926,14 +924,12 @@ class _TokenRequestsScreenState extends State<TokenRequestsScreen> {
       final tokenData = result['data']?['token'];
       final tokenNum = tokenData?['tokenNumber'] ?? '';
       _showSnackBar(
-        isHindi
-            ? '✅ ${trArgs('token_approved_notif', {'number': tokenNum, 'name': token.farmerName})}'
-            : '✅ Token approved: $tokenNum (${token.farmerName})',
+        '✅ ${trArgs('token_approved_notif', {'number': tokenNum, 'name': token.farmerName})}',
         Colors.green,
       );
       _loadPendingTokens();
     } else {
-      _showSnackBar(result['message'] ?? 'Failed', Colors.red);
+      _showSnackBar(result['message'] ?? tr('failed_msg'), Colors.red);
     }
   }
 
@@ -1012,7 +1008,7 @@ class _TokenRequestsScreenState extends State<TokenRequestsScreen> {
       _showSnackBar(tr('request_rejected'), Colors.orange);
       _loadPendingTokens();
     } else {
-      _showSnackBar(result['message'] ?? 'Failed', Colors.red);
+      _showSnackBar(result['message'] ?? tr('failed_msg'), Colors.red);
     }
   }
 
