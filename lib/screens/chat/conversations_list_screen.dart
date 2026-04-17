@@ -46,7 +46,7 @@ class _ConversationsListScreenState extends State<ConversationsListScreen> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _error = 'Failed to load conversations';
+        _error = tr('failed_to_load_conversations');
         _isLoading = false;
       });
     }
@@ -102,7 +102,7 @@ class _ConversationsListScreenState extends State<ConversationsListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg(context),
-      appBar: CustomRoundedAppBar(title: "Messages"),
+      appBar: CustomRoundedAppBar(title: tr('chats')),
       body: _buildBody(),
       // FAB hidden for kisan
       // floatingActionButton: FloatingActionButton(
@@ -152,12 +152,12 @@ class _ConversationsListScreenState extends State<ConversationsListScreen> {
             Icon(Icons.chat_bubble_outline, size: 80, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text(
-              'No conversations yet',
+              tr('no_conversations_yet'),
               style: TextStyle(fontSize: 18, color: Colors.grey[600]),
             ),
             const SizedBox(height: 8),
             Text(
-              'Start a new chat by tapping the button below',
+              tr('start_new_chat_desc'),
               style: TextStyle(color: Colors.grey[500]),
             ),
           ],

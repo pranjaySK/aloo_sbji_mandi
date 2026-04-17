@@ -221,7 +221,7 @@ class _ChatScreenState extends State<ChatScreen> {
         backgroundColor: AppColors.primaryGreen,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          widget.participantName ?? 'Chat',
+          widget.participantName ?? tr('chat'),
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -243,7 +243,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 : _messages.isEmpty
                 ? Center(
                     child: Text(
-                      'No messages yet.\nSend a message to start the conversation!',
+                      tr('no_messages_yet'),
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.grey[600]),
                     ),
@@ -344,7 +344,7 @@ class ChatInputField extends StatelessWidget {
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => onSend(),
               decoration: InputDecoration(
-                hintText: "Type here...",
+                hintText: tr('type_a_message'),
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(

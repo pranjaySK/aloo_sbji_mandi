@@ -531,9 +531,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final messageDate = DateTime(ist.year, ist.month, ist.day);
 
     if (messageDate == today) {
-      return 'Today';
+      return tr('today');
     } else if (messageDate == today.subtract(const Duration(days: 1))) {
-      return 'Yesterday';
+      return tr('yesterday');
     } else {
       return '${ist.day}/${ist.month}/${ist.year}';
     }

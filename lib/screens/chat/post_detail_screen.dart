@@ -643,7 +643,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               ),
               const SizedBox(height: 4),
               Text(
-                'Be the first to comment!',
+                tr('be_first_to_comment'),
                 style: TextStyle(color: Colors.grey[500], fontSize: 14),
               ),
             ],
@@ -656,7 +656,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Comments (${comments.length})',
+          trArgs('comments', {'count': comments.length.toString()}),
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 12),
@@ -737,7 +737,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                           children: [
                             Icon(Icons.edit, size: 18, color: Colors.blue[700]),
                             const SizedBox(width: 8),
-                            const Text('Edit'),
+                            Text(tr('edit_btn')),
                           ],
                         ),
                       ),
@@ -747,7 +747,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                           children: [
                             Icon(Icons.delete_outline, size: 18, color: Colors.red[400]),
                             const SizedBox(width: 8),
-                            const Text('Delete'),
+                            Text(tr('delete_btn')),
                           ],
                         ),
                       ),
@@ -792,7 +792,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       backgroundColor: AppColors.primaryGreen,
                       foregroundColor: Colors.white,
                     ),
-                    child: const Text('Save'),
+                    child: Text(tr('save_label')),
                   ),
                 ],
               ),
@@ -845,7 +845,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       Icon(Icons.reply, size: 16, color: Colors.grey[600]),
                       const SizedBox(width: 4),
                       Text(
-                        'Reply',
+                        tr('reply'),
                         style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                     ],
@@ -1006,7 +1006,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                         children: [
                           Icon(Icons.edit, size: 16, color: Colors.blue[700]),
                           const SizedBox(width: 8),
-                          const Text('Edit', style: TextStyle(fontSize: 13)),
+                          Text(
+                            tr('edit_btn'),
+                            style: const TextStyle(fontSize: 13),
+                          ),
                         ],
                       ),
                     ),
@@ -1014,9 +1017,16 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       value: 'delete',
                       child: Row(
                         children: [
-                          Icon(Icons.delete_outline, size: 16, color: Colors.red[400]),
+                          Icon(
+                            Icons.delete_outline,
+                            size: 16,
+                            color: Colors.red[400],
+                          ),
                           const SizedBox(width: 8),
-                          const Text('Delete', style: TextStyle(fontSize: 13)),
+                          Text(
+                            tr('delete_btn'),
+                            style: const TextStyle(fontSize: 13),
+                          ),
                         ],
                       ),
                     ),
@@ -1025,15 +1035,19 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ],
           ),
           const SizedBox(height: 6),
-          
+
           // Edit mode or display mode
-          if (_editingReplyId == replyId && _editingReplyCommentId == commentId) ...[
+          if (_editingReplyId == replyId &&
+              _editingReplyCommentId == commentId) ...[
             TextField(
               controller: _editReplyController,
               decoration: InputDecoration(
                 hintText: 'Edit your reply...',
                 hintStyle: TextStyle(fontSize: 12, color: Colors.grey[400]),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(color: Colors.grey[300]!),
@@ -1053,9 +1067,15 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 TextButton(
                   onPressed: _cancelEditingReply,
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                   ),
-                  child: Text(tr('cancel'), style: const TextStyle(fontSize: 12)),
+                  child: Text(
+                    tr('cancel'),
+                    style: const TextStyle(fontSize: 12),
+                  ),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton(
@@ -1063,9 +1083,15 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryGreen,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                   ),
-                  child: const Text('Save', style: TextStyle(fontSize: 12)),
+                  child: Text(
+                    tr('save_label'),
+                    style: const TextStyle(fontSize: 12),
+                  ),
                 ),
               ],
             ),

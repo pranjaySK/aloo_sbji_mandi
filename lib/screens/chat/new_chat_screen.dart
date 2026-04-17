@@ -29,19 +29,19 @@ class _NewChatScreenState extends State<NewChatScreen>
     {'value': null, 'label': 'All', 'icon': Icons.people, 'color': Colors.grey},
     {
       'value': 'farmer',
-      'label': 'Farmers',
+      'label': tr('farmers'),
       'icon': Icons.agriculture,
       'color': Colors.green,
     },
     {
       'value': 'trader',
-      'label': 'Traders',
+      'label': tr('traders'),
       'icon': Icons.store,
       'color': Colors.orange,
     },
     {
       'value': 'cold-storage',
-      'label': 'Cold Storage',
+      'label': tr('cold_storage'),
       'icon': Icons.ac_unit,
       'color': Colors.blue,
     },
@@ -173,7 +173,7 @@ class _NewChatScreenState extends State<NewChatScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBg(context),
-      appBar: CustomRoundedAppBar(title: "New Chat"),
+      appBar: CustomRoundedAppBar(title: tr('new_chat')),
       body: Column(
         children: [
           // Search Bar
@@ -250,7 +250,7 @@ class _NewChatScreenState extends State<NewChatScreen>
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No users found',
+                          tr('no_users_found'),
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 16,
