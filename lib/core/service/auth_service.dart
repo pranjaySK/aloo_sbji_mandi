@@ -469,7 +469,11 @@ class AuthService {
 
   Future<String?> getAccessToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('accessToken');
+    final token = prefs.getString('accessToken');
+    if (kDebugMode) {
+      debugPrint('[AuthService] Token: $token');
+    }
+    return token;
   }
 
   Future<bool> isLoggedIn() async {

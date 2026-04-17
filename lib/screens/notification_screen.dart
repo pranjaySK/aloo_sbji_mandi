@@ -262,11 +262,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   // Notification cards
                   ..._notifications.map((n) {
                     final index = _notifications.indexOf(n);
+                    final dataMap = n['data'] as Map<String, dynamic>?;
+                    final imageUrl = dataMap?['imageUrl'] as String?;
+                    
                     return NotificationCard(
                       date: _formatDate(n['createdAt']),
-                      time: _formatTime(n['createdAt']),
+                      time: _formatTime(n['createdAt']), 
                       message: n['message'] ?? '',
                       title: n['title'] ?? '',
+                      imageUrl: imageUrl,
                       onDelete: () => _confirmAndDelete(index),
                     );
                   }),
@@ -444,6 +448,7 @@ class NotificationCard extends StatelessWidget {
   final String time;
   final String message;
   final String title;
+  final String? imageUrl;
   final VoidCallback onDelete;
 
   const NotificationCard({
@@ -452,6 +457,7 @@ class NotificationCard extends StatelessWidget {
     required this.time,
     required this.message,
     this.title = '',
+    this.imageUrl,
     required this.onDelete,
   });
 
@@ -517,6 +523,19 @@ class NotificationCard extends StatelessWidget {
                   height: 1.4,
                 ),
               ),
+              if (imageUrl != null && imageUrl!.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    imageUrl!,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const SizedBox.shrink(),
+                  ),
+                ),
+              ],
             ],
           ),
         ),

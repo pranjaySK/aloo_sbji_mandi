@@ -13,6 +13,9 @@ const List<String> coldStorageNotificationTypes = [
   'token_issued',
   'token_completed',
   'boli_alert',
+  'admin_broadcast',
+  'general',
+  'system',
 ];
 
 /// Separate unread state for cold storage notifications.

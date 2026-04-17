@@ -99,9 +99,11 @@ class FCMService {
 
       // Get FCM token
       _fcmToken = await _messaging!.getToken();
-      debugPrint(
-        'FCMService: Token obtained: ${_fcmToken?.substring(0, 20)}...',
-      );
+      if (kDebugMode) {
+        debugPrint('FCMService: Full Token obtained: $_fcmToken');
+      } else {
+        debugPrint('FCMService: Token obtained: ${_fcmToken?.substring(0, 20)}...');
+      }
 
       // Register token with backend
       if (_fcmToken != null) {

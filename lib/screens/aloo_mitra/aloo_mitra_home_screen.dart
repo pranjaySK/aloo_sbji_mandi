@@ -106,8 +106,10 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
         actions: [const LanguageToggleWidget(), const NotificationBellWidget()],
       ),
       backgroundColor: AppColors.scaffoldBg(context),
-      body: SafeArea(
-        bottom: false,
+      body: ListenableBuilder(
+        listenable: AppLocalizations.instance,
+        builder: (context, _) => SafeArea(
+          bottom: false,
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())
             : RefreshIndicator(
@@ -149,6 +151,7 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
                   ),
                 ),
               ),
+      ),
       ),
     );
   }

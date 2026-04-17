@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final token = prefs.getString('accessToken');
     final role = prefs.getString('userRole');
 
-    debugPrint('[SplashScreen] token=${token != null ? "${token.substring(0, token.length > 10 ? 10 : token.length)}..." : "null"}');
+    debugPrint('[SplashScreen] token=$token');
     debugPrint('[SplashScreen] role=$role');
 
     if (token == null || token.isEmpty) {
