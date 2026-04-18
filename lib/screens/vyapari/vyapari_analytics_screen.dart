@@ -391,14 +391,14 @@ class _VyapariAnalyticsScreenState extends State<VyapariAnalyticsScreen>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(trendIcon, color: trendColor, size: 22),
+                    Icon(trendIcon, color: trendColor, size: 14),
                     const SizedBox(width: 6),
                     Text(
                       trendLabel,
                       style: GoogleFonts.inter(
                         color: trendColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 10,
                       ),
                     ),
                   ],
@@ -415,18 +415,24 @@ class _VyapariAnalyticsScreenState extends State<VyapariAnalyticsScreen>
               ),
               const Spacer(),
               // Confidence badge
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: confColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  '${tr('confidence_label')}: $confidence',
-                  style: GoogleFonts.inter(
-                    color: confColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 11,
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: confColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    '${tr('confidence_label')}: $confidence',
+                    style: GoogleFonts.inter(
+                      color: confColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 10,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),

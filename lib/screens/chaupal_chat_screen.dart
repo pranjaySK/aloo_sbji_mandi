@@ -1058,11 +1058,14 @@ class _RealPostTileState extends State<RealPostTile> {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              '$firstName $lastName',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
+                            Flexible(
+                              child: Text(
+                                '$firstName $lastName',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             const SizedBox(width: 8),
