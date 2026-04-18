@@ -835,7 +835,7 @@ class _ListingCard extends StatelessWidget {
                         '${tr('packet')}: ${packetWeight is num ? packetWeight.round() : packetWeight} ${tr('kg')}',
                         style: TextStyle(fontSize: 10, color: Colors.grey[600]),
                       ),
-                      const SizedBox(height: 2), 
+                      const SizedBox(height: 2),
                     ],
                     Text(
                       "$quantity ${unitPlural(unit.toString())}",
@@ -887,12 +887,15 @@ class _ListingCard extends StatelessWidget {
                                     size: 14,
                                   ),
                                   const SizedBox(width: 4),
-                                  Text(
-                                    tr('edit'),
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primaryGreen,
+                                  Flexible(
+                                    child: Text(
+                                      tr('edit'),
+                                      style: TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.primaryGreen,
+                                      ),
                                     ),
                                   ),
                                 ],

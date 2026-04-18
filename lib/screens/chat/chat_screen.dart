@@ -395,9 +395,9 @@ class ChatInputField extends StatelessWidget {
                         strokeWidth: 2,
                       ),
                     )
-                  : const Text(
-                      "Send",
-                      style: TextStyle(
+                  : Text(
+                      tr('send'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                       ),

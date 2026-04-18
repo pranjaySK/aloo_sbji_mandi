@@ -462,7 +462,7 @@ class _PotatoCardState extends State<_PotatoCard> {
 
             /// Seller name
             Text(
-              sellerName.isEmpty ? 'Farmer' : sellerName,
+              sellerName.isEmpty ? tr('farmer') : sellerName,
               style: TextStyle(color: Colors.grey[600], fontSize: 12),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -499,7 +499,7 @@ class _PotatoCardState extends State<_PotatoCard> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    "View",
+                    tr('view'),
                     style: GoogleFonts.inter(
                       color: AppColors.primaryGreen,
                       fontSize: 11,

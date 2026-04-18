@@ -4186,7 +4186,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to cancel: $e'),
+            content: Text('${tr('failed_to_cancel')}: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -4315,7 +4315,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -4687,7 +4687,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -4776,7 +4776,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
             icon: const Icon(Icons.check, size: 18),
-            label: const Text('Yes, I Paid'),
+            label: Text(tr('yes_i_paid')),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green.shade600,
               foregroundColor: Colors.white,
@@ -4815,7 +4815,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -4870,7 +4870,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ElevatedButton.icon(
             onPressed: () => Navigator.pop(ctx, true),
             icon: const Icon(Icons.check, size: 18),
-            label: const Text('Yes, Received'),
+            label: Text(tr('yes_received')),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green.shade600,
               foregroundColor: Colors.white,
@@ -4905,8 +4905,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       _scrollToBottom();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Deal closed successfully!'),
+          SnackBar(
+            content: Text(tr('deal_closed_successfully')),
             backgroundColor: Colors.green,
           ),
         );
@@ -4914,7 +4914,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -4994,7 +4994,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -5524,7 +5524,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to send closing call: $e'),
+            content: Text('${tr('failed_to_send_closing_call')}: $e'),
             backgroundColor: Colors.red,
           ),
         );

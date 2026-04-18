@@ -228,7 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         _infoRow(
                           icon: Icons.phone,
-                          label: tr('phone'),
+                          label: tr('phone_number'),
                           value: '+91 ${userData?['phone'] ?? 'N/A'}',
                         ),
                         const Divider(height: 24),
@@ -246,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(height: 24),
                         _infoRow(
                           icon: Icons.map,
-                          label: tr('state'),
+                          label: tr('state_label'),
                           value: userData?['address']?['state'] ?? 'N/A',
                         ),
                       ],
@@ -478,9 +478,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 final langLabel = AppLocalizations.nativeNameFor(selectedCode);
                 ScaffoldMessenger.of(outerContext).showSnackBar(
                   SnackBar(
-                    content: Text(
-                      '✅ ${tr('language_changed')} $langLabel',
-                    ),
+                    content: Text('✅ ${tr('language_changed')} $langLabel'),
                     backgroundColor: Colors.green,
                   ),
                 );

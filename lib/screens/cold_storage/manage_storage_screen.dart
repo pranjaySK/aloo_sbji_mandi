@@ -1558,7 +1558,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
                 children: [
                   Expanded(
                     child: _buildDropdown(
-                      label: tr('state'),
+                      label: tr('state_label'),
                       value: _selectedState,
                       items: StateCityData.states,
                       onChanged: (v) {

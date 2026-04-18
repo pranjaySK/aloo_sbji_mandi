@@ -1373,7 +1373,7 @@
   "listed_on": "Listed on",
   "listing_activated": "Listing activated",
   "listing_active_for_60_days": "Listing will be active for 60 days",
-  "listing_auto_remove": "",
+  "listing_auto_remove": "Listing will be removed automatically after expiry",
   "listing_created": "Listing Created!",
   "listing_created_message": "Your listing has been created successfully.",
   "listing_deactivated": "Listing deactivated",
@@ -2784,5 +2784,10 @@
         "type": "String"
       }
     }
-  }
+  },
+  "loading_mandis": "Loading mandis...",
+  "yes_received": "Yes, Received",
+  "deal_closed_successfully": "Deal closed successfully!",
+  "yes_not_received": "Yes, Not Received",
+  "failed_to_send_closing_call": "Failed to send closing call"
 }

@@ -1660,14 +1660,14 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
         if (mounted) {
           ToastHelper.showError(
             context,
-            result['message'] ?? 'Failed to create listing',
+            result['message'] ?? tr('failed_to_create_listing'),
           );
         }
       }
     } catch (e) {
       setState(() => _isSubmitting = false);
       if (mounted) {
-        ToastHelper.showError(context, 'Error: $e');
+        ToastHelper.showError(context, '${tr('error_prefix')}: $e');
       }
     }
   }

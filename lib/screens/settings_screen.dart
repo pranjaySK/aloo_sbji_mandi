@@ -5,6 +5,7 @@ import 'package:aloo_sbji_mandi/screens/legal_document_screen.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -16,6 +17,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
   bool _darkMode = false;
+  String _appVersion = 'Loading...';
 
   @override
   void initState() {
@@ -25,9 +27,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
+    final packageInfo = await PackageInfo.fromPlatform();
     setState(() {
       _notificationsEnabled = prefs.getBool('notifications_enabled') ?? true;
       _darkMode = prefs.getBool('dark_mode') ?? false;
+      _appVersion = '${packageInfo.version}+${packageInfo.buildNumber}';
     });
   }
 
@@ -189,7 +193,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _actionTile(
                   icon: Icons.info_outline,
                   title: tr('app_version'),
-                  subtitle: '1.0.0',
+                  subtitle: _appVersion,
                   showArrow: false,
                 ),
                 const Divider(height: 1),

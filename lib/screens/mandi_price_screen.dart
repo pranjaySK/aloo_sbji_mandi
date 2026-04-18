@@ -281,13 +281,13 @@ class _MandiPricesScreenState extends State<MandiPricesScreen> {
 
   Widget _buildMandiList() {
     if (_isLoading) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(color: Color(0xFF1B5E20)),
-            SizedBox(height: 16),
-            Text('Loading mandis...'),
+            const CircularProgressIndicator(color: Color(0xFF1B5E20)),
+            const SizedBox(height: 16),
+            Text(tr('loading_mandis')),
           ],
         ),
       );

@@ -162,7 +162,9 @@ class _AlooMitraRegistrationScreenState
     // If other district is selected, only show "Other" option for village
     if (_isOtherDistrict) return [tr('other_write')];
     if (_selectedDistrict == null) return [];
-    final villages = StateCityData.getVillagesForDistrict(_selectedDistrict ?? '');
+    final villages = StateCityData.getVillagesForDistrict(
+      _selectedDistrict ?? '',
+    );
     return [tr('other_write'), ...villages];
   }
 
@@ -216,8 +218,9 @@ class _AlooMitraRegistrationScreenState
 
       // Pre-fill district
       if (userDistrict.isNotEmpty && _selectedState != null) {
-        final availableDistricts =
-            StateCityData.getCitiesForState(_selectedState ?? '');
+        final availableDistricts = StateCityData.getCitiesForState(
+          _selectedState ?? '',
+        );
         if (availableDistricts.contains(userDistrict)) {
           _selectedDistrict = userDistrict;
           _isOtherDistrict = false;
@@ -233,8 +236,9 @@ class _AlooMitraRegistrationScreenState
       // Pre-fill village
       if (userVillage.isNotEmpty) {
         if (_selectedDistrict != null && !_isOtherDistrict) {
-          final availableVillages =
-              StateCityData.getVillagesForDistrict(_selectedDistrict ?? '');
+          final availableVillages = StateCityData.getVillagesForDistrict(
+            _selectedDistrict ?? '',
+          );
           if (availableVillages.contains(userVillage)) {
             _selectedVillage = userVillage;
             _isOtherVillage = false;
@@ -1091,7 +1095,7 @@ class _AlooMitraRegistrationScreenState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          tr('state'),
+          tr('state_label'),
           style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w600,
