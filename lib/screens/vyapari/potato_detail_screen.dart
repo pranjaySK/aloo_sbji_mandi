@@ -30,7 +30,7 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
   int _currentImageIndex = 0;
 
   Map<String, dynamic> get listing => widget.listing ?? {};
-  
+
   /// Get images from listing
   List<String> get _images {
     final imgs = listing['images'];
@@ -271,12 +271,16 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                                     controller: _pageController,
                                     itemCount: _images.length,
                                     onPageChanged: (index) {
-                                      setState(() => _currentImageIndex = index);
+                                      setState(
+                                        () => _currentImageIndex = index,
+                                      );
                                     },
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () => _openImageViewer(index),
-                                        child: _buildListingImage(_images[index]),
+                                        child: _buildListingImage(
+                                          _images[index],
+                                        ),
                                       );
                                     },
                                   )
@@ -297,7 +301,9 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                                 children: List.generate(
                                   _images.length,
                                   (index) => Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 3,
+                                    ),
                                     width: _currentImageIndex == index ? 10 : 6,
                                     height: 6,
                                     decoration: BoxDecoration(
@@ -326,7 +332,9 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
-                                type == 'sell' ? AppLocalizations.tr('for_sale') : AppLocalizations.tr('wanted'),
+                                type == 'sell'
+                                    ? AppLocalizations.tr('for_sale')
+                                    : AppLocalizations.tr('wanted'),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -443,7 +451,7 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                           children: [
                             _infoColumn(
                               AppLocalizations.tr('quantity'),
-                              '$quantity ${unitPlural(unit)}',
+                              '$quantity ${unitPlural(unit).substring(0, 3)}',
                             ),
                             Container(
                               width: 1,
@@ -456,7 +464,10 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                               height: 40,
                               color: AppColors.primaryGreen.withOpacity(0.3),
                             ),
-                            _infoColumn(AppLocalizations.tr('status'), AppLocalizations.tr('status_open')),
+                            _infoColumn(
+                              AppLocalizations.tr('status'),
+                              AppLocalizations.tr('status_open'),
+                            ),
                           ],
                         ),
                       ),
@@ -465,13 +476,13 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
 
                       // Description
                       if (description.isNotEmpty) ...[
-                          Text(
-                            AppLocalizations.tr('description'),
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        Text(
+                          AppLocalizations.tr('description'),
+                          style: GoogleFonts.inter(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
+                        ),
                         const SizedBox(height: 8),
                         Text(
                           description,
@@ -513,9 +524,9 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                      Text(
-                                        AppLocalizations.tr('role_cold_storage'),
-                                        style: TextStyle(
+                                    Text(
+                                      AppLocalizations.tr('role_cold_storage'),
+                                      style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.blue.shade600,
                                         fontWeight: FontWeight.w500,
@@ -547,10 +558,16 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                         LocationMapWidget(
                           latitude: (captureLocation['latitude'] is num)
                               ? (captureLocation['latitude'] as num).toDouble()
-                              : double.tryParse(captureLocation['latitude'].toString()) ?? 0.0,
+                              : double.tryParse(
+                                      captureLocation['latitude'].toString(),
+                                    ) ??
+                                    0.0,
                           longitude: (captureLocation['longitude'] is num)
                               ? (captureLocation['longitude'] as num).toDouble()
-                              : double.tryParse(captureLocation['longitude'].toString()) ?? 0.0,
+                              : double.tryParse(
+                                      captureLocation['longitude'].toString(),
+                                    ) ??
+                                    0.0,
                           address: captureLocation['address']?.toString(),
                           height: 180,
                           showAddress: true,
@@ -588,9 +605,11 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                      Text(
-                                        AppLocalizations.tr('photo_captured_location'),
-                                        style: TextStyle(
+                                    Text(
+                                      AppLocalizations.tr(
+                                        'photo_captured_location',
+                                      ),
+                                      style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.green.shade600,
                                         fontWeight: FontWeight.w500,
@@ -645,7 +664,12 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  AppLocalizations.tr('listed_by_farmer'),
+                                  AppLocalizations.currentLanguageName ==
+                                          'தமிழ்'
+                                      ? AppLocalizations.tr(
+                                          'listed_by_farmer',
+                                        ).substring(0, 4)
+                                      : AppLocalizations.tr('listed_by_farmer'),
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w600,
@@ -683,7 +707,9 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    sellerName.isEmpty ? AppLocalizations.tr('role_farmer') : sellerName,
+                                    sellerName.isEmpty
+                                        ? AppLocalizations.tr('role_farmer')
+                                        : sellerName,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 16,
@@ -739,7 +765,10 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                               : const Icon(Icons.chat, color: Colors.white),
                           label: Text(
                             AppLocalizations.tr('chat_with_farmer'),
-                            style: const TextStyle(color: Colors.white, fontSize: 16),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),
@@ -843,19 +872,15 @@ class _FullScreenImageViewerState extends State<_FullScreenImageViewer> {
       imageWidget = Image.memory(
         base64Decode(base64Str),
         fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => Image.asset(
-          'assets/potato.png',
-          fit: BoxFit.contain,
-        ),
+        errorBuilder: (_, __, ___) =>
+            Image.asset('assets/potato.png', fit: BoxFit.contain),
       );
     } else {
       imageWidget = Image.network(
         url,
         fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => Image.asset(
-          'assets/potato.png',
-          fit: BoxFit.contain,
-        ),
+        errorBuilder: (_, __, ___) =>
+            Image.asset('assets/potato.png', fit: BoxFit.contain),
       );
     }
 
@@ -896,11 +921,7 @@ class _FullScreenImageViewerState extends State<_FullScreenImageViewer> {
                   color: Colors.black54,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                child: const Icon(Icons.close, color: Colors.white, size: 24),
               ),
             ),
           ),

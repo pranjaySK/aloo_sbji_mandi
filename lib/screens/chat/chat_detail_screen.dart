@@ -75,7 +75,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   // Pending closing call details for payment flow
   DealDetails? _pendingClosingCallDetails;
 
-  void _logPaymentFlow(String message, [Object? error, StackTrace? stackTrace]) {
+  void _logPaymentFlow(
+    String message, [
+    Object? error,
+    StackTrace? stackTrace,
+  ]) {
     final prefix = '[ChatPaymentFlow] $message';
     if (error != null) {
       debugPrint('$prefix | error=$error');
@@ -608,7 +612,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
     final fallbackDeal = _activeDeal ?? _closedDeal;
     if (fallbackDeal != null) {
-      _logPaymentFlow('Using fallback deal context from deal ${fallbackDeal.id}');
+      _logPaymentFlow(
+        'Using fallback deal context from deal ${fallbackDeal.id}',
+      );
       return DealDetails(
         quantity: fallbackDeal.quantity,
         pricePerKg: fallbackDeal.pricePerTon,
@@ -3163,7 +3169,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       const Text('💰', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
                       Text(
-                        '${tr('total_amount_label')}: ₹$total',
+                        '${AppLocalizations.currentLanguageName == 'தமிழ்' ? tr('total_amount_label').substring(0, 6) : tr('total_amount_label')}: ₹$total',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -3679,7 +3685,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       const Text('💰', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
                       Text(
-                        '${tr('total_amount_label')}: ₹$total',
+                        '${AppLocalizations.currentLanguageName == 'தமிழ்' ? tr('total_amount_label').substring(0, 6) : tr('total_amount_label')}: ₹$total',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -4304,7 +4310,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           'totalAmount': details.totalAmount,
           'sellerName': details.sellerName,
           'buyerName': details.buyerName,
-          if (details.listingRefId != null) 'listingRefId': details.listingRefId,
+          if (details.listingRefId != null)
+            'listingRefId': details.listingRefId,
         },
       );
       setState(() {
@@ -4315,7 +4322,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('${tr('failed')}: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -4580,7 +4590,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         await _sendPaymentSharedCard();
       }
     } catch (e) {
-      _logPaymentFlow('Failed while sending QR code and payment_shared card', e);
+      _logPaymentFlow(
+        'Failed while sending QR code and payment_shared card',
+        e,
+      );
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -4687,7 +4700,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       setState(() => _isSending = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('${tr('failed')}: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -4815,7 +4831,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('${tr('failed')}: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -4914,7 +4933,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('${tr('failed')}: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -4994,7 +5016,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${tr('failed')}: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('${tr('failed')}: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }

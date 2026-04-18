@@ -84,7 +84,7 @@ class _TraderRequestsSectionWidgetState
                 );
               },
               child: Text(
-                tr('view_all'),
+                tr('view_all').substring(0, 8),
                 style: TextStyle(
                   color: AppColors.primaryGreen,
                   fontWeight: FontWeight.w600,
@@ -149,7 +149,9 @@ class _TraderRequestsSectionWidgetState
     final variety = request['potatoVariety'] ?? 'Unknown';
     final size = request['size'] ?? 'Medium';
     final createdAt = request['createdAt'] != null
-        ? DateFormat('dd MMM').format(DateTime.parse(request['createdAt']).toIST())
+        ? DateFormat(
+            'dd MMM',
+          ).format(DateTime.parse(request['createdAt']).toIST())
         : '';
 
     return GestureDetector(

@@ -110,48 +110,48 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
         listenable: AppLocalizations.instance,
         builder: (context, _) => SafeArea(
           bottom: false,
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : RefreshIndicator(
-                onRefresh: _loadData,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: RoleShellScrollPadding.home,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// BANNER SLIDER
-                      const AutoSliderBanner(
-                        height: 160,
-                        autoSlideDuration: Duration(seconds: 4),
-                        fetchFromServer: true,
-                      ),
-                      const SizedBox(height: 16),
+          child: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : RefreshIndicator(
+                  onRefresh: _loadData,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: RoleShellScrollPadding.home,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// BANNER SLIDER
+                        const AutoSliderBanner(
+                          height: 160,
+                          autoSlideDuration: Duration(seconds: 4),
+                          fetchFromServer: true,
+                        ),
+                        const SizedBox(height: 16),
 
-                      /// WELCOME CARD
-                      _buildWelcomeCard(),
-                      const SizedBox(height: 16),
+                        /// WELCOME CARD
+                        _buildWelcomeCard(),
+                        const SizedBox(height: 16),
 
-                      /// QUICK ACTIONS
-                      _buildQuickActionsSection(),
-                      const SizedBox(height: 16),
+                        /// QUICK ACTIONS
+                        _buildQuickActionsSection(),
+                        const SizedBox(height: 16),
 
-                      /// RECENT ENQUIRIES
-                      _buildRecentEnquiriesSection(),
-                      const SizedBox(height: 16),
+                        /// RECENT ENQUIRIES
+                        _buildRecentEnquiriesSection(),
+                        const SizedBox(height: 16),
 
-                      /// NEWS SECTION
-                      NewsSectionWidget(),
-                      const SizedBox(height: 16),
+                        /// NEWS SECTION
+                        NewsSectionWidget(),
+                        const SizedBox(height: 16),
 
-                      /// WEATHER CARD
-                      const WeatherCard(),
-                      const SizedBox(height: 20),
-                    ],
+                        /// WEATHER CARD
+                        const WeatherCard(),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-      ),
+        ),
       ),
     );
   }
@@ -437,11 +437,14 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
             ),
             TextButton(
               onPressed: () => _showComingSoonDialog(tr('all_enquiries')),
-              child: Text(
-                tr('view_all'),
-                style: GoogleFonts.inter(
-                  color: AppColors.primaryGreen,
-                  fontWeight: FontWeight.w600,
+              child: Flexible(
+                child: Text(
+                  tr('view_all').substring(0, 8),
+                  style: GoogleFonts.inter(
+                    color: AppColors.primaryGreen,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),

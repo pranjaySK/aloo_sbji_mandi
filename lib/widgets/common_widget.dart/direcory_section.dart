@@ -7,108 +7,120 @@ import 'package:google_fonts/google_fonts.dart';
 
 class DirectorySection extends StatelessWidget {
   final directoryItems;
-  const    DirectorySection({required this.directoryItems});
+  const DirectorySection({required this.directoryItems});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         /// TITLE ROW
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               tr('directory'),
-             style: GoogleFonts.inter(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+              style: GoogleFonts.inter(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             OutlinedButton(
-          onPressed: () {
-            // Navigate to Directory screen with filtered items
-            final List<Map<String, dynamic>> items = (directoryItems as List)
-                .map<Map<String, dynamic>>((item) => {
-                      'image': item['image'] ?? '',
-                      'titleKey': item['titleEn'] ?? item['title'] ?? '',
-                      'route': item['route'] ?? '',
-                    })
-                .toList();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DirectoryScreen(customItems: items)),
-            );
-          },
-          style: OutlinedButton.styleFrom(
-            minimumSize: Size(50, 30),
-             
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              onPressed: () {
+                // Navigate to Directory screen with filtered items
+                final List<Map<String, dynamic>> items =
+                    (directoryItems as List)
+                        .map<Map<String, dynamic>>(
+                          (item) => {
+                            'image': item['image'] ?? '',
+                            'titleKey': item['titleEn'] ?? item['title'] ?? '',
+                            'route': item['route'] ?? '',
+                          },
+                        )
+                        .toList();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DirectoryScreen(customItems: items),
+                  ),
+                );
+              },
+              style: OutlinedButton.styleFrom(
+                minimumSize: Size(50, 30),
+
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                side: BorderSide(color: AppColors.primaryGreen),
+              ),
+              child: Text(
+                tr('view_all').substring(0, 8),
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primaryGreen,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            side:  BorderSide(color: AppColors.primaryGreen),
-          ),
-          child:  Text(tr('view_all'),style: GoogleFonts.inter(fontSize: 14,fontWeight: FontWeight.w700,color: AppColors.primaryGreen),),
-        ),
           ],
         ),
 
         const SizedBox(height: 12),
 
         /// HORIZONTAL DIRECTORY CARDS
-    SizedBox(
-  height: 140,
-  child: LayoutBuilder(
-    builder: (context, constraints) {
-      final screenWidth = constraints.maxWidth;
-      final itemCount = directoryItems.length;
+        SizedBox(
+          height: 140,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final screenWidth = constraints.maxWidth;
+              final itemCount = directoryItems.length;
 
-      return ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: itemCount,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          final item = directoryItems[index];
-          final route = item['route'] ?? '';
+              return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: itemCount,
+                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  final item = directoryItems[index];
+                  final route = item['route'] ?? '';
 
-          return GestureDetector(
-            onTap: () {
-              if (route.isNotEmpty) {
-                // Navigate to AlooMitraScreen with the specific category filter
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AlooMitraScreen(initialCategory: route),
-                  ),
-                );
-              }
+                  return GestureDetector(
+                    onTap: () {
+                      if (route.isNotEmpty) {
+                        // Navigate to AlooMitraScreen with the specific category filter
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AlooMitraScreen(initialCategory: route),
+                          ),
+                        );
+                      }
+                    },
+                    child: SizedBox(
+                      width: itemCount == 2
+                          ? (screenWidth - 12) /
+                                2 // 🔥 2 items → full width
+                          : 120, // normal width for more items
+                      child: _DirectoryCard(
+                        image: item['image']!,
+                        title: AppLocalizations.isHindi
+                            ? item['title']!
+                            : (item['titleEn'] ?? item['title']!),
+                      ),
+                    ),
+                  );
+                },
+              );
             },
-            child: SizedBox(
-              width: itemCount == 2
-                  ? (screenWidth - 12) / 2 // 🔥 2 items → full width
-                  : 120, // normal width for more items
-              child: _DirectoryCard(
-                image: item['image']!,
-                title: AppLocalizations.isHindi ? item['title']! : (item['titleEn'] ?? item['title']!),
-              ),
-            ),
-          );
-        },
-      );
-    },
-  ),
-),
-
+          ),
+        ),
 
         const SizedBox(height: 20),
-
-     
       ],
     );
   }
 }
-
 
 /// DIRECTORY CARD
 // DIRECTORY CARD
@@ -116,10 +128,7 @@ class _DirectoryCard extends StatelessWidget {
   final String image;
   final String title;
 
-  const _DirectoryCard({
-    required this.image,
-    required this.title,
-  });
+  const _DirectoryCard({required this.image, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -142,29 +151,29 @@ class _DirectoryCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // IMAGE
-        ClipRRect(
-  borderRadius: BorderRadius.circular(20),
-  child: Container(
-    height: 80,
-    width: 80,
-    child: image.startsWith('http') 
-      ? Image.network(
-          image,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              color: Colors.grey[300],
-              child: const Icon(Icons.image, size: 40, color: Colors.grey),
-            );
-          },
-        )
-      : Image.asset(
-          image,
-          fit: BoxFit.cover,
-        ),
-  ),
-)
-,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              height: 80,
+              width: 80,
+              child: image.startsWith('http')
+                  ? Image.network(
+                      image,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: const Icon(
+                            Icons.image,
+                            size: 40,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
+                    )
+                  : Image.asset(image, fit: BoxFit.cover),
+            ),
+          ),
           const SizedBox(height: 8),
 
           // TITLE
@@ -185,8 +194,6 @@ class _DirectoryCard extends StatelessWidget {
   }
 }
 
-
-
 class NewsHowToSection extends StatelessWidget {
   const NewsHowToSection({super.key});
 
@@ -195,7 +202,6 @@ class NewsHowToSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         /// NEWS SECTION
         _sectionHeader("News"),
         const SizedBox(height: 12),
@@ -203,17 +209,11 @@ class NewsHowToSection extends StatelessWidget {
         Row(
           children: const [
             Expanded(
-              child: _ImageCard(
-                image: "assets/1.png",
-                title: "",
-              ),
+              child: _ImageCard(image: "assets/1.png", title: ""),
             ),
             SizedBox(width: 12),
             Expanded(
-              child: _ImageCard(
-                image: "assets/2.png",
-                title: "",
-              ),
+              child: _ImageCard(image: "assets/2.png", title: ""),
             ),
           ],
         ),
@@ -227,18 +227,11 @@ class NewsHowToSection extends StatelessWidget {
         Row(
           children: const [
             Expanded(
-              child: _ImageCard(
-                image: "assets/11.png",
-                title:
-                    "",
-              ),
+              child: _ImageCard(image: "assets/11.png", title: ""),
             ),
             SizedBox(width: 12),
             Expanded(
-              child: _ImageCard(
-                image: "assets/21.png",
-                title: "",
-              ),
+              child: _ImageCard(image: "assets/21.png", title: ""),
             ),
           ],
         ),
@@ -255,22 +248,26 @@ class NewsHowToSection extends StatelessWidget {
       children: [
         Text(
           title,
-         style: GoogleFonts.inter(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+          style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w600),
         ),
-       OutlinedButton(
+        OutlinedButton(
           onPressed: () {},
           style: OutlinedButton.styleFrom(
             minimumSize: Size(50, 30),
-             
+
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            side:  BorderSide(color: AppColors.primaryGreen),
+            side: BorderSide(color: AppColors.primaryGreen),
           ),
-          child:  Text("View All",style: GoogleFonts.inter(fontSize: 14,fontWeight: FontWeight.w700,color: AppColors.primaryGreen),),
+          child: Text(
+            "View All",
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primaryGreen,
+            ),
+          ),
         ),
       ],
     );
@@ -282,10 +279,7 @@ class _ImageCard extends StatelessWidget {
   final String image;
   final String title;
 
-  const _ImageCard({
-    required this.image,
-    required this.title,
-  });
+  const _ImageCard({required this.image, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -294,20 +288,14 @@ class _ImageCard extends StatelessWidget {
       width: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        image: DecorationImage(
-          image: AssetImage(image),
-          fit: BoxFit.cover,
-        ),
+        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
       ),
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
           gradient: LinearGradient(
-            colors: [
-              Colors.black.withOpacity(0.6),
-              Colors.transparent,
-            ],
+            colors: [Colors.black.withOpacity(0.6), Colors.transparent],
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ),

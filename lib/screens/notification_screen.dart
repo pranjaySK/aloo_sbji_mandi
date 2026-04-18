@@ -306,7 +306,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 );
               },
               child: Text(
-                tr('view_all'),
+                tr('view_all').substring(0, 8),
                 style: TextStyle(
                   color: AppColors.primaryGreen,
                   fontWeight: FontWeight.w600,

@@ -105,7 +105,7 @@ class _NewsSectionWidgetState extends State<NewsSectionWidget> {
                 side: const BorderSide(color: AppColors.primaryGreen),
               ),
               child: Text(
-                tr('view_all'),
+                tr('view_all').substring(0, 8),
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,

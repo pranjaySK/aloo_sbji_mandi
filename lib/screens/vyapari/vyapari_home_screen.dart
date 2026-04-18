@@ -118,163 +118,163 @@ class VyapariHomeScreen extends StatelessWidget {
         listenable: AppLocalizations.instance,
         builder: (context, _) => SafeArea(
           bottom: false,
-        child: SingleChildScrollView(
-          padding: RoleShellScrollPadding.home,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// TRADER BANNER SLIDER
-              const AutoSliderBanner(
-                height: 160,
-                autoSlideDuration: Duration(seconds: 4),
-                fetchFromServer: true,
-              ),
-              const SizedBox(height: 16),
-
-              /// BUY / SELL
-              Row(
-                children: [
-                  _mainCard(
-                    title: tr('buy_potato'),
-                    image: "assets/buy_potato.png",
-                    context: context,
-                  ),
-                  const SizedBox(width: 16),
-                  _mainCard(
-                    title: tr('sell_potato'),
-                    image: "assets/sell_potato.png",
-                    context: context,
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 28),
-
-              /// OTHER SERVICES
-              Text(
-                tr('other_services'),
-                style: GoogleFonts.inter(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+          child: SingleChildScrollView(
+            padding: RoleShellScrollPadding.home,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// TRADER BANNER SLIDER
+                const AutoSliderBanner(
+                  height: 160,
+                  autoSlideDuration: Duration(seconds: 4),
+                  fetchFromServer: true,
                 ),
-              ),
+                const SizedBox(height: 16),
 
-              const SizedBox(height: 16),
-
-              GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 16,
-                childAspectRatio: 2,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MySellerListingScreen(),
-                        ),
-                      );
-                    },
-                    child: ServiceCard(
-                      title: tr('my_listings'),
+                /// BUY / SELL
+                Row(
+                  children: [
+                    _mainCard(
+                      title: tr('buy_potato'),
+                      image: "assets/buy_potato.png",
+                      context: context,
+                    ),
+                    const SizedBox(width: 16),
+                    _mainCard(
+                      title: tr('sell_potato'),
                       image: "assets/sell_potato.png",
+                      context: context,
                     ),
+                  ],
+                ),
+
+                const SizedBox(height: 28),
+
+                /// OTHER SERVICES
+                Text(
+                  tr('other_services'),
+                  style: GoogleFonts.inter(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/cold_storage_listing');
-                    },
-                    child: ServiceCard(
-                      title: tr('cold_storage_service'),
-                      image: "assets/cloud_storage.png",
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/mandi_price');
-                    },
-                    child: ServiceCard(
-                      title: tr('mandi_prices'),
-                      image: "assets/alu.png",
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const VyapariAnalyticsScreen(),
-                        ),
-                      );
-                    },
-                    child: ServiceCard(
-                      title: tr('ai_analytics'),
-                      image: "assets/al.png",
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const AlooCalculatorScreen(role: 'vyapari'),
-                        ),
-                      );
-                    },
-                    child: ServiceCard(
-                      title: tr('aloo_calculator'),
-                      image: "assets/aloo_calculator.png",
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyBuyRequestsScreen(),
-                        ),
-                      );
-                    },
-                    child: ValueListenableBuilder<int>(
-                      valueListenable:
-                          BuyRequestNotificationState.newResponseCount,
-                      builder: (context, count, _) => ServiceCard(
-                        title: tr('buy_request'),
-                        image: "assets/potato_needed.png",
-                        badgeCount: count > 0 ? count : null,
+                ),
+
+                const SizedBox(height: 16),
+
+                GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 2,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MySellerListingScreen(),
+                          ),
+                        );
+                      },
+                      child: ServiceCard(
+                        title: tr('my_listings'),
+                        image: "assets/sell_potato.png",
                       ),
                     ),
-                  ),
-                ],
-              ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/cold_storage_listing');
+                      },
+                      child: ServiceCard(
+                        title: tr('cold_storage_service'),
+                        image: "assets/cloud_storage.png",
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/mandi_price');
+                      },
+                      child: ServiceCard(
+                        title: tr('mandi_prices'),
+                        image: "assets/alu.png",
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const VyapariAnalyticsScreen(),
+                          ),
+                        );
+                      },
+                      child: ServiceCard(
+                        title: tr('ai_analytics'),
+                        image: "assets/al.png",
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const AlooCalculatorScreen(role: 'vyapari'),
+                          ),
+                        );
+                      },
+                      child: ServiceCard(
+                        title: tr('aloo_calculator'),
+                        image: "assets/aloo_calculator.png",
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MyBuyRequestsScreen(),
+                          ),
+                        );
+                      },
+                      child: ValueListenableBuilder<int>(
+                        valueListenable:
+                            BuyRequestNotificationState.newResponseCount,
+                        builder: (context, count, _) => ServiceCard(
+                          title: tr('buy_request'),
+                          image: "assets/potato_needed.png",
+                          badgeCount: count > 0 ? count : null,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
-              const SizedBox(height: 24),
+                const SizedBox(height: 24),
 
-              /// DIRECTORY
-              DirectorySection(directoryItems: vyapariDirectoryItems),
+                /// DIRECTORY
+                DirectorySection(directoryItems: vyapariDirectoryItems),
 
-              const SizedBox(height: 24),
+                const SizedBox(height: 24),
 
-              /// NEWS SECTION
-              NewsSectionWidget(),
-              const SizedBox(height: 24),
-              // /// DIRECTORY
-              // Text(
-              //   "Directory",
-              //    style: GoogleFonts.inter(
-              //     fontSize: 20,
-              //     fontWeight: FontWeight.w600,
-              //   ),
-              // ),
-              WeatherCard(),
-            ],
+                /// NEWS SECTION
+                NewsSectionWidget(),
+                const SizedBox(height: 24),
+                // /// DIRECTORY
+                // Text(
+                //   "Directory",
+                //    style: GoogleFonts.inter(
+                //     fontSize: 20,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
+                WeatherCard(),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -398,12 +398,15 @@ class NewsHowToSection extends StatelessWidget {
             ),
             side: BorderSide(color: AppColors.primaryGreen),
           ),
-          child: Text(
-            tr('view_all'),
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: AppColors.primaryGreen,
+          child: Flexible(
+            child: Text(
+              tr('view_all').substring(0, 8),
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primaryGreen,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
