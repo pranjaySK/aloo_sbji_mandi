@@ -82,7 +82,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
             setState(() {
               _coldStorageId = storage['_id']?.toString();
               _coldStorageName =
-                  storage['name']?.toString() ?? 'My Cold Storage';
+                  storage['name']?.toString() ?? tr('cold_storage_not_found');
             });
           }
         }
@@ -98,7 +98,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
     } else {
       setState(() {
         _isLoading = false;
-        _error = 'No cold storage found';
+        _error = tr('cold_storage_not_found');
       });
     }
   }
@@ -185,7 +185,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
   Future<void> _addCounter() async {
     final nextNumber = _counters.length + 1;
     if (nextNumber > 10) {
-      _showSnackBar('Maximum 10 counters allowed', Colors.orange);
+      _showSnackBar(tr('max_counters_msg'), Colors.orange);
       return;
     }
 
@@ -194,7 +194,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
         : '$nextNumber';
 
     final nameController =
-        TextEditingController(text: 'Counter $label');
+        TextEditingController(text: '${tr('add_counter')} $label');
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -205,7 +205,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
             Icon(Icons.add_circle, color: AppColors.primaryGreen, size: 28),
             const SizedBox(width: 10),
             Text(
-              'Add Counter',
+              tr('add_counter'),
               style: GoogleFonts.inter(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -219,8 +219,8 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                labelText: 'Counter Name',
-                hintText: 'e.g. Counter F',
+                labelText: tr('counter_name_label'),
+                hintText: tr('counter_name_hint'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -231,7 +231,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(tr('cancel_btn')),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -242,7 +242,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: const Text('Add'),
+            child: Text(tr('add_counter')),
           ),
         ],
       ),
@@ -255,10 +255,10 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
         name: nameController.text.trim(),
       );
       if (result['success'] == true) {
-        _showSnackBar('Counter added successfully!', AppColors.primaryGreen);
+        _showSnackBar(tr('counter_added'), AppColors.primaryGreen);
         await _loadCounters();
       } else {
-        _showSnackBar(result['message'] ?? 'Failed to add counter', Colors.red);
+        _showSnackBar(result['message'] ?? tr('failed_to_add_counter'), Colors.red);
         setState(() => _isLoading = false);
       }
     }
@@ -272,12 +272,12 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
     );
     if (result['success'] == true) {
       _showSnackBar(
-        newActive ? '${counter.name} activated' : '${counter.name} deactivated',
+        newActive ? '${counter.name} ${tr('counter_activated')}' : '${counter.name} ${tr('counter_deactivated')}',
         newActive ? AppColors.primaryGreen : Colors.orange,
       );
       _loadCounters();
     } else {
-      _showSnackBar(result['message'] ?? 'Failed', Colors.red);
+      _showSnackBar(result['message'] ?? tr('failed_msg'), Colors.red);
     }
   }
 
@@ -290,17 +290,17 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
           children: [
             const Icon(Icons.warning_amber_rounded, color: Colors.red, size: 28),
             const SizedBox(width: 10),
-            const Text('Delete Counter'),
+            Text(tr('delete_counter')),
           ],
         ),
         content: Text(
-          'Are you sure you want to delete "${counter.name}"?\n\nThis cannot be undone.',
+          tr('delete_counter_confirm').replaceAll('this counter', '"${counter.name}"'),
           style: GoogleFonts.inter(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(tr('cancel_btn')),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -308,7 +308,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Delete'),
+            child: Text(tr('delete_counter')),
           ),
         ],
       ),
@@ -317,10 +317,10 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
     if (confirmed == true) {
       final result = await _tokenService.deleteCounter(counter.id);
       if (result['success'] == true) {
-        _showSnackBar('Counter deleted', Colors.orange);
+        _showSnackBar(tr('counter_deleted'), Colors.orange);
         _loadCounters();
       } else {
-        _showSnackBar(result['message'] ?? 'Failed', Colors.red);
+        _showSnackBar(result['message'] ?? tr('failed_msg'), Colors.red);
       }
     }
   }
@@ -371,7 +371,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings_rounded),
-            tooltip: 'Manage Counters',
+            tooltip: tr('manage_counters_tooltip'),
             onPressed: _showManageSheet,
           ),
         ],
@@ -439,7 +439,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
               const SizedBox(height: 4),
             ],
             Text(
-              'Select a Counter',
+              tr('select_a_counter'),
               style: GoogleFonts.inter(
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
@@ -448,7 +448,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
             ),
             const SizedBox(height: 6),
             Text(
-              'Tap a counter to view its live dashboard',
+              tr('select_counter_sub'),
               style: GoogleFonts.inter(
                 fontSize: 13,
                 color: Colors.grey[500],
@@ -475,7 +475,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
                 onPressed: _addCounter,
                 icon: const Icon(Icons.add_rounded, size: 22),
                 label: Text(
-                  'Add New Counter',
+                  tr('add_new_counter'),
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
@@ -513,21 +513,21 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
     return Row(
       children: [
         _buildMiniStat(
-          label: 'Active Counters',
+          label: tr('active_counters'),
           value: '${activeCounters.length}',
           icon: Icons.grid_view_rounded,
           color: AppColors.primaryGreen,
         ),
         const SizedBox(width: 10),
         _buildMiniStat(
-          label: 'Total Waiting',
+          label: tr('total_waiting'),
           value: '$totalWaiting',
           icon: Icons.hourglass_top_rounded,
           color: Colors.orange,
         ),
         const SizedBox(width: 10),
         _buildMiniStat(
-          label: 'Now Serving',
+          label: tr('now_serving'),
           value: '$totalServing',
           icon: Icons.play_circle_rounded,
           color: const Color(0xFF1565C0),
@@ -708,7 +708,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
                   // Now serving
                   if (isServing) ...[
                     Text(
-                      'Serving',
+                      tr('serving_label'),
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         color: Colors.white.withValues(alpha: 0.7),
@@ -724,7 +724,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
                     ),
                   ] else ...[
                     Text(
-                      'Idle',
+                      tr('idle_label'),
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -753,7 +753,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          '$waiting waiting',
+                          '$waiting ${tr('n_waiting')}',
                           style: GoogleFonts.inter(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
@@ -793,7 +793,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
               size: 64, color: Colors.grey[300]),
           const SizedBox(height: 16),
           Text(
-            'No Counters Set Up',
+            tr('no_counters_setup'),
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -802,7 +802,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Add counters to start managing your token queue efficiently.',
+            tr('add_counters_sub'),
             textAlign: TextAlign.center,
             style: GoogleFonts.inter(
               fontSize: 13,
@@ -813,7 +813,7 @@ class _CounterSelectionScreenState extends State<CounterSelectionScreen> {
           ElevatedButton.icon(
             onPressed: _addCounter,
             icon: const Icon(Icons.add_rounded),
-            label: const Text('Add First Counter'),
+            label: Text(tr('add_first_counter')),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryGreen,
               foregroundColor: Colors.white,
@@ -881,7 +881,7 @@ class _ManageCountersSheet extends StatelessWidget {
                     color: AppColors.primaryGreen, size: 24),
                 const SizedBox(width: 10),
                 Text(
-                  'Manage Counters',
+                  tr('manage_counters'),
                   style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -895,7 +895,7 @@ class _ManageCountersSheet extends StatelessWidget {
                   },
                   icon: Icon(Icons.add_circle_rounded,
                       color: AppColors.primaryGreen, size: 28),
-                  tooltip: 'Add Counter',
+                  tooltip: tr('add_counter_tooltip'),
                 ),
               ],
             ),
@@ -907,7 +907,7 @@ class _ManageCountersSheet extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Text(
-                'No counters yet. Tap + to add one.',
+                tr('no_counters_yet_msg'),
                 style: TextStyle(color: Colors.grey[500], fontSize: 14),
               ),
             )
@@ -972,7 +972,7 @@ class _ManageCountersSheet extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                counter.isActive ? 'Active' : 'Inactive',
+                                counter.isActive ? tr('active_status') : tr('inactive_status'),
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
                                   color: counter.isActive

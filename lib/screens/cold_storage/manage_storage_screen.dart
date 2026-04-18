@@ -1278,13 +1278,13 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
 
             ToastHelper.showSuccess(
               context,
-              'Location auto-filled from pincode',
+              tr('location_autofilled_from_pincode'),
             );
           }
         } else {
           ToastHelper.showError(
             context,
-            'Invalid pincode or location not found',
+            tr('invalid_pincode_or_not_found'),
           );
         }
       }
