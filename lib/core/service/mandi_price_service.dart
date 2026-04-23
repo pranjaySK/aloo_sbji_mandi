@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 /// Service to fetch live mandi (market) prices from data.gov.in API
 /// API: Variety-wise Daily Market Prices Data of Commodity
 class MandiPriceService {
-  static const String _apiKey =
-      '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b';
+  static final String _apiKey = dotenv.get('MANDI_API_KEY');
   static const String _baseUrl =
       'https://api.data.gov.in/resource/35985678-0d79-46b4-9ed6-6f13308a1d24';
 

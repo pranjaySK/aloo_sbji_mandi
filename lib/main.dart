@@ -23,6 +23,7 @@ import 'package:aloo_sbji_mandi/screens/cold_storage/cold_storage_notification_s
 import 'package:aloo_sbji_mandi/screens/create_availbility_screen.dart';
 import 'package:aloo_sbji_mandi/screens/crop_analysis_screen.dart';
 
+import 'package:aloo_sbji_mandi/screens/edit_profile_screen.dart';
 import 'package:aloo_sbji_mandi/screens/hire_rent_cold_storage_screen.dart';
 import 'package:aloo_sbji_mandi/screens/splash_screen.dart';
 import 'package:aloo_sbji_mandi/screens/kishan/buy_sell_screen.dart';
@@ -290,6 +291,7 @@ class _MyAppState extends State<MyApp> {
         '/my_plan': (context) => const MyPlanScreen(),
         '/transaction_history': (context) => const TransactionHistoryScreen(),
         '/settings': (context) => const SettingsScreen(),
+        '/edit_profile': (context) => const EditProfileScreen(),
         // VyapariBottomNavBarPage
       },
     );

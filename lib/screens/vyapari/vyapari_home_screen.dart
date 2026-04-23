@@ -398,16 +398,14 @@ class NewsHowToSection extends StatelessWidget {
             ),
             side: BorderSide(color: AppColors.primaryGreen),
           ),
-          child: Flexible(
-            child: Text(
-              tr('view_all').substring(0, 8),
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primaryGreen,
-              ),
-              overflow: TextOverflow.ellipsis,
+          child: Text(
+            tr('view_all').substring(0, 8),
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primaryGreen,
             ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

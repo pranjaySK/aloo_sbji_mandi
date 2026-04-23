@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
 
 class UserService {
   static String get baseUrl => '${ApiConstants.baseUrl}/api/v1';
+
+  static final ValueNotifier<int> profileUpdateNotifier = ValueNotifier(0);
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -54,6 +57,7 @@ class UserService {
         if (data['data']?['user'] != null) {
           await prefs.setString('user', json.encode(data['data']['user']));
         }
+        profileUpdateNotifier.value++;
         return {'success': true, 'data': data['data'], 'message': data['message']};
       } else {
         return {'success': false, 'message': data['message'] ?? 'Failed to update profile'};

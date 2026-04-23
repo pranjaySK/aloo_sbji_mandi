@@ -3259,16 +3259,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       width: double.infinity,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.amber.shade50,
+                        color: Colors.green.shade50,
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.amber.shade300),
+                        border: Border.all(color: Colors.green.shade300),
                       ),
                       child: Row(
                         children: [
                           Icon(
                             Icons.info_outline,
                             size: 18,
-                            color: Colors.amber.shade700,
+                            color: Colors.green.shade700,
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -3276,7 +3276,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               tr('share_payment_details_hint'),
                               style: TextStyle(
                                 fontSize: 13,
-                                color: Colors.amber.shade800,
+                                color: Colors.green.shade700,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

@@ -292,7 +292,7 @@ class ChatService {
 
       debugPrint(
         '[ChatService.sendMessage] conversationId=$conversationId messageType=$messageType hasDealDetails=${body['dealDetails'] != null}',
-      );
+      ); 
 
       final response = await http.post(
         Uri.parse('$baseUrl/chat/messages/$conversationId'),
@@ -302,9 +302,12 @@ class ChatService {
 
       if (response.statusCode == 201) {
         final data = json.decode(response.body);
+        debugPrint(
+          '[ChatService.sendMessage] Message sent successfully: ${data['data']}',
+        );
         return Message.fromJson(data['data']);
       } else {
-        debugPrint(
+        debugPrint( 
           '[ChatService.sendMessage] failed status=${response.statusCode} body=${response.body}',
         );
         throw Exception('Failed to send message');

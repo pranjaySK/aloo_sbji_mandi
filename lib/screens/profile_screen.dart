@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aloo_sbji_mandi/core/service/user_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/core/utils/custom_rounded_app_bar.dart';
 import 'package:aloo_sbji_mandi/core/utils/role_shell_scroll_padding.dart';
@@ -28,17 +29,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     AppLocalizations.instance.addListener(_onLocaleChanged);
+    UserService.profileUpdateNotifier.addListener(_loadUserData);
     _loadUserData();
-  }
-
-  void _onLocaleChanged() {
-    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
     AppLocalizations.instance.removeListener(_onLocaleChanged);
+    UserService.profileUpdateNotifier.removeListener(_loadUserData);
     super.dispose();
+  }
+
+  void _onLocaleChanged() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _loadUserData() async {

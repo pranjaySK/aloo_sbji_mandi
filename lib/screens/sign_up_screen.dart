@@ -166,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final firstName = nameParts.first;
     final lastName = nameParts.length > 1
         ? nameParts.sublist(1).join(' ')
-        : 'User';
+        : '';
 
     final stateValue = _isOtherState
         ? _otherStateController.text.trim()

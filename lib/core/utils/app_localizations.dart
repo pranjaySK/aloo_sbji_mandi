@@ -25,12 +25,8 @@ class AppLocalizations extends ChangeNotifier {
     if (saved != null) {
       _currentLocale = saved;
     } else {
-      // First launch: detect device language, default to 'hi' if not supported
-      final deviceLocale =
-          WidgetsBinding.instance.platformDispatcher.locale.languageCode;
-      _currentLocale = supportedLocales.contains(deviceLocale)
-          ? deviceLocale
-          : 'hi';
+      // Default to 'hi' (Hindi)
+      _currentLocale = 'hi';
     }
     
     // Load current and fallback (English) translations

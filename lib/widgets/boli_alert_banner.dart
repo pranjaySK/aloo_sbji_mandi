@@ -279,7 +279,7 @@ class _BoliAlertBannerState extends State<BoliAlertBanner> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          '${tr('details')} â†’',
+                          '${tr('details')}',
                           style: TextStyle(
                             color: isUrgent
                                 ? Colors.orange.shade800

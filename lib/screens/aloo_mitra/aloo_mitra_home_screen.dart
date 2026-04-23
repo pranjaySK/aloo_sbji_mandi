@@ -1,4 +1,5 @@
 import 'package:aloo_sbji_mandi/core/service/aloo_mitra_service.dart';
+import 'package:aloo_sbji_mandi/core/service/user_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/core/utils/role_shell_scroll_padding.dart';
 import 'package:aloo_sbji_mandi/core/utils/custom_rounded_app_bar.dart';
@@ -12,6 +13,8 @@ import 'package:aloo_sbji_mandi/widgets/common_widget.dart/weather_card.dart';
 import 'package:aloo_sbji_mandi/widgets/language_toggle_widget.dart';
 import 'package:aloo_sbji_mandi/widgets/notification_bell_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
 
 class AlooMitraHomeScreen extends StatefulWidget {
@@ -25,12 +28,26 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
   final AlooMitraService _alooMitraService = AlooMitraService();
 
   Map<String, dynamic>? _profileData;
+  String? _userName;
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    AppLocalizations.instance.addListener(_onAppLocaleChanged);
+    UserService.profileUpdateNotifier.addListener(_loadData);
     _loadData();
+  }
+
+  @override
+  void dispose() {
+    AppLocalizations.instance.removeListener(_onAppLocaleChanged);
+    UserService.profileUpdateNotifier.removeListener(_loadData);
+    super.dispose();
+  }
+
+  void _onAppLocaleChanged() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _loadData() async {
@@ -38,12 +55,22 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
 
     try {
       final profileResult = await _alooMitraService.getAlooMitraProfile();
+      
+      // Load user name from SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      final userJson = prefs.getString('user');
+      String? userName;
+      if (userJson != null) {
+        final userData = json.decode(userJson);
+        userName = '${userData['firstName'] ?? ''} ${userData['lastName'] ?? ''}'.trim();
+      }
 
       if (mounted) {
         setState(() {
           _profileData = profileResult['success']
               ? profileResult['data']
               : null;
+          _userName = userName;
           _isLoading = false;
         });
       }
@@ -202,7 +229,7 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  businessName,
+                  _userName ?? businessName,
                   style: GoogleFonts.inter(
                     color: Colors.white,
                     fontSize: 20,
@@ -265,7 +292,10 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
               child: _buildActionCard(
                 icon: Icons.edit,
                 label: tr('edit_profile'),
-                onTap: () => Navigator.pushNamed(context, '/edit_profile'),
+                onTap: () async {
+                  await Navigator.pushNamed(context, '/edit_profile');
+                  _loadData();
+                },
               ),
             ),
             const SizedBox(width: 12),
@@ -437,15 +467,13 @@ class _AlooMitraHomeScreenState extends State<AlooMitraHomeScreen> {
             ),
             TextButton(
               onPressed: () => _showComingSoonDialog(tr('all_enquiries')),
-              child: Flexible(
-                child: Text(
-                  tr('view_all').substring(0, 8),
-                  style: GoogleFonts.inter(
-                    color: AppColors.primaryGreen,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              child: Text(
+                tr('view_all').substring(0, 8),
+                style: GoogleFonts.inter(
+                  color: AppColors.primaryGreen,
+                  fontWeight: FontWeight.w600,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

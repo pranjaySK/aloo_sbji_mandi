@@ -451,6 +451,9 @@ class _AlooMitraScreenState extends State<AlooMitraScreen>
                   _buildInfoSection(tr('phone_number'), phone, Icons.phone),
                 const SizedBox(height: 16),
 
+                // Service-specific details section
+                ..._buildServiceSpecificDetails(alooMitraProfile, serviceType),
+
                 // Business Address (for fertilizers)
                 if (businessAddress.isNotEmpty) ...[
                   _buildInfoSection(
@@ -681,6 +684,239 @@ class _AlooMitraScreenState extends State<AlooMitraScreen>
     );
   }
 
+  List<Widget> _buildServiceSpecificDetails(
+    Map<String, dynamic> profile,
+    String? serviceType,
+  ) {
+    final List<Widget> details = [];
+    final pricing = profile['pricing']?.toString() ?? '';
+
+    Widget detailRow(
+      IconData icon,
+      String label,
+      String value, {
+      Color? iconColor,
+    }) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, size: 18, color: iconColor ?? AppColors.primaryGreen),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      color: Colors.grey[500],
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    value,
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (serviceType == 'majdoor') {
+      final kaamType = profile['kaamType']?.toString() ?? '';
+      final kaamJagah = profile['kaamJagah']?.toString() ?? '';
+      final avail = profile['availability']?.toString() ?? '';
+      final wage = pricing.isNotEmpty
+          ? pricing
+          : (profile['expectedWage']?.toString() ?? '');
+      final mobile = profile['majdoorMobile']?.toString() ?? '';
+
+      if (kaamType.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.work,
+            tr('work_type'),
+            _getKaamTypeLabel(kaamType),
+            iconColor: Colors.orange[700],
+          ),
+        );
+      if (kaamJagah.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.place,
+            tr('work_location'),
+            _getKaamJagahLabel(kaamJagah),
+            iconColor: Colors.blue[700],
+          ),
+        );
+      if (avail.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.schedule,
+            tr('availability'),
+            _getAvailabilityLabel(avail),
+            iconColor: Colors.purple[700],
+          ),
+        );
+      if (wage.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.currency_rupee,
+            tr('expected_daily_wage'),
+            '₹$wage',
+            iconColor: Colors.green[700],
+          ),
+        );
+      // if (mobile.isNotEmpty)
+      //   details.add(
+      //     detailRow(
+      //       Icons.phone_android,
+      //       tr('mobile_number'),
+      //       mobile,
+      //       iconColor: Colors.teal[700],
+      //     ),
+      //   );
+    } else if (serviceType == 'machinery-rent') {
+      final machineType = profile['machineType']?.toString() ?? '';
+      final svcType = profile['machineryServiceType']?.toString() ?? '';
+      final rentType = profile['rentType']?.toString() ?? '';
+      final salePriceMin = profile['salePriceMin'];
+      final salePriceMax = profile['salePriceMax'];
+      final rentPriceMin = profile['rentPriceMin'];
+      final rentPriceMax = profile['rentPriceMax'];
+
+      if (machineType.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.precision_manufacturing,
+            tr('machine_type_required_label'),
+            _getMachineTypeLabel(machineType),
+            iconColor: Colors.indigo[700],
+          ),
+        );
+      if (svcType.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.sell,
+            tr('service_type'),
+            _getMachineryServiceLabel(svcType),
+            iconColor: Colors.teal[700],
+          ),
+        );
+      if (rentType.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.timer,
+            tr('rent_type_required_label'),
+            _getRentTypeLabel(rentType),
+            iconColor: Colors.deepOrange[700],
+          ),
+        );
+      if (salePriceMin != null && salePriceMax != null) {
+        details.add(
+          detailRow(
+            Icons.currency_rupee,
+            tr('sale_price_range'),
+            '₹${_formatPrice(salePriceMin)} - ₹${_formatPrice(salePriceMax)}',
+            iconColor: Colors.green[700],
+          ),
+        );
+      }
+      if (rentPriceMin != null && rentPriceMax != null) {
+        details.add(
+          detailRow(
+            Icons.currency_rupee,
+            tr('rent_price_range'),
+            '₹${_formatPrice(rentPriceMin)} - ₹${_formatPrice(rentPriceMax)}',
+            iconColor: Colors.amber[800],
+          ),
+        );
+      }
+    } else if (serviceType == 'gunny-bag') {
+      final gbPincode =
+          profile['pincode']?.toString() ??
+          (profile['businessPincode']?.toString() ?? '');
+      if (pricing.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.currency_rupee,
+            tr('service_pricing'),
+            pricing,
+            iconColor: Colors.green[700],
+          ),
+        );
+      if (gbPincode.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.pin_drop,
+            tr('pincode'),
+            gbPincode,
+            iconColor: Colors.red[700],
+          ),
+        );
+    } else if (serviceType == 'fertilizers') {
+      if (pricing.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.currency_rupee,
+            tr('service_pricing'),
+            pricing,
+            iconColor: Colors.green[700],
+          ),
+        );
+    } else {
+      if (pricing.isNotEmpty)
+        details.add(
+          detailRow(
+            Icons.currency_rupee,
+            tr('service_pricing'),
+            pricing,
+            iconColor: Colors.green[700],
+          ),
+        );
+    }
+
+    if (details.isEmpty) return [];
+
+    return [
+      Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.grey[50],
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey[200]!),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              tr('service_details'),
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primaryGreen,
+              ),
+            ),
+            const SizedBox(height: 12),
+            ...details,
+          ],
+        ),
+      ),
+      const SizedBox(height: 16),
+    ];
+  }
+
   void _showFullScreenPhoto(BuildContext context, String photoData) {
     Uint8List? bytes;
     try {
@@ -853,6 +1089,77 @@ class _AlooMitraScreenState extends State<AlooMitraScreen>
     };
 
     return serviceIcons[subRole] ?? Icons.person;
+  }
+
+  String _getMachineTypeLabel(String? type) {
+    if (type == null) return '';
+    final labels = {
+      'tractor': tr('machine_tractor'),
+      'rotavator': tr('machine_rotavator'),
+      'planter': tr('machine_planter'),
+      'sprayer': tr('machine_sprayer'),
+      'harvester': tr('machine_harvester'),
+      'other': tr('machine_other'),
+    };
+    return labels[type] ?? type;
+  }
+
+  String _getKaamTypeLabel(String? type) {
+    if (type == null) return '';
+    final labels = {
+      'aloo-chhantai': tr('kaam_aloo_chhantai'),
+      'bori-bharai': tr('kaam_bori_bharai'),
+      'loading': tr('kaam_loading'),
+      'cold-storage': tr('kaam_cold_storage'),
+    };
+    return labels[type] ?? type;
+  }
+
+  String _getKaamJagahLabel(String? type) {
+    if (type == null) return '';
+    final labels = {
+      'gaon': tr('jagah_gaon'),
+      'mandi': tr('jagah_mandi'),
+      'cold-storage': tr('jagah_cold_storage'),
+    };
+    return labels[type] ?? type;
+  }
+
+  String _getAvailabilityLabel(String? type) {
+    if (type == null) return '';
+    final labels = {
+      'daily': tr('availability_daily'),
+      'seasonal': tr('availability_seasonal'),
+    };
+    return labels[type] ?? type;
+  }
+
+  String _getMachineryServiceLabel(String? type) {
+    if (type == null) return '';
+    final labels = {
+      'new-sale': tr('service_new_sale'),
+      'rent': tr('service_rent'),
+      'both': tr('service_both'),
+    };
+    return labels[type] ?? type;
+  }
+
+  String _getRentTypeLabel(String? type) {
+    if (type == null) return '';
+    final labels = {
+      'per-hour': tr('rent_per_hour'),
+      'per-day': tr('rent_per_day'),
+    };
+    return labels[type] ?? type;
+  }
+
+  String _formatPrice(dynamic price) {
+    if (price == null) return '';
+    final num = int.tryParse(price.toString()) ?? 0;
+    return num.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
   }
 
   String _getCategoryTitle() {
@@ -1191,6 +1498,114 @@ class _AlooMitraScreenState extends State<AlooMitraScreen>
     );
   }
 
+  List<Widget> _buildQuickInfoChips(
+    Map<String, dynamic> profile,
+    String? serviceType,
+  ) {
+    final List<Widget> chips = [];
+    final pricing = profile['pricing']?.toString() ?? '';
+
+    Widget chip(IconData icon, String text, {Color? color}) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: (color ?? Colors.blue).withOpacity(0.08),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: (color ?? Colors.blue).withOpacity(0.2)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 13, color: color ?? Colors.blue[700]),
+            const SizedBox(width: 4),
+            Flexible(
+              child: Text(
+                text,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: color ?? Colors.blue[700],
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (serviceType == 'majdoor') {
+      final kaamType = profile['kaamType']?.toString() ?? '';
+      final wage = pricing.isNotEmpty
+          ? pricing
+          : (profile['expectedWage']?.toString() ?? '');
+      final avail = profile['availability']?.toString() ?? '';
+      if (kaamType.isNotEmpty)
+        chips.add(
+          chip(
+            Icons.work,
+            _getKaamTypeLabel(kaamType),
+            color: Colors.orange[700],
+          ),
+        );
+      if (wage.isNotEmpty)
+        chips.add(
+          chip(
+            Icons.currency_rupee,
+            '${tr('expected_daily_wage')}: ₹$wage',
+            color: Colors.green[700],
+          ),
+        );
+      if (avail.isNotEmpty)
+        chips.add(
+          chip(
+            Icons.schedule,
+            _getAvailabilityLabel(avail),
+            color: Colors.purple[700],
+          ),
+        );
+    } else if (serviceType == 'machinery-rent') {
+      final machineType = profile['machineType']?.toString() ?? '';
+      final svcType = profile['machineryServiceType']?.toString() ?? '';
+      if (machineType.isNotEmpty)
+        chips.add(
+          chip(
+            Icons.precision_manufacturing,
+            _getMachineTypeLabel(machineType),
+            color: Colors.indigo[700],
+          ),
+        );
+      if (svcType.isNotEmpty)
+        chips.add(
+          chip(
+            Icons.sell,
+            _getMachineryServiceLabel(svcType),
+            color: Colors.teal[700],
+          ),
+        );
+    } else if (serviceType == 'fertilizers') {
+      final addr = profile['businessAddress']?.toString() ?? '';
+      if (pricing.isNotEmpty)
+        chips.add(
+          chip(Icons.currency_rupee, pricing, color: Colors.green[700]),
+        );
+      if (addr.isNotEmpty)
+        chips.add(chip(Icons.store, addr, color: Colors.brown[700]));
+    } else {
+      if (pricing.isNotEmpty)
+        chips.add(
+          chip(Icons.currency_rupee, pricing, color: Colors.green[700]),
+        );
+    }
+
+    if (chips.isEmpty) return [];
+    return [
+      const SizedBox(height: 8),
+      Wrap(spacing: 6, runSpacing: 6, children: chips),
+    ];
+  }
+
   Widget _buildMitraCard(Map<String, dynamic> mitra) {
     final firstName = mitra['firstName'] ?? '';
     final lastName = mitra['lastName'] ?? '';
@@ -1323,6 +1738,9 @@ class _AlooMitraScreenState extends State<AlooMitraScreen>
                       ],
                     ),
                   ],
+
+                  // Service-specific quick info
+                  ..._buildQuickInfoChips(alooMitraProfile, serviceType),
 
                   // Description preview if available
                   if (description.isNotEmpty) ...[
