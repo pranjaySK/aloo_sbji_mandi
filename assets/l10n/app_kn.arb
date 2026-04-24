@@ -1,5 +1,6 @@
 {
   "@@locale": "kn",
+  "deal_for": "ವ್ಯವಹಾರಕ್ಕಾಗಿ",
   "aadhaar_encryption_note": "ನಿಮ್ಮ ಆಧಾರ್ ವಿವರಗಳು ಗೂಢಲಿಪೀಕರಣದ (Cryptographic Encryption) ಮೂಲಕ ಸುರಕ್ಷಿತವಾಗಿವೆ.",
   "aadhaar_label": "ಆಧಾರ್",
   "aadhaar_optional": "ಗುರುತಿನ ಚೀಟಿ - ಆಧಾರ್ (ಐಚ್ಛಿಕ)",

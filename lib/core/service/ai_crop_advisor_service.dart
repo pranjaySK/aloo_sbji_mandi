@@ -1,332 +1,87 @@
-import 'dart:math';
-
+import 'dart:convert';
+import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
+import 'package:aloo_sbji_mandi/core/service/auth_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// AI Crop Advisor Service for Farmers
-/// Provides intelligent recommendations for potato farming
+/// Provides intelligent recommendations from backend APIs
 class AICropAdvisorService {
-  static final Random _random = Random();
+  static String get baseUrl => '${ApiConstants.baseUrl}/api/v1';
 
-  /// Get current season based on month
-  static String getCurrentSeason() {
-    final month = DateTime.now().month;
-    if (month >= 3 && month <= 5) return 'summer';
-    if (month >= 6 && month <= 9) return 'monsoon';
-    if (month >= 10 && month <= 11) return 'autumn';
-    return 'winter'; // Dec, Jan, Feb
-  }
+  /// Fetch Crop Advisor data with caching (once a day per language after 5 AM)
+  static Future<dynamic> fetchCropAdvisorData({
+    required String endpoint, // e.g., 'today', 'market-ai', 'seeds', 'disease'
+    required String lang,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    final cacheKey = 'ai_crop_${endpoint}_$lang';
+    final dateKey = 'ai_crop_date_${endpoint}_$lang';
 
-  /// Get season name in Hindi/English
-  static String getSeasonName({bool isHindi = false}) {
-    final season = getCurrentSeason();
-    final seasonNames = {
-      'summer': tr('season_summer'),
-      'monsoon': tr('season_monsoon'),
-      'autumn': tr('season_autumn'),
-      'winter': tr('season_winter'),
-    };
-    return seasonNames[season] ?? season;
-  }
+    final now = DateTime.now();
+    // 5 AM today boundary
+    final today5AM = DateTime(now.year, now.month, now.day, 5, 0);
+    // If it's before 5 AM today, the boundary is yesterday 5 AM
+    final validFrom = now.isBefore(today5AM)
+        ? today5AM.subtract(const Duration(days: 1))
+        : today5AM;
 
-  /// Get AI-powered crop recommendations based on current conditions
-  static Map<String, dynamic> getCropRecommendations({bool isHindi = false}) {
-    final season = getCurrentSeason();
-    final month = DateTime.now().month;
-
-    // Season-specific recommendations
-    Map<String, dynamic> recommendations = {};
-
-    if (season == 'winter') {
-      recommendations = {
-        'season': tr('crop_winter_season'),
-        'status': tr('crop_ideal_sowing_time'),
-        'statusColor': 'green',
-        'mainAdvice': tr('crop_winter_main_advice'),
-        'activities': [
-          {
-            'title': tr('crop_activity_sowing'),
-            'description': tr('crop_sowing_desc'),
-            'icon': 'agriculture',
-            'priority': 'high',
-          },
-          {
-            'title': tr('crop_activity_irrigation'),
-            'description': tr('crop_winter_irrigation_desc'),
-            'icon': 'water_drop',
-            'priority': 'medium',
-          },
-          {
-            'title': tr('crop_activity_fertilization'),
-            'description': tr('crop_fertilization_desc'),
-            'icon': 'science',
-            'priority': 'medium',
-          },
-        ],
-      };
-    } else if (season == 'spring' || month == 2 || month == 3) {
-      recommendations = {
-        'season': tr('crop_spring_season'),
-        'status': tr('crop_dev_time'),
-        'statusColor': 'blue',
-        'mainAdvice': tr('crop_spring_main_advice'),
-        'activities': [
-          {
-            'title': tr('crop_activity_earthing'),
-            'description': tr('crop_earthing_desc'),
-            'icon': 'landscape',
-            'priority': 'high',
-          },
-          {
-            'title': tr('crop_activity_pest_control'),
-            'description': tr('crop_pest_control_desc'),
-            'icon': 'bug_report',
-            'priority': 'high',
-          },
-          {
-            'title': tr('crop_activity_irrigation'),
-            'description': tr('crop_spring_irrigation_desc'),
-            'icon': 'water_drop',
-            'priority': 'medium',
-          },
-        ],
-      };
-    } else if (season == 'summer') {
-      recommendations = {
-        'season': tr('crop_summer_season'),
-        'status': tr('crop_harvest_storage_time'),
-        'statusColor': 'orange',
-        'mainAdvice': tr('crop_summer_main_advice'),
-        'activities': [
-          {
-            'title': tr('crop_activity_harvesting'),
-            'description': tr('crop_harvesting_desc'),
-            'icon': 'agriculture',
-            'priority': 'high',
-          },
-          {
-            'title': tr('crop_activity_grading'),
-            'description': tr('crop_grading_desc'),
-            'icon': 'sort',
-            'priority': 'medium',
-          },
-          {
-            'title': tr('crop_activity_storage'),
-            'description': tr('crop_storage_desc'),
-            'icon': 'ac_unit',
-            'priority': 'high',
-          },
-        ],
-      };
-    } else {
-      recommendations = {
-        'season': tr('crop_monsoon_autumn'),
-        'status': tr('crop_field_prep_time'),
-        'statusColor': 'teal',
-        'mainAdvice': tr('crop_monsoon_main_advice'),
-        'activities': [
-          {
-            'title': tr('crop_activity_field_prep'),
-            'description': tr('crop_field_prep_desc'),
-            'icon': 'terrain',
-            'priority': 'high',
-          },
-          {
-            'title': tr('crop_activity_soil_test'),
-            'description': tr('crop_soil_test_desc'),
-            'icon': 'science',
-            'priority': 'medium',
-          },
-          {
-            'title': tr('crop_activity_seed_selection'),
-            'description': tr('crop_seed_selection_desc'),
-            'icon': 'eco',
-            'priority': 'high',
-          },
-        ],
-      };
+    final cachedDateStr = prefs.getString(dateKey);
+    if (cachedDateStr != null) {
+      final cachedDate = DateTime.tryParse(cachedDateStr);
+      if (cachedDate != null && cachedDate.isAfter(validFrom)) {
+        final cachedData = prefs.getString(cacheKey);
+        if (cachedData != null) {
+          debugPrint(
+            '[AICropAdvisorService] Using cache for $endpoint ($lang)',
+          );
+          return json.decode(cachedData);
+        }
+      }
     }
 
-    return recommendations;
-  }
+    // Fetch from API
+    try {
+      final token = await AuthService().getAccessToken();
+      final url = '$baseUrl/crop-advisor/$endpoint?lang=$lang';
+      debugPrint('[AICropAdvisorService] GET $url');
+      final response = await http
+          .get(
+            Uri.parse(url),
+            headers: {
+              'Content-Type': 'application/json',
+              if (token != null) 'Authorization': 'Bearer $token',
+            },
+          )
+          .timeout(const Duration(seconds: 15));
 
-  /// Get best seed varieties with recommendations
-  static List<Map<String, dynamic>> getSeedRecommendations({
-    bool isHindi = false,
-  }) {
-    return [
-      {
-        'name': 'Kufri Pukhraj',
-        'nameHindi': 'कुफरी पुखराज',
-        'type': tr('seed_early_maturing'),
-        'days': '70-80',
-        'yield': '250-300',
-        'features': tr('seed_pukhraj_features'),
-        'bestFor': tr('seed_pukhraj_region'),
-        'rating': 4.8,
-        'recommended': true,
-      },
-      {
-        'name': 'Kufri Jyoti',
-        'nameHindi': 'कुफरी ज्योति',
-        'type': tr('seed_medium_maturing'),
-        'days': '90-100',
-        'yield': '200-250',
-        'features': tr('seed_jyoti_features'),
-        'bestFor': tr('seed_jyoti_region'),
-        'rating': 4.5,
-        'recommended': true,
-      },
-      {
-        'name': 'Kufri Bahar',
-        'nameHindi': 'कुफरी बहार',
-        'type': tr('seed_early_maturing'),
-        'days': '75-85',
-        'yield': '220-280',
-        'features': tr('seed_bahar_features'),
-        'bestFor': tr('seed_bahar_region'),
-        'rating': 4.3,
-        'recommended': false,
-      },
-      {
-        'name': 'Kufri Chipsona',
-        'nameHindi': 'कुफरी चिप्सोना',
-        'type': tr('seed_processing_variety'),
-        'days': '100-110',
-        'yield': '200-230',
-        'features': tr('seed_chipsona_features'),
-        'bestFor': tr('seed_chipsona_region'),
-        'rating': 4.6,
-        'recommended': true,
-      },
-      {
-        'name': 'Kufri Khyati',
-        'nameHindi': 'कुफरी ख्याति',
-        'type': tr('seed_high_yield'),
-        'days': '85-95',
-        'yield': '300-350',
-        'features': tr('seed_khyati_features'),
-        'bestFor': tr('seed_khyati_region'),
-        'rating': 4.7,
-        'recommended': true,
-      },
-    ];
-  }
-
-  /// Get disease identification and solutions
-  static List<Map<String, dynamic>> getDiseaseGuide({bool isHindi = false}) {
-    return [
-      {
-        'name': tr('disease_late_blight'),
-        'symptoms': tr('disease_late_blight_symptoms'),
-        'solution': tr('disease_late_blight_solution'),
-        'prevention': tr('disease_late_blight_prevention'),
-        'severity': 'high',
-        'icon': 'warning',
-      },
-      {
-        'name': tr('disease_early_blight'),
-        'symptoms': tr('disease_early_blight_symptoms'),
-        'solution': tr('disease_early_blight_solution'),
-        'prevention': tr('disease_early_blight_prevention'),
-        'severity': 'medium',
-        'icon': 'report_problem',
-      },
-      {
-        'name': tr('disease_aphids'),
-        'symptoms': tr('disease_aphids_symptoms'),
-        'solution': tr('disease_aphids_solution'),
-        'prevention': tr('disease_aphids_prevention'),
-        'severity': 'medium',
-        'icon': 'bug_report',
-      },
-      {
-        'name': tr('disease_black_scurf'),
-        'symptoms': tr('disease_black_scurf_symptoms'),
-        'solution': tr('disease_black_scurf_solution'),
-        'prevention': tr('disease_black_scurf_prevention'),
-        'severity': 'low',
-        'icon': 'lens',
-      },
-    ];
-  }
-
-  /// Get market timing advice
-  static Map<String, dynamic> getMarketAdvice({bool isHindi = false}) {
-    final month = DateTime.now().month;
-    String advice;
-    String timing;
-    String priceOutlook;
-
-    if (month >= 2 && month <= 4) {
-      advice = tr('advisor_market_feb_apr');
-      timing = tr('advisor_timing_sell_or_store');
-      priceOutlook = 'neutral';
-    } else if (month >= 5 && month <= 8) {
-      advice = tr('advisor_market_may_aug');
-      timing = tr('advisor_timing_good_to_sell');
-      priceOutlook = 'bullish';
-    } else {
-      advice = tr('advisor_market_default');
-      timing = tr('advisor_timing_sell_seeds');
-      priceOutlook = 'stable';
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final jsonResponse = json.decode(response.body);
+        if (jsonResponse['success'] == true && jsonResponse['data'] != null) {
+          // Save to cache
+          await prefs.setString(cacheKey, json.encode(jsonResponse['data']));
+          await prefs.setString(dateKey, now.toIso8601String());
+          return jsonResponse['data'];
+        }
+      }
+      debugPrint(
+        '[AICropAdvisorService] Error fetching $endpoint: ${response.statusCode} - ${response.body}',
+      );
+      throw Exception('Failed to fetch data');
+    } catch (e) {
+      debugPrint('[AICropAdvisorService] Exception: $e');
+      // fallback to cache if available even if expired, otherwise throw
+      final cachedData = prefs.getString(cacheKey);
+      if (cachedData != null) {
+        debugPrint(
+          '[AICropAdvisorService] Falling back to expired cache for $endpoint ($lang)',
+        );
+        return json.decode(cachedData);
+      }
+      rethrow;
     }
-
-    return {
-      'advice': advice,
-      'timing': timing,
-      'priceOutlook': priceOutlook,
-      'currentMonth': month,
-    };
-  }
-
-  /// Get quick tips for the day
-  static List<String> getDailyTips({bool isHindi = false}) {
-    final allTips = isHindi
-        ? [
-            tr('tip_morning_irrigation'),
-            tr('tip_certified_seeds'),
-            tr('tip_soil_testing'),
-            tr('tip_frost_irrigation'),
-            tr('tip_weekly_disease_check'),
-            tr('tip_cure_before_storage'),
-            tr('tip_track_market_prices'),
-            tr('tip_organic_manure'),
-          ]
-        : [
-            tr('tip_morning_irrigation'),
-            tr('tip_certified_seeds'),
-            tr('tip_soil_testing'),
-            tr('tip_frost_irrigation'),
-            tr('tip_weekly_disease_check'),
-            tr('tip_cure_before_storage'),
-            tr('tip_track_market_prices'),
-            tr('tip_organic_manure'),
-          ];
-
-    // Return 3 random tips
-    allTips.shuffle(_random);
-    return allTips.take(3).toList();
-  }
-
-  /// Get storage recommendations
-  static Map<String, dynamic> getStorageAdvice({bool isHindi = false}) {
-    return {
-      'temperature': '2-4°C',
-      'humidity': '85-90%',
-      'tips': isHindi
-          ? [
-              tr('storage_tip_remove_damaged'),
-              tr('storage_tip_keep_dark'),
-              tr('storage_tip_ventilation'),
-              tr('storage_tip_duration'),
-            ]
-          : [
-              tr('storage_tip_remove_damaged'),
-              tr('storage_tip_keep_dark'),
-              tr('storage_tip_ventilation'),
-              tr('storage_tip_duration'),
-            ],
-    };
   }
 
   /// Calculate estimated profit

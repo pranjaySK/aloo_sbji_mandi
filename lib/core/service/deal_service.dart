@@ -24,6 +24,8 @@ class DealService {
   Future<Deal> proposeDeal({
     required String conversationId,
     String? bookingId,
+    String? listingId,
+    String? dealType,
     required double quantity,
     required double pricePerTon,
     int duration = 1,
@@ -35,6 +37,8 @@ class DealService {
       final requestBody = {
         'conversationId': conversationId,
         if (bookingId != null) 'bookingId': bookingId,
+        if (listingId != null) 'listingId': listingId,
+        if (dealType != null) 'dealType': dealType,
         'quantity': quantity,
         'pricePerTon': pricePerTon,
         'duration': duration,

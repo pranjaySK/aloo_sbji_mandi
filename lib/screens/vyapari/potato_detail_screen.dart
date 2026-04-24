@@ -180,6 +180,8 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
               initialQuantity: listingQuantity,
               initialPrice: listingPrice,
               listingRefId: listingRefId,
+              initialUnit: listing['unit']?.toString(),
+              contextTitle: listing['potatoVariety']?.toString() ?? 'Potato',
             ),
           ),
         );

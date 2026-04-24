@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/service/ai_crop_advisor_service.dart';
-import '../core/service/market_intelligence_service.dart';
 
 class AICropAdvisorScreen extends StatefulWidget {
   final int initialTab;
@@ -271,66 +270,169 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
 
   // ==================== TODAY'S ADVICE TAB ====================
   Widget _buildTodayAdviceTab() {
-    final recommendations = AICropAdvisorService.getCropRecommendations(
-      isHindi: isHindi,
-    );
-    final tips = AICropAdvisorService.getDailyTips(isHindi: isHindi);
-    final marketAdvice = AICropAdvisorService.getMarketAdvice(isHindi: isHindi);
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Season Status Card
-          _buildSeasonCard(recommendations),
-          const SizedBox(height: 16),
-
-          // Main Advice
-          _buildMainAdviceCard(recommendations),
-          const SizedBox(height: 16),
-
-          // Activities
-          Text(
-            tr('activities_to_do'),
-            style: GoogleFonts.poppins(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
-          ...List.generate(
-            (recommendations['activities'] as List).length,
-            (index) => _buildActivityCard(recommendations['activities'][index]),
-          ),
-          const SizedBox(height: 20),
-
-          // Market Advice
-          _buildMarketAdviceCard(marketAdvice),
-          const SizedBox(height: 20),
-
-          // Daily Tips
-          Text(
-            tr('tips_for_today'),
-            style: GoogleFonts.poppins(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
-          ...tips.map((tip) => _buildTipCard(tip)),
-        ],
+    return FutureBuilder<dynamic>(
+      future: AICropAdvisorService.fetchCropAdvisorData(
+        endpoint: 'today',
+        lang: isHindi ? 'hi' : 'en',
       ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(color: Color(0xFF2E7D32)),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                const SizedBox(height: 16),
+                Text(
+                  tr('failed_load_data'),
+                  style: GoogleFonts.poppins(fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () => setState(() {}),
+                  child: Text(tr('retry_btn')),
+                ),
+              ],
+            ),
+          );
+        }
+
+        final data = (snapshot.data is Map) ? snapshot.data : {};
+        final seasonHighlight = data['seasonHighlight'] ?? {};
+        final activities = data['activities'] as List? ?? [];
+        final marketAdviceApi = data['marketAdvice'] ?? {};
+        final tips = data['tipsForToday'] as List? ?? [];
+
+        // Map API response to existing UI structure
+        final recommendations = {
+          'season': seasonHighlight['season'] ?? '',
+          'status': seasonHighlight['subtitle'] ?? '',
+          'statusColor': (seasonHighlight['season'] ?? '').toString().toLowerCase().contains('summer') || (seasonHighlight['season'] ?? '').toString().contains('गर्मी') || (seasonHighlight['season'] ?? '').toString().contains('ग्रीष्म')
+              ? 'yellow' 
+              : (seasonHighlight['season'] ?? '').toString().toLowerCase().contains('winter') || (seasonHighlight['season'] ?? '').toString().contains('सर्दी') || (seasonHighlight['season'] ?? '').toString().contains('शीत')
+                  ? 'blue'
+                  : (seasonHighlight['season'] ?? '').toString().toLowerCase().contains('monsoon') || (seasonHighlight['season'] ?? '').toString().contains('मानसून') || (seasonHighlight['season'] ?? '').toString().contains('बारिश')
+                      ? 'teal'
+                      : (seasonHighlight['season'] ?? '').toString().toLowerCase().contains('spring') || (seasonHighlight['season'] ?? '').toString().contains('वसंत')
+                          ? 'orange'
+                          : 'green',
+          'mainAdvice': seasonHighlight['primaryAlert'] ?? '',
+          'activities': activities.map((a) {
+            String priority = 'medium';
+            final p = a['priority']?.toString().toLowerCase() ?? '';
+            final pRaw = a['priority']?.toString() ?? '';
+            if (p == 'high' || p == 'priority' || p == 'severe' || pRaw.contains('उच्च') || pRaw.contains('गंभीर')) {
+              priority = 'high';
+            } else if (p == 'low' || pRaw.contains('कम') || pRaw.contains('हल्का')) {
+              priority = 'low';
+            }
+            return {
+              'title': a['title'],
+              'description': a['description'],
+              'icon': a['icon'],
+              'priority': priority,
+            };
+          }).toList(),
+        };
+
+        final marketAdvice = {
+          'timing': marketAdviceApi['badge'] ?? '',
+          'advice': marketAdviceApi['description'] ?? '',
+          'priceOutlook': 'neutral', // Default
+        };
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Season Status Card
+              _buildSeasonCard(recommendations),
+              const SizedBox(height: 16),
+
+              // Main Advice
+              _buildMainAdviceCard(recommendations),
+              const SizedBox(height: 16),
+
+              // Activities
+              Text(
+                tr('activities_to_do'),
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ...List.generate(
+                (recommendations['activities'] as List).length,
+                (index) =>
+                    _buildActivityCard(recommendations['activities'][index]),
+              ),
+              const SizedBox(height: 20),
+
+              // Market Advice
+              _buildMarketAdviceCard(marketAdvice),
+              const SizedBox(height: 20),
+
+              // Daily Tips
+              Text(
+                tr('tips_for_today'),
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ...tips.map((tip) => _buildTipCard(tip.toString())),
+            ],
+          ),
+        );
+      },
     );
+  }
+
+  Color _getStatusColor(String? colorKey) {
+    switch (colorKey) {
+      case 'yellow':
+        return Colors.amber;
+      case 'blue':
+        return Colors.blue;
+      case 'teal':
+        return Colors.teal;
+      case 'orange':
+        return Colors.orange;
+      case 'green':
+        return Colors.green;
+      default:
+        return Colors.green;
+    }
   }
 
   Widget _buildSeasonCard(Map<String, dynamic> recommendations) {
     final statusColors = {
-      'green': Colors.green,
-      'blue': Colors.blue,
-      'orange': Colors.orange,
-      'teal': Colors.teal,
+      'green': Colors.green[700]!,
+      'blue': Colors.blue[700]!,
+      'orange': Colors.orange[700]!,
+      'teal': Colors.teal[700]!,
+      'yellow': Colors.amber[700]!,
     };
+
+    final season = (recommendations['season'] ?? '').toString().toLowerCase();
+    final IconData seasonIcon = season.contains('summer') || season.contains('गर्मी') || season.contains('ग्रीष्म')
+        ? Icons.wb_sunny
+        : season.contains('winter') || season.contains('सर्दी') || season.contains('शीत')
+            ? Icons.ac_unit
+            : season.contains('monsoon') || season.contains('मानसून') || season.contains('बारिश')
+                ? Icons.umbrella
+                : season.contains('spring') || season.contains('वसंत')
+                    ? Icons.eco
+                    : Icons.wb_sunny;
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -339,7 +441,7 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
           colors: [
             statusColors[recommendations['statusColor']] ?? Colors.green,
             (statusColors[recommendations['statusColor']] ?? Colors.green)
-                .withOpacity(0.7),
+                .withOpacity(0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -363,7 +465,7 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
               color: Colors.white.withOpacity(0.2),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(Icons.wb_sunny, color: Colors.white, size: 40),
+            child: Icon(seasonIcon, color: Colors.white, size: 40),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -406,14 +508,16 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
   }
 
   Widget _buildMainAdviceCard(Map<String, dynamic> recommendations) {
+    final themeColor = _getStatusColor(recommendations['statusColor']);
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: themeColor.withOpacity(0.05),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: themeColor.withOpacity(0.2)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.02),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -424,10 +528,10 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: themeColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.lightbulb, color: Colors.blue, size: 28),
+            child: Icon(Icons.lightbulb, color: themeColor, size: 28),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -464,16 +568,16 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: (priorityColors[activity['priority']] ?? Colors.grey).withOpacity(0.05),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: (priorityColors[activity['priority']] ?? Colors.grey)
-              .withOpacity(0.3),
-          width: 2,
+              .withOpacity(0.15),
+          width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withOpacity(0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -516,17 +620,18 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
-                        color: priorityColors[activity['priority']]
-                            ?.withOpacity(0.1),
+                        color: priorityColors[activity['priority']] ?? Colors.grey,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
                         activity['priority'] == 'high'
                             ? tr('priority')
-                            : tr('normal'),
+                            : activity['priority'] == 'low'
+                                ? tr('low_label')
+                                : tr('normal'),
                         style: GoogleFonts.poppins(
                           fontSize: 10,
-                          color: priorityColors[activity['priority']],
+                          color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -631,57 +736,113 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
 
   // ==================== SEED GUIDE TAB ====================
   Widget _buildSeedGuideTab() {
-    final seeds = AICropAdvisorService.getSeedRecommendations(isHindi: isHindi);
+    return FutureBuilder<dynamic>(
+      future: AICropAdvisorService.fetchCropAdvisorData(
+        endpoint: 'seeds',
+        lang: isHindi ? 'hi' : 'en',
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(color: Color(0xFF2E7D32)),
+          );
+        }
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF66BB6A), Color(0xFF43A047)],
-              ),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
+        if (snapshot.hasError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.eco, color: Colors.white, size: 40),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tr('best_potato_varieties'),
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        tr('choose_certified_seeds'),
-                        style: GoogleFonts.poppins(
-                          color: Colors.white70,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
+                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                const SizedBox(height: 16),
+                Text(
+                  tr('failed_load_data'),
+                  style: GoogleFonts.poppins(fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () => setState(() {}),
+                  child: Text(tr('retry_btn')),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 20),
+          );
+        }
 
-          // Seed Cards
-          ...seeds.map((seed) => _buildSeedCard(seed)),
-        ],
-      ),
+        final data = snapshot.data;
+        final List seedListApi = (data is List)
+            ? data
+            : (data is Map
+                  ? (data['seeds'] ?? data['seedVarieties'] ?? [])
+                  : []);
+
+        final seeds = seedListApi
+            .map(
+              (s) => {
+                'name': s['name'],
+                'nameHindi': s['name'],
+                'recommended': s['isRecommended'] == true,
+                'type': s['category'],
+                'days': s['days'],
+                'yield': s['yieldQPerAcre'],
+                'rating': s['rating'] ?? 0.0,
+                'features': s['description'],
+                'bestFor': s['bestFor'],
+              },
+            )
+            .toList();
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF66BB6A), Color(0xFF43A047)],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.eco, color: Colors.white, size: 40),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            tr('best_potato_varieties'),
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            tr('choose_certified_seeds'),
+                            style: GoogleFonts.poppins(
+                              color: Colors.white70,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Seed Cards
+              ...seeds.map((seed) => _buildSeedCard(seed)),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -822,7 +983,7 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '${tr('best_for')}${seed['bestFor']}',
+                            '${tr('best_for')}${' '}${seed['bestFor']}',
                             style: GoogleFonts.poppins(
                               fontSize: 12,
                               color: Colors.grey[600],
@@ -872,57 +1033,115 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
 
   // ==================== DISEASE GUIDE TAB ====================
   Widget _buildDiseaseGuideTab() {
-    final diseases = AICropAdvisorService.getDiseaseGuide(isHindi: isHindi);
+    return FutureBuilder<dynamic>(
+      future: AICropAdvisorService.fetchCropAdvisorData(
+        endpoint: 'disease',
+        lang: isHindi ? 'hi' : 'en',
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(color: Color(0xFF2E7D32)),
+          );
+        }
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFFEF5350), Color(0xFFE53935)],
-              ),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
+        if (snapshot.hasError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.healing, color: Colors.white, size: 40),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tr('disease_identification'),
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        tr('early_detection'),
-                        style: GoogleFonts.poppins(
-                          color: Colors.white70,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
+                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                const SizedBox(height: 16),
+                Text(
+                  tr('failed_load_data'),
+                  style: GoogleFonts.poppins(fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () => setState(() {}),
+                  child: Text(tr('retry_btn')),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 20),
+          );
+        }
 
-          // Disease Cards
-          ...diseases.map((disease) => _buildDiseaseCard(disease)),
-        ],
-      ),
+        final data = snapshot.data;
+        final List diseaseListApi = (data is List)
+            ? data
+            : (data is Map ? (data['diseases'] ?? []) : []);
+
+        final diseases = diseaseListApi.map((d) {
+          String severity = 'medium';
+          final apiSeverity = d['severity']?.toString().toLowerCase() ?? '';
+          final apiSeverityRaw = d['severity']?.toString() ?? '';
+          if (apiSeverity == 'severe' || apiSeverity == 'high' || apiSeverityRaw.contains('गंभीर') || apiSeverityRaw.contains('उच्च')) {
+            severity = 'high';
+          } else if (apiSeverity == 'mild' || apiSeverity == 'low' || apiSeverityRaw.contains('हल्का') || apiSeverityRaw.contains('कम')) {
+            severity = 'low';
+          }
+
+          return {
+            'name': d['name'],
+            'nameHindi': d['name'],
+            'severity': severity,
+            'symptoms': d['symptoms'],
+            'prevention': d['prevention'],
+            'treatment': d['treatment'],
+          };
+        }).toList();
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFEF5350), Color(0xFFE53935)],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.healing, color: Colors.white, size: 40),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            tr('disease_identification'),
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            tr('early_detection'),
+                            style: GoogleFonts.poppins(
+                              color: Colors.white70,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Disease Cards
+              ...diseases.map((disease) => _buildDiseaseCard(disease)),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -936,12 +1155,12 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: (severityColors[disease['severity']] ?? Colors.grey).withOpacity(0.05),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: (severityColors[disease['severity']] ?? Colors.grey)
-              .withOpacity(0.3),
-          width: 2,
+              .withOpacity(0.2),
+          width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
@@ -983,7 +1202,7 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: severityColors[disease['severity']]?.withOpacity(0.1),
+                  color: severityColors[disease['severity']],
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -994,7 +1213,7 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
                       : tr('mild'),
                   style: GoogleFonts.poppins(
                     fontSize: 10,
-                    color: severityColors[disease['severity']],
+                    color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -1009,7 +1228,7 @@ class _AICropAdvisorScreenState extends State<AICropAdvisorScreen>
             _buildDiseaseInfo(
               icon: Icons.healing,
               title: tr('treatment_label'),
-              content: disease['solution'] ?? '',
+              content: disease['treatment'] ?? '',
               color: Colors.green,
             ),
             const SizedBox(height: 10),
@@ -1473,16 +1692,21 @@ class _MarketAIWidget extends StatefulWidget {
 
 class _MarketAIWidgetState extends State<_MarketAIWidget> {
   bool _isLoading = true;
-  MarketTrend? _trend;
-  AIMarketDecision? _decision;
-  List<Map<String, dynamic>> _mandiPrices = [];
-  Map<String, dynamic>? _forecast;
+  Map<String, dynamic> _apiData = {};
   String? _error;
 
   @override
   void initState() {
     super.initState();
     _loadMarketData();
+  }
+
+  @override
+  void didUpdateWidget(_MarketAIWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isHindi != widget.isHindi) {
+      _loadMarketData();
+    }
   }
 
   Future<void> _loadMarketData() async {
@@ -1492,21 +1716,13 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
     });
 
     try {
-      final results = await Future.wait([
-        MarketIntelligenceService.analyzeMarketTrend(isHindi: widget.isHindi),
-        MarketIntelligenceService.getAIDecision(isHindi: widget.isHindi),
-        MarketIntelligenceService.getMandiBuyer(isHindi: widget.isHindi),
-      ]);
+      final data = await AICropAdvisorService.fetchCropAdvisorData(
+        endpoint: 'market-ai',
+        lang: widget.isHindi ? 'hi' : 'en',
+      );
 
       setState(() {
-        _trend = results[0] as MarketTrend;
-        _decision = results[1] as AIMarketDecision;
-        _mandiPrices = (results[2] as List)
-            .map((e) => e as Map<String, dynamic>)
-            .toList();
-        _forecast = MarketIntelligenceService.getPriceForecast(
-          isHindi: widget.isHindi,
-        );
+        _apiData = data is Map<String, dynamic> ? data : {};
         _isLoading = false;
       });
     } catch (e) {
@@ -1556,6 +1772,8 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
       );
     }
 
+    final topMarkets = (_apiData['mandiSummary']?['topMarkets'] as List?) ?? [];
+
     return RefreshIndicator(
       onRefresh: _loadMarketData,
       child: SingleChildScrollView(
@@ -1585,12 +1803,14 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
               ),
             ),
             const SizedBox(height: 12),
-            ..._mandiPrices.map((mandi) => _buildMandiCard(mandi)),
+            ...topMarkets.map(
+              (mandi) => _buildMandiCard(mandi as Map<String, dynamic>),
+            ),
 
             const SizedBox(height: 16),
 
             // Analysis Factors
-            if (_decision != null) _buildFactorsCard(),
+            _buildFactorsCard(),
           ],
         ),
       ),
@@ -1598,27 +1818,36 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
   }
 
   Widget _buildAIDecisionCard() {
-    if (_decision == null) return const SizedBox();
+    final aiDecision = _apiData['aiDecision'] ?? {};
+    if (aiDecision.isEmpty) return const SizedBox();
+
+    final action = (aiDecision['action']?.toString().toLowerCase()) ?? 'wait';
 
     final decisionColors = {
       'sell_now': Colors.green,
+      'sell': Colors.green,
       'hold': Colors.orange,
       'wait': Colors.blue,
     };
 
     final decisionIcons = {
       'sell_now': Icons.sell,
+      'sell': Icons.sell,
       'hold': Icons.inventory_2,
       'wait': Icons.hourglass_empty,
     };
 
-    final decisionTitles = {
-      'sell_now': tr('sell_now'),
-      'hold': tr('hold'),
-      'wait': tr('wait_label'),
-    };
-
-    final color = decisionColors[_decision!.decision] ?? Colors.grey;
+    final color = decisionColors[action] ?? Colors.grey;
+    final expectedChange =
+        double.tryParse(
+          aiDecision['expectedChangePercent']
+                  ?.toString()
+                  .replaceAll('+', '')
+                  .replaceAll('%', '') ??
+              '0',
+        ) ??
+        0.0;
+    final validUntilDays = aiDecision['validUntilDays'] ?? 7;
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -1649,7 +1878,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  decisionIcons[_decision!.decision] ?? Icons.analytics,
+                  decisionIcons[action] ?? Icons.analytics,
                   color: Colors.white,
                   size: 32,
                 ),
@@ -1668,10 +1897,10 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                       ),
                     ),
                     Text(
-                      decisionTitles[_decision!.decision] ?? '',
+                      aiDecision['headline'] ?? action.toUpperCase(),
                       style: GoogleFonts.poppins(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -1692,7 +1921,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                     const Icon(Icons.psychology, color: Colors.white, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      '${_decision!.confidenceLevel}%',
+                      '${aiDecision['confidence'] ?? 0}%',
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 14,
@@ -1712,7 +1941,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              widget.isHindi ? _decision!.reasonHindi : _decision!.reason,
+              aiDecision['reasoning'] ?? '',
               style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 14,
@@ -1725,11 +1954,11 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${tr('expected_change_label')}: ${_decision!.expectedPriceChange >= 0 ? '+' : ''}${_decision!.expectedPriceChange.toStringAsFixed(1)}%',
+                '${tr('expected_change_label')}: ${expectedChange >= 0 ? '+' : ''}${expectedChange.toStringAsFixed(1)}%',
                 style: GoogleFonts.poppins(color: Colors.white70, fontSize: 12),
               ),
               Text(
-                '${tr('valid_until_label')}: ${_decision!.validUntil.day}/${_decision!.validUntil.month}',
+                '${tr('valid_until_label')}: $validUntilDays days',
                 style: GoogleFonts.poppins(color: Colors.white70, fontSize: 12),
               ),
             ],
@@ -1740,7 +1969,15 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
   }
 
   Widget _buildMarketTrendCard() {
-    if (_trend == null) return const SizedBox();
+    final trendData = _apiData['marketTrend'] ?? {};
+    if (trendData.isEmpty) return const SizedBox();
+
+    final direction =
+        trendData['direction']?.toString().toLowerCase() ?? 'stable';
+    final changeStr = trendData['changePercent']?.toString() ?? '0';
+    final changePercent =
+        double.tryParse(changeStr.replaceAll('%', '').replaceAll('+', '')) ??
+        0.0;
 
     final trendColors = {
       'bullish': Colors.green,
@@ -1754,7 +1991,13 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
       'stable': Icons.trending_flat,
     };
 
-    final color = trendColors[_trend!.trend] ?? Colors.grey;
+    String mappedDirection = 'stable';
+    if (direction.contains('rise') || direction.contains('bull'))
+      mappedDirection = 'bullish';
+    if (direction.contains('fall') || direction.contains('bear'))
+      mappedDirection = 'bearish';
+
+    final color = trendColors[mappedDirection] ?? Colors.grey;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -1774,7 +2017,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
         children: [
           Row(
             children: [
-              Icon(trendIcons[_trend!.trend], color: color, size: 28),
+              Icon(trendIcons[mappedDirection], color: color, size: 28),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -1788,11 +2031,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                       ),
                     ),
                     Text(
-                      _trend!.trend == 'bullish'
-                          ? tr('bullish')
-                          : _trend!.trend == 'bearish'
-                          ? tr('bearish')
-                          : tr('stable'),
+                      trendData['direction'] ?? tr('stable'),
                       style: GoogleFonts.poppins(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -1806,19 +2045,17 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '₹${_trend!.currentAvgPrice.toStringAsFixed(1)}/kg',
+                    '₹${trendData['currentPricePerKg']}/kg',
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    '${_trend!.changePercent >= 0 ? '+' : ''}${_trend!.changePercent.toStringAsFixed(1)}%',
+                    '${changePercent >= 0 ? '+' : ''}${changePercent.toStringAsFixed(1)}%',
                     style: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: _trend!.changePercent >= 0
-                          ? Colors.green
-                          : Colors.red,
+                      color: changePercent >= 0 ? Colors.green : Colors.red,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -1839,9 +2076,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    widget.isHindi
-                        ? _trend!.recommendationHindi
-                        : _trend!.recommendation,
+                    trendData['summary'] ?? '',
                     style: GoogleFonts.poppins(fontSize: 13),
                   ),
                 ),
@@ -1854,11 +2089,8 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
   }
 
   Widget _buildPriceForecastCard() {
-    if (_forecast == null) return const SizedBox();
-
-    final forecasts = (_forecast!['forecast'] as List)
-        .map((e) => e as Map<String, dynamic>)
-        .toList();
+    final forecastList = _apiData['fourWeekForecast'] as List? ?? [];
+    if (forecastList.isEmpty) return const SizedBox();
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -1887,28 +2119,16 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.purple.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  '${_forecast!['confidence']}% ${tr('confidence')}',
-                  style: GoogleFonts.poppins(
-                    fontSize: 8,
-                    color: Colors.purple,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 16),
           Row(
-            children: forecasts.map((f) {
-              final isPositive = (f['change'] as double) >= 0;
+            children: forecastList.map((f) {
+              final changeRsStr = f['changeRs']?.toString() ?? '0';
+              final changeRs =
+                  double.tryParse(changeRsStr.replaceAll('+', '')) ?? 0.0;
+              final isPositive = changeRs >= 0;
+
               return Expanded(
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -1922,7 +2142,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                   child: Column(
                     children: [
                       Text(
-                        f['week'],
+                        'Week ${f['week']}',
                         style: GoogleFonts.poppins(
                           fontSize: 10,
                           color: Colors.grey[600],
@@ -1930,14 +2150,14 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '₹${(f['price'] as double).toStringAsFixed(0)}',
+                        '₹${f['pricePerKg']}',
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        f['changeText'],
+                        '${isPositive ? '+' : ''}${changeRs.toStringAsFixed(1)}',
                         style: GoogleFonts.poppins(
                           fontSize: 10,
                           color: isPositive ? Colors.green : Colors.red,
@@ -1953,7 +2173,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
           const SizedBox(height: 12),
           Center(
             child: Text(
-              _forecast!['trend'],
+              _apiData['forecastSentiment'] ?? '',
               style: GoogleFonts.poppins(
                 fontSize: 13,
                 color: Colors.purple,
@@ -1967,6 +2187,8 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
   }
 
   Widget _buildMandiCard(Map<String, dynamic> mandi) {
+    final pricePerKg =
+        double.tryParse(mandi['pricePerKg']?.toString() ?? '0') ?? 0.0;
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(14),
@@ -1997,14 +2219,14 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  mandi['market'],
+                  mandi['market'] ?? '',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
-                  mandi['state'],
+                  '${mandi['district']}, ${mandi['state']}',
                   style: GoogleFonts.poppins(
                     fontSize: 11,
                     color: Colors.grey[600],
@@ -2017,7 +2239,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                mandi['priceDisplay'],
+                '₹${pricePerKg.toStringAsFixed(1)}/kg',
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -2027,18 +2249,16 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: (mandi['price'] as double) > 18
+                  color: pricePerKg > 15
                       ? Colors.green.withOpacity(0.1)
                       : Colors.grey.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  mandi['recommendation'],
+                  mandi['variety'] ?? 'Other',
                   style: GoogleFonts.poppins(
                     fontSize: 9,
-                    color: (mandi['price'] as double) > 18
-                        ? Colors.green
-                        : Colors.grey[600],
+                    color: pricePerKg > 15 ? Colors.green : Colors.grey[600],
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -2051,9 +2271,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
   }
 
   Widget _buildFactorsCard() {
-    final factors = widget.isHindi
-        ? _decision!.factorsHindi
-        : _decision!.factors;
+    final factors = _apiData['analysisFactors'] as List? ?? [];
     if (factors.isEmpty) return const SizedBox();
 
     return Container(
@@ -2099,7 +2317,7 @@ class _MarketAIWidgetState extends State<_MarketAIWidget> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      factor,
+                      factor.toString(),
                       style: GoogleFonts.poppins(fontSize: 13),
                     ),
                   ),

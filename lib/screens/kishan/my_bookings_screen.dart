@@ -352,6 +352,8 @@ class _FarmerBookingCardState extends State<FarmerBookingCard> {
               conversationId: conversation['_id']?.toString() ?? '',
               otherUser: chatUser,
               contextType: 'booking',
+              initialQuantity: (booking['quantity'] as num?)?.toDouble(),
+              contextTitle: coldStorage['name']?.toString() ?? 'Cold Storage',
             ),
           ),
         );

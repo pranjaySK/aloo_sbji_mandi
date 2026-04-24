@@ -53,7 +53,10 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
     });
   }
 
-  Future<void> _startChatWithFarmer(Map<String, dynamic> response) async {
+  Future<void> _startChatWithFarmer(
+    Map<String, dynamic> request,
+    Map<String, dynamic> response,
+  ) async {
     final farmer = response['farmer'];
     if (farmer == null || farmer['_id'] == null) {
       ToastHelper.showError(context, 'Farmer info not available');
@@ -87,15 +90,21 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
               conversationId: conversation['_id']?.toString() ?? '',
               otherUser: chatUser,
               contextType: 'buy_request',
+              initialQuantity: (response['offeredQuantity'] as num?)?.toDouble(),
+              initialPrice: (response['offeredPrice'] as num?)?.toDouble(),
+              initialUnit: request['unit']?.toString() ?? 'packet',
+              contextTitle: request['potatoVariety']?.toString() ?? 'Potato',
             ),
           ),
         );
       }
     } else {
-      ToastHelper.showError(
-        context,
-        result['message'] ?? 'Could not start chat',
-      );
+      if (mounted) {
+        ToastHelper.showError(
+          context,
+          result['message'] ?? 'Could not start chat',
+        );
+      }
     }
   }
 
@@ -107,13 +116,17 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
     );
 
     if (result['success']) {
-      ToastHelper.showSuccess(
-        context,
-        'Response accepted! You can now chat with the farmer.',
-      );
+      if (mounted) {
+        ToastHelper.showSuccess(
+          context,
+          'Response accepted! You can now chat with the farmer.',
+        );
+      }
       _loadRequests();
     } else {
-      ToastHelper.showError(context, result['message'] ?? 'Failed');
+      if (mounted) {
+        ToastHelper.showError(context, result['message'] ?? 'Failed');
+      }
     }
   }
 
@@ -125,10 +138,14 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
     );
 
     if (result['success']) {
-      ToastHelper.showInfo(context, 'Response rejected');
+      if (mounted) {
+        ToastHelper.showInfo(context, 'Response rejected');
+      }
       _loadRequests();
     } else {
-      ToastHelper.showError(context, result['message'] ?? 'Failed');
+      if (mounted) {
+        ToastHelper.showError(context, result['message'] ?? 'Failed');
+      }
     }
   }
 
@@ -196,12 +213,16 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
         setState(() {
           _requests.removeWhere((r) => r['_id']?.toString() == requestId);
         });
-        ToastHelper.showSuccess(context, 'Request deleted successfully');
+        if (mounted) {
+          ToastHelper.showSuccess(context, 'Request deleted successfully');
+        }
       } else {
-        ToastHelper.showError(
-          context,
-          result['message'] ?? 'Failed to delete request',
-        );
+        if (mounted) {
+          ToastHelper.showError(
+            context,
+            result['message'] ?? 'Failed to delete request',
+          );
+        }
       }
     }
   }
@@ -452,7 +473,7 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
                   const SizedBox(height: 12),
                   ...responses.map(
                     (resp) => _buildResponseTile(
-                      request['_id'],
+                      request,
                       resp,
                       'Packet',
                     ),
@@ -489,7 +510,7 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
   }
 
   Widget _buildResponseTile(
-    String requestId,
+    Map<String, dynamic> request,
     Map<String, dynamic> response,
     String unit,
   ) {
@@ -498,6 +519,7 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
         '${farmer['firstName'] ?? ''} ${farmer['lastName'] ?? ''}'.trim();
     final status = response['status'] ?? 'pending';
     final responseId = response['_id']?.toString() ?? '';
+    final requestId = request['_id']?.toString() ?? '';
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -582,7 +604,7 @@ class _MyBuyRequestsScreenState extends State<MyBuyRequestsScreen> {
               ] else ...[
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: () => _startChatWithFarmer(response),
+                    onPressed: () => _startChatWithFarmer(request, response),
                     icon: const Icon(Icons.chat, size: 18),
                     label: Text(tr('chat_with_farmer')),
                     style: ElevatedButton.styleFrom(

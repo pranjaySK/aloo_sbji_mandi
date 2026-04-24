@@ -895,6 +895,8 @@ class _ListingDetailSheetState extends State<ListingDetailSheet> {
               initialQuantity: listingQuantity,
               initialPrice: listingPrice,
               listingRefId: listingRefId,
+              initialUnit: listing['unit']?.toString(),
+              contextTitle: (listing['potatoVariety'] ?? listing['variety'] ?? 'Potato').toString(),
             ),
           ),
         );

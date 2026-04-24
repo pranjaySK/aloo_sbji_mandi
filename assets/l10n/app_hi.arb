@@ -1,5 +1,6 @@
 {
   "@@locale": "hi",
+  "deal_for": "सौदा हेतु",
   "aadhaar_encryption_note": "आपके आधार विवरण एन्क्रिप्शन द्वारा सुरक्षित हैं।",
   "aadhaar_label": "आधार",
   "aadhaar_optional": "पहचान पत्र - आधार (वैकल्पिक)",

@@ -358,6 +358,8 @@ class _TraderRequestsScreenState extends State<TraderRequestsScreen> {
               contextType: 'trader_request',
               initialQuantity: requestQuantity,
               initialPrice: requestPrice,
+              initialUnit: request['unit']?.toString() ?? 'packet',
+              contextTitle: request['potatoVariety']?.toString() ?? 'Potato',
             ),
           ),
         );
