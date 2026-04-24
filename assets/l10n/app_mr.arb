@@ -1,5 +1,6 @@
 {
   "@@locale": "mr",
+  "deal_for": "व्यवहारासाठी",
   "aadhaar_encryption_note": "तुमचा आधार तपशील एनक्रिप्शनसह सुरक्षित आहे.",
   "aadhaar_label": "आधार",
   "aadhaar_optional": "ओळखपत्र - आधार (पर्यायी)",

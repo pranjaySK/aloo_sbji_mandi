@@ -795,6 +795,7 @@ class _ColdStorageDetailScreenState extends State<ColdStorageDetailScreen> {
               conversationId: conversation['_id']?.toString() ?? '',
               otherUser: chatUser,
               contextType: 'storage',
+              contextTitle: storage['name']?.toString() ?? 'Cold Storage',
             ),
           ),
         );

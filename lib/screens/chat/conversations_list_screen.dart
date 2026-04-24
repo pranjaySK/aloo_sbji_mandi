@@ -38,6 +38,10 @@ class _ConversationsListScreenState extends State<ConversationsListScreen> {
 
     try {
       final conversations = await _chatService.getConversations();
+      debugPrint('Loaded ${conversations.length} conversations');
+      for (var c in conversations) {
+        debugPrint('Conversation ${c.id}: listingId=${c.listingId}, contextTitle=${c.context?.title}');
+      }
       if (!mounted) return;
       setState(() {
         _conversations = conversations;
@@ -263,12 +267,68 @@ class _ConversationsListScreenState extends State<ConversationsListScreen> {
                 color: _getRoleColor(otherUser.role).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
-                otherUser.roleDisplay,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: _getRoleColor(otherUser.role),
-                ),
+              child: Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: _getRoleColor(otherUser.role).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      otherUser.roleDisplay,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: _getRoleColor(otherUser.role),
+                      ),
+                    ),
+                  ),
+                  if (conversation.context?.title != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryGreen.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        conversation.context!.title!,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primaryGreen,
+                        ),
+                      ),
+                    ),
+                  if (conversation.listingId != null &&
+                      conversation.listingId!.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        conversation.listingId!,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange.shade900,
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
             const SizedBox(height: 4),
@@ -294,6 +354,13 @@ class _ConversationsListScreenState extends State<ConversationsListScreen> {
               builder: (context) => ChatDetailScreen(
                 conversationId: conversation.id,
                 otherUser: otherUser,
+                contextType: conversation.context?.contextType,
+                contextId: conversation.context?.contextId,
+                initialQuantity: conversation.context?.quantity,
+                initialPrice: conversation.context?.price,
+                initialUnit: conversation.context?.unit,
+                contextTitle: conversation.context?.title,
+                listingRefId: conversation.listingId,
               ),
             ),
           );

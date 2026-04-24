@@ -756,6 +756,8 @@ class _BookingRequestCardState extends State<BookingRequestCard> {
               conversationId: conversation['_id']?.toString() ?? '',
               otherUser: chatUser,
               contextType: 'booking',
+              initialQuantity: (booking['quantity'] as num?)?.toDouble(),
+              contextTitle: coldStorage['name']?.toString() ?? 'Cold Storage',
             ),
           ),
         );

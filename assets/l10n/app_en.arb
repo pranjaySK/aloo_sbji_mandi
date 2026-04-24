@@ -1,5 +1,6 @@
 {
   "@@locale": "en",
+  "deal_for": "Deal For",
   "aadhaar_encryption_note": "Your Aadhaar details are secured by encryption.",
   "aadhaar_label": "Aadhaar",
   "aadhaar_optional": "ID Proof - Aadhaar (Optional)",

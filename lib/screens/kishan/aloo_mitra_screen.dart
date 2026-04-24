@@ -288,6 +288,8 @@ class _AlooMitraScreenState extends State<AlooMitraScreen>
             builder: (context) => ChatDetailScreen(
               conversationId: conversationId,
               otherUser: chatUser,
+              contextType: 'aloo-mitra',
+              contextTitle: firstName,
             ),
           ),
         );

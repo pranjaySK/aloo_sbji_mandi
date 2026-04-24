@@ -1,5 +1,6 @@
 {
   "@@locale": "bn",
+  "deal_for": "চুক্তির জন্য",
   "aadhaar_encryption_note": "আপনার আধার বিবরণ এনক্রিপশন সহ সুরক্ষিত।",
   "aadhaar_label": "আধার",
   "aadhaar_optional": "পরিচয়পত্র - আধার (ঐচ্ছিক)",

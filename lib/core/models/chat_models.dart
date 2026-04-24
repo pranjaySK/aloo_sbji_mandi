@@ -123,6 +123,7 @@ class Conversation {
   final int unreadCount;
   final String type;
   final ConversationContext? context;
+  final String? listingId;
 
   Conversation({
     required this.id,
@@ -132,6 +133,7 @@ class Conversation {
     this.unreadCount = 0,
     this.type = 'direct',
     this.context,
+    this.listingId,
   });
 
   factory Conversation.fromJson(Map<String, dynamic> json) {
@@ -158,7 +160,25 @@ class Conversation {
       unreadCount: json['unreadCount'] ?? 0,
       type: json['type'] ?? 'direct',
       context: ctx,
+      listingId: (json['listingId'] ?? json['listingRefId'])?.toString(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'otherUser': otherUser.toJson(),
+      'lastMessage': lastMessage,
+      'lastMessageAt': lastMessageAt?.toIso8601String(),
+      'unreadCount': unreadCount,
+      'type': type,
+      if (context != null) ...{
+        'contextType': context!.contextType,
+        'contextId': context!.contextId,
+        'contextDetails': context!.toJson(),
+      },
+      if (listingId != null) 'listingId': listingId,
+    };
   }
 }
 

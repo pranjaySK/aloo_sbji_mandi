@@ -24,18 +24,24 @@ class ChatDetailScreen extends StatefulWidget {
   final String conversationId;
   final ChatUser otherUser;
   final String? contextType; // To check if this is a cold-storage conversation
+  final String? contextId; // MongoDB ID of the context (listing/booking)
   final double? initialQuantity; // Auto-fill quantity for deal
   final double? initialPrice; // Auto-fill price for deal
   final String? listingRefId; // Listing reference ID (e.g. ALM-XXXXX)
+  final String? initialUnit; // Unit for deal (e.g. Packet, Kg)
+  final String? contextTitle; // Product context (e.g. variety name)
 
   const ChatDetailScreen({
     super.key,
     required this.conversationId,
     required this.otherUser,
     this.contextType,
+    this.contextId,
     this.initialQuantity,
     this.initialPrice,
     this.listingRefId,
+    this.initialUnit,
+    this.contextTitle,
   });
 
   @override
@@ -57,10 +63,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   String? _currentUserId;
   String? _currentUserRole;
   String? _currentUserName;
+  String? _initialUnit;
+  String? _contextTitle;
   bool _isOtherUserOnline = false;
   bool _isOtherUserTyping = false;
   Timer? _typingTimer;
   Timer? _refreshTimer; // Periodic refresh fallback for missed socket events
+
+  String get _unitStr => _initialUnit ?? 'kg';
 
   // Deal action loading states
   bool _isProposingDeal = false;
@@ -102,6 +112,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void initState() {
     super.initState();
+    _initialUnit = widget.initialUnit;
+    _contextTitle = widget.contextTitle;
     _startChat();
   }
 
@@ -753,7 +765,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               // Pending request banner
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 12,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.orange.shade400,
                   borderRadius: const BorderRadius.only(
@@ -762,7 +777,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(
                       Icons.pending_actions,
@@ -778,6 +792,27 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         fontSize: 14,
                       ),
                     ),
+                    const Spacer(),
+                    if (widget.listingRefId != null &&
+                        widget.listingRefId!.isNotEmpty)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          'ID: ${widget.listingRefId}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -947,13 +982,41 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          tr('waiting_for_confirmation'),
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue.shade700,
-                            fontSize: 14,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              tr('waiting_for_confirmation'),
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue.shade700,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const Spacer(),
+                            if (widget.listingRefId != null &&
+                                widget.listingRefId!.isNotEmpty)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.shade100,
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: Colors.blue.shade300,
+                                  ),
+                                ),
+                                child: Text(
+                                  'ID: ${widget.listingRefId}',
+                                  style: TextStyle(
+                                    color: Colors.blue.shade800,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                         const SizedBox(height: 2),
                         Text(
@@ -1076,6 +1139,28 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     fontSize: 14,
                   ),
                 ),
+                const Spacer(),
+                if (widget.listingRefId != null &&
+                    widget.listingRefId!.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade100,
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: Colors.orange.shade300),
+                    ),
+                    child: Text(
+                      'ID: ${widget.listingRefId}',
+                      style: TextStyle(
+                        color: Colors.orange.shade800,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
               ],
             ),
             const SizedBox(height: 8),
@@ -1221,16 +1306,52 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        // Show "Deal Done!" only after payment, otherwise show "Deal Closed!"
-                        isPaid ? tr('deal_done_congrats') : tr('deal_closed'),
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          color: isPaid
-                              ? Colors.green.shade700
-                              : Colors.blue.shade700,
-                          fontSize: 14,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            // Show "Deal Done!" only after payment, otherwise show "Deal Closed!"
+                            isPaid
+                                ? tr('deal_done_congrats')
+                                : tr('deal_closed'),
+                            style: GoogleFonts.inter(
+                              fontWeight: FontWeight.bold,
+                              color: isPaid
+                                  ? Colors.green.shade700
+                                  : Colors.blue.shade700,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const Spacer(),
+                          if (widget.listingRefId != null &&
+                              widget.listingRefId!.isNotEmpty)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isPaid
+                                    ? Colors.green.shade100
+                                    : Colors.blue.shade100,
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(
+                                  color: isPaid
+                                      ? Colors.green.shade300
+                                      : Colors.blue.shade300,
+                                ),
+                              ),
+                              child: Text(
+                                'ID: ${widget.listingRefId}',
+                                style: TextStyle(
+                                  color: isPaid
+                                      ? Colors.green.shade800
+                                      : Colors.blue.shade800,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                       const SizedBox(height: 2),
                       Text(
@@ -1747,6 +1868,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     try {
       final deal = await _dealService.proposeDeal(
         conversationId: widget.conversationId,
+        listingId: widget.contextType == 'listing' ? widget.contextId : null,
+        bookingId: widget.contextType == 'booking' ? widget.contextId : null,
+        dealType: widget.contextType,
         quantity: quantity,
         pricePerTon: price,
         duration: duration,
@@ -1915,6 +2039,18 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (widget.listingRefId != null &&
+                      widget.listingRefId!.isNotEmpty) ...[
+                    Text(
+                      '${tr('listing_id')}: ${widget.listingRefId}',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange.shade800,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                  ],
                   Text(
                     trArgs('deal_preview_line', {
                       'quantity': deal.quantity.toStringAsFixed(0),
@@ -2012,6 +2148,28 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
+                if (widget.listingRefId != null &&
+                    widget.listingRefId!.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade50,
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: Colors.orange.shade200),
+                    ),
+                    child: Text(
+                      '${tr('listing_id')}: ${widget.listingRefId}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange.shade800,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 12),
                 Text(
                   updatedDeal.isClosed
                       ? tr('deal_confirmed_celebration')
@@ -2519,38 +2677,86 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ],
                   )
                 else
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getRoleColor(
-                            widget.otherUser.role,
-                          ).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          widget.otherUser.roleDisplay,
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: _getRoleColor(widget.otherUser.role),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _getRoleColor(
+                              widget.otherUser.role,
+                            ).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            widget.otherUser.roleDisplay,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: _getRoleColor(widget.otherUser.role),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        _isOtherUserOnline ? 'Online' : 'Offline',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: _isOtherUserOnline
-                              ? Colors.green
-                              : Colors.grey,
+                        if (_contextTitle != null) ...[
+                          const SizedBox(width: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade50,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.green.shade100),
+                            ),
+                            child: Text(
+                              _contextTitle!,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.green.shade800,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+
+                        // if (widget.listingRefId != null) ...[
+                        //   const SizedBox(width: 4),
+                        //   Container(
+                        //     padding: const EdgeInsets.symmetric(
+                        //       horizontal: 8,
+                        //       vertical: 2,
+                        //     ),
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.orange.shade50,
+                        //       borderRadius: BorderRadius.circular(8),
+                        //       border: Border.all(color: Colors.orange.shade100),
+                        //     ),
+                        //     child: Text(
+                        //       widget.listingRefId!,
+                        //       style: TextStyle(
+                        //         fontSize: 11,
+                        //         color: Colors.orange.shade900,
+                        //         fontWeight: FontWeight.bold,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ],
+                        const SizedBox(width: 8),
+                        Text(
+                          _isOtherUserOnline ? 'Online' : 'Offline',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: _isOtherUserOnline
+                                ? Colors.green
+                                : Colors.grey,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
               ],
             ),
@@ -2828,7 +3034,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${tr('seller')} ',
+                        '${tr('seller')}: ',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -2856,7 +3062,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${tr('buyer')} ',
+                        '${tr('buyer')}: ',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -2882,14 +3088,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       const Text('🥔', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 6),
                       Text(
-                        '${tr('quantity')} ',
+                        '${tr('quantity')}: ',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
                         ),
                       ),
                       Text(
-                        '$quantity kg',
+                        '$quantity $_unitStr',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: Colors.grey.shade800,
@@ -2911,7 +3117,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                       ),
                       Text(
-                        '₹$price/kg',
+                        '₹$price/$_unitStr',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: Colors.grey.shade800,
@@ -3155,7 +3361,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       const Text('🥔', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
                       Text(
-                        '$quantity kg @ ₹$price/kg',
+                        '$quantity $_unitStr @ ₹$price/$_unitStr',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: Colors.grey.shade800,
@@ -3438,7 +3644,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${tr('seller')} ',
+                        '${tr('seller')}: ',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -3465,7 +3671,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${tr('buyer')} ',
+                        '${tr('buyer')}: ',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -3488,14 +3694,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       const Text('🥔', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 6),
                       Text(
-                        '${tr('quantity')} ',
+                        '${tr('quantity')}: ',
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
                         ),
                       ),
                       Text(
-                        '$quantity kg',
+                        '$quantity $_unitStr',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: Colors.grey.shade800,
@@ -3516,7 +3722,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                       ),
                       Text(
-                        '₹$price/kg',
+                        '₹$price/$_unitStr',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: Colors.grey.shade800,
@@ -3671,7 +3877,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       const Text('🥔', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
                       Text(
-                        '$quantity kg @ ₹$price/kg',
+                        '$quantity $_unitStr @ ₹$price/$_unitStr',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: Colors.grey.shade800,
@@ -3915,7 +4121,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       const Text('🥔', style: TextStyle(fontSize: 15)),
                       const SizedBox(width: 6),
                       Text(
-                        '$quantity kg @ ₹$price/kg',
+                        '$quantity $_unitStr @ ₹$price/$_unitStr',
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: Colors.grey.shade800,
@@ -4252,10 +4458,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '🥔 ${tr('quantity')} ${message.dealDetails?.quantity?.toStringAsFixed(0) ?? '0'} kg',
+                    '🥔 ${tr('quantity')} ${message.dealDetails?.quantity?.toStringAsFixed(0) ?? '0'} $_unitStr',
+                    style: TextStyle(color: Colors.grey.shade800),
                   ),
                   Text(
-                    '💰 ${tr('price')}: ₹${message.dealDetails?.pricePerKg?.toStringAsFixed(0) ?? '0'}/kg',
+                    '💰 ${tr('price')}: ₹${message.dealDetails?.pricePerKg?.toStringAsFixed(0) ?? '0'}/$_unitStr',
+                    style: TextStyle(color: Colors.grey.shade800),
                   ),
                   Text(
                     '💵 ${tr('total_price')}: ₹${message.dealDetails?.totalAmount?.toStringAsFixed(0) ?? '0'}',
@@ -5344,12 +5552,24 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         ),
                         if (widget.listingRefId != null &&
                             widget.listingRefId!.isNotEmpty)
-                          Text(
-                            'Listing: ${widget.listingRefId}',
-                            style: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.orange.shade800,
+                          Container(
+                            margin: const EdgeInsets.only(top: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.orange.shade50,
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(color: Colors.orange.shade200),
+                            ),
+                            child: Text(
+                              '${tr('listing_id')}: ${widget.listingRefId}',
+                              style: GoogleFonts.inter(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orange.shade800,
+                              ),
                             ),
                           ),
                       ],
@@ -5358,6 +5578,44 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 ],
               ),
               const SizedBox(height: 16),
+              // Product Context Header
+              if (_contextTitle != null)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 14,
+                  ),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryGreen.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: AppColors.primaryGreen.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.info_outline,
+                        size: 18,
+                        color: AppColors.primaryGreen,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          '${tr('deal_for')}: $_contextTitle',
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryGreen,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
               // Seller & Buyer info (auto-filled)
               Container(
                 padding: const EdgeInsets.all(12),
@@ -5432,12 +5690,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                 ],
                 decoration: InputDecoration(
-                  labelText: '🥔  ${tr('quantity')} (kg)',
+                  labelText:
+                      '🥔  ${tr('quantity')} (${unitLabel(_initialUnit)})',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   prefixIcon: const Icon(Icons.inventory_2),
-                  hintText: tr('enter_quantity_in_kg'),
+                  hintText: trArgs('quantity_in_unit', {
+                    'unit': unitLabel(_initialUnit),
+                  }),
                 ),
               ),
               const SizedBox(height: 14),
@@ -5449,12 +5710,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
                 ],
                 decoration: InputDecoration(
-                  labelText: '💰  ${tr('negotiated_price')} (₹/kg)',
+                  labelText:
+                      '💰  ${tr('negotiated_price')} (₹/${unitAbbr(_initialUnit)})',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   prefixIcon: const Icon(Icons.currency_rupee),
-                  hintText: tr('enter_price_per_kg'),
+                  hintText: trArgs('price_per_unit', {
+                    'unit': unitLabel(_initialUnit),
+                  }),
                 ),
               ),
               const SizedBox(height: 20),
@@ -5524,9 +5788,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     setState(() => _isSending = true);
     try {
       final totalAmount = quantity * price;
+      final String unitLabelStr = unitLabel(_initialUnit);
+      final String unitAbbrStr = unitAbbr(_initialUnit);
+      final String productContext = _contextTitle != null
+          ? '${tr('for')} $_contextTitle'
+          : '';
+
       final message = await _chatService.sendMessage(
         widget.conversationId,
-        '🤝 Closing Call: $quantity kg @ ₹$price/kg = ₹${totalAmount.toStringAsFixed(0)}',
+        '🤝 ${tr('closing_call')} $productContext: $quantity $unitLabelStr @ ₹$price/$unitAbbrStr = ₹${totalAmount.toStringAsFixed(0)}',
         messageType: 'closing_call',
         dealDetailsMap: {
           'quantity': quantity,

@@ -335,7 +335,7 @@ class _ChaupalChatScreenState extends State<ChaupalChatScreen> {
         itemCount: _conversations.length,
         itemBuilder: (context, index) {
           final conversation = _conversations[index];
-          debugPrint("chatData: ${conversation.lastMessage}");
+          debugPrint("chatData: ${conversation.listingId}");
           return _buildConversationTile(conversation);
         },
       ),
@@ -391,6 +391,12 @@ class _ChaupalChatScreenState extends State<ChaupalChatScreen> {
             builder: (context) => ChatDetailScreen(
               conversationId: conversation.id,
               otherUser: otherUser,
+              contextType: conversation.context?.contextType,
+              initialUnit: conversation.context?.unit,
+              contextTitle: conversation.context?.title,
+              initialQuantity: conversation.context?.quantity,
+              initialPrice: conversation.context?.price,
+              listingRefId: conversation.listingId,
             ),
           ),
         );
@@ -466,6 +472,33 @@ class _ChaupalChatScreenState extends State<ChaupalChatScreen> {
                             ),
                           ),
                         ),
+                        if (conversation.context?.title != null) ...[
+                          const SizedBox(width: 4),
+                          Flexible(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.green.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Colors.green.shade100,
+                                ),
+                              ),
+                              child: Text(
+                                '${conversation.context?.title}',
+                                style: TextStyle(
+                                  fontSize: 8,
+                                  color: Colors.green.shade800,
+                                  fontWeight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                     const SizedBox(height: 4),
