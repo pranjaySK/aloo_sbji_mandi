@@ -471,10 +471,10 @@ class _AlooMitraRegistrationScreenState
         _showError(tr('owner_name_required'));
         return;
       }
-      if (_gunnyBagLatitude == null || _gunnyBagLongitude == null) {
-        _showError(tr('get_business_location'));
-        return;
-      }
+      // if (_gunnyBagLatitude == null || _gunnyBagLongitude == null) {
+      //   _showError(tr('get_business_location'));
+      //   return;
+      // }
     }
 
     // Validate Machinery specific fields
@@ -845,8 +845,8 @@ class _AlooMitraRegistrationScreenState
                               const SizedBox(height: 16),
 
                               // Business Location
-                              _buildLocationField(),
-                              const SizedBox(height: 16),
+                              // _buildLocationField(),
+                              // const SizedBox(height: 16),
                             ] else if (_selectedServiceType == 'gunny-bag') ...[
                               // Gunny Bag-specific fields
                               _buildGunnyBagFields(),
@@ -1590,8 +1590,8 @@ class _AlooMitraRegistrationScreenState
         const SizedBox(height: 16),
 
         // Business Location
-        _buildGunnyBagLocationField(),
-        const SizedBox(height: 16),
+        // _buildGunnyBagLocationField(),
+        // const SizedBox(height: 16),
 
         // Owner Name
         _buildTextField(
