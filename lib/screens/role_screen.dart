@@ -3,6 +3,7 @@ import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoleScreen extends StatefulWidget {
   const RoleScreen({super.key});
@@ -27,8 +28,10 @@ class _RoleScreenState extends State<RoleScreen> {
     setState(() => _isLoading = false);
 
     if (result['success']) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('pending_role_selection');
+
       if (mounted) {
-        // Navigate to language selection with destination route
         Navigator.pushReplacementNamed(
           context,
           '/language',
@@ -96,9 +99,17 @@ class _RoleScreenState extends State<RoleScreen> {
     final isSelected = _selectedRole == 'aloo-mitra';
     
     return GestureDetector(
-      onTap: _isLoading ? null : () {
+      onTap: _isLoading ? null : () async {
+        // Mark that we are starting Aloo Mitra registration
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('pending_aloo_mitra_registration', true);
+
         // Navigate to Aloo Mitra registration screen
-        Navigator.pushNamed(context, '/aloo_mitra_registration');
+        if (mounted) {
+          await Navigator.pushNamed(context, '/aloo_mitra_registration');
+          // Clear flag if we return to this screen (e.g. user cancelled)
+          await prefs.remove('pending_aloo_mitra_registration');
+        }
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),

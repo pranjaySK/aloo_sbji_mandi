@@ -41,6 +41,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
     debugPrint('[SplashScreen] Session found -> navigating for role=$role');
 
+    final isPendingAlooMitra = prefs.getBool('pending_aloo_mitra_registration') ?? false;
+    if (isPendingAlooMitra) {
+      debugPrint('[SplashScreen] Incomplete Aloo Mitra registration -> AlooMitraRegistrationScreen');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/aloo_mitra_registration');
+      }
+      return;
+    }
+
+    final isPendingRoleSelection = prefs.getBool('pending_role_selection') ?? false;
+    if (isPendingRoleSelection) {
+      debugPrint('[SplashScreen] Incomplete role selection -> RoleScreen');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/role');
+      }
+      return;
+    }
+
     try {
       ChatService().connectSocket();
     } catch (e) {
