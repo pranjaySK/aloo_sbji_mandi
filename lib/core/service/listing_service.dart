@@ -3,10 +3,22 @@ import 'dart:convert';
 import 'package:aloo_sbji_mandi/core/constants/api_constant.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ListingService {
   static String get baseUrl => '${ApiConstants.baseUrl}/api/v1';
+  final Logger _log = Logger();
+  static const _encoder = JsonEncoder.withIndent('  ');
+
+  void _logApi(String method, String endpoint, {dynamic request, required int status, dynamic response}) {
+    _log.i(
+      '[ListingService] $method $endpoint\n'
+      '  ── REQUEST:  ${request != null ? _encoder.convert(request) : 'none'}\n'
+      '  ── STATUS:   $status\n'
+      '  ── RESPONSE: ${response != null ? _encoder.convert(response) : 'none'}',
+    );
+  }
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -44,6 +56,7 @@ class ListingService {
 
       final response = await http.get(uri);
       final data = json.decode(response.body);
+      _logApi('GET', uri.toString(), status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
@@ -119,6 +132,7 @@ class ListingService {
 
       final response = await http.get(Uri.parse(url));
       final data = json.decode(response.body);
+      _logApi('GET', url, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
@@ -175,6 +189,7 @@ class ListingService {
 
       final response = await http.get(Uri.parse(url));
       final data = json.decode(response.body);
+      _logApi('GET', url, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
@@ -195,6 +210,7 @@ class ListingService {
         headers: headers,
       );
       final data = json.decode(response.body);
+      _logApi('GET', '$baseUrl/listings/user/my', status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
         return {'success': true, 'data': data['data']};
@@ -232,10 +248,7 @@ class ListingService {
       final headers = await _getHeaders();
       debugPrint('images: ${images?.length}');
 
-      final response = await http.post(
-        Uri.parse('$baseUrl/listings/create'),
-        headers: headers,
-        body: json.encode({
+      final requestBody = {
           'type': type,
           'potatoVariety': potatoVariety,
           'quantity': quantity,
@@ -259,9 +272,16 @@ class ListingService {
             'coldStorageName': coldStorageName,
           if (captureLocation != null)
             'captureLocation': captureLocation,
-        }),
+        };
+
+      final endpoint = '$baseUrl/listings/create';
+      final response = await http.post(
+        Uri.parse(endpoint),
+        headers: headers,
+        body: json.encode(requestBody),
       );
       final data = json.decode(response.body);
+      _logApi('POST', endpoint, request: requestBody, status: response.statusCode, response: data);
 
       if (response.statusCode == 201) {
         return {'success': true, 'data': data['data']};
@@ -299,12 +319,14 @@ class ListingService {
       if (isActive != null) body['isActive'] = isActive;
       if (contactPhone != null) body['contactPhone'] = contactPhone;
 
+      final endpoint = '$baseUrl/listings/$listingId';
       final response = await http.put(
-        Uri.parse('$baseUrl/listings/$listingId'),
+        Uri.parse(endpoint),
         headers: headers,
         body: json.encode(body),
       );
       final data = json.decode(response.body);
+      _logApi('PUT', endpoint, request: body, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
         return {
@@ -327,11 +349,13 @@ class ListingService {
   Future<Map<String, dynamic>> deleteListing(String listingId) async {
     try {
       final headers = await _getHeaders();
+      final endpoint = '$baseUrl/listings/$listingId';
       final response = await http.delete(
-        Uri.parse('$baseUrl/listings/$listingId'),
+        Uri.parse(endpoint),
         headers: headers,
       );
       final data = json.decode(response.body);
+      _logApi('DELETE', endpoint, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
         return {'success': true, 'message': 'Listing deleted successfully'};
@@ -350,11 +374,13 @@ class ListingService {
   Future<Map<String, dynamic>> toggleListingStatus(String listingId) async {
     try {
       final headers = await _getHeaders();
+      final endpoint = '$baseUrl/listings/$listingId/toggle';
       final response = await http.patch(
-        Uri.parse('$baseUrl/listings/$listingId/toggle'),
+        Uri.parse(endpoint),
         headers: headers,
       );
       final data = json.decode(response.body);
+      _logApi('PATCH', endpoint, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
         return {

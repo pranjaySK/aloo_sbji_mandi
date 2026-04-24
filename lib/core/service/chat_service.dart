@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/chat_models.dart';
 import 'socket_service.dart';
+import 'package:logger/logger.dart';
 
 class ChatService {
   // Backend URL - using production server
@@ -16,6 +17,17 @@ class ChatService {
 
   // Socket service for real-time messaging
   final SocketService _socketService = SocketService();
+  final Logger _logger = Logger();
+  static const _encoder = JsonEncoder.withIndent('  ');
+
+  void _logApi(String method, String endpoint, {dynamic request, required int status, dynamic response}) {
+    _logger.i(
+      '[ChatService] $method $endpoint\n'
+      '  ── REQUEST:  ${request != null ? _encoder.convert(request) : 'none'}\n'
+      '  ── STATUS:   $status\n'
+      '  ── RESPONSE: ${response != null ? _encoder.convert(response) : 'none'}',
+    );
+  }
 
   // Get socket service instance
   SocketService get socketService => _socketService;
@@ -53,15 +65,17 @@ class ChatService {
 
   // Get all conversations for current user
   Future<List<Conversation>> getConversations() async {
+    final endpoint = '$baseUrl/chat/conversations';
     try {
       final headers = await _getHeaders();
       final response = await http.get(
-        Uri.parse('$baseUrl/chat/conversations'),
+        Uri.parse(endpoint),
         headers: headers,
       );
+      final data = json.decode(response.body);
+      _logApi('GET', endpoint, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         final List<dynamic> conversationsJson = data['data'] ?? [];
         return conversationsJson
             .map((json) => Conversation.fromJson(json))
@@ -72,29 +86,31 @@ class ChatService {
         throw Exception('Failed to load conversations');
       }
     } catch (e) {
-      print('Error fetching conversations: $e');
+      _logger.e('[ChatService] GET $endpoint => Error: $e');
       rethrow;
     }
   }
 
   // Get users that current user can chat with
   Future<List<ChatUser>> getChatableUsers() async {
+    final endpoint = '$baseUrl/chat/users';
     try {
       final headers = await _getHeaders();
       final response = await http.get(
-        Uri.parse('$baseUrl/chat/users'),
+        Uri.parse(endpoint),
         headers: headers,
       );
+      final data = json.decode(response.body);
+      _logApi('GET', endpoint, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         final List<dynamic> usersJson = data['data'] ?? [];
         return usersJson.map((json) => ChatUser.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load users');
       }
     } catch (e) {
-      print('Error fetching chatable users: $e');
+      _logger.e('[ChatService] GET $endpoint => Error: $e');
       rethrow;
     }
   }
@@ -112,37 +128,35 @@ class ChatService {
       ).replace(queryParameters: queryParams.isNotEmpty ? queryParams : null);
 
       final response = await http.get(uri, headers: headers);
+      final data = json.decode(response.body);
+      _logApi('GET', uri.toString(), status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         final List<dynamic> usersJson = data['data'] ?? [];
         return usersJson.map((json) => ChatUser.fromJson(json)).toList();
       } else {
         throw Exception('Failed to search users');
       }
     } catch (e) {
-      print('Error searching users: $e');
+      _logger.e('[ChatService] searchUsers Error: $e');
       rethrow;
     }
   }
 
   // Get or create conversation with a user
   Future<String> getOrCreateConversation(String otherUserId) async {
+    final endpoint = '$baseUrl/chat/conversation/$otherUserId';
     try {
       final headers = await _getHeaders();
-      print('Creating conversation with user: $otherUserId');
-      print('Headers: $headers');
 
       final response = await http.get(
-        Uri.parse('$baseUrl/chat/conversation/$otherUserId'),
+        Uri.parse(endpoint),
         headers: headers,
       );
-
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      final data = json.decode(response.body);
+      _logApi('GET', endpoint, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         final conversationId = data['data']['_id'];
 
         // Join the conversation room via socket
@@ -152,13 +166,12 @@ class ChatService {
       } else if (response.statusCode == 401) {
         throw Exception('Authentication required. Please login again.');
       } else {
-        final errorData = json.decode(response.body);
         final errorMessage =
-            errorData['message'] ?? 'Failed to get/create conversation';
+            data['message'] ?? 'Failed to get/create conversation';
         throw Exception(errorMessage);
       }
     } catch (e) {
-      print('Error getting/creating conversation: $e');
+      _logger.e('[ChatService] GET $endpoint => Error: $e');
       rethrow;
     }
   }
@@ -187,9 +200,10 @@ class ChatService {
       ).replace(queryParameters: queryParams.isNotEmpty ? queryParams : null);
 
       final response = await http.get(uri, headers: headers);
+      final data = json.decode(response.body);
+      _logApi('GET', uri.toString(), request: queryParams, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         final conversationId = data['data']['_id'];
 
         // Join the conversation room via socket
@@ -197,14 +211,13 @@ class ChatService {
 
         return {'success': true, 'data': data['data']};
       } else {
-        final data = json.decode(response.body);
         return {
           'success': false,
           'message': data['message'] ?? 'Failed to start conversation',
         };
       }
     } catch (e) {
-      print('Error starting conversation with context: $e');
+      _logger.e('[ChatService] getOrCreateConversationWithContext Error: $e');
       return {'success': false, 'message': 'Network error: $e'};
     }
   }
@@ -213,15 +226,17 @@ class ChatService {
   Future<Map<String, dynamic>> startOrGetConversation(
     String otherUserId,
   ) async {
+    final endpoint = '$baseUrl/chat/conversation/$otherUserId';
     try {
       final headers = await _getHeaders();
       final response = await http.get(
-        Uri.parse('$baseUrl/chat/conversation/$otherUserId'),
+        Uri.parse(endpoint),
         headers: headers,
       );
+      final data = json.decode(response.body);
+      _logApi('GET', endpoint, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         final conversationId = data['data']['_id'];
 
         // Join the conversation room via socket
@@ -229,14 +244,13 @@ class ChatService {
 
         return {'success': true, 'data': data['data'] ?? data};
       } else {
-        final data = json.decode(response.body);
         return {
           'success': false,
           'message': data['message'] ?? 'Failed to start conversation',
         };
       }
     } catch (e) {
-      print('Error starting conversation: $e');
+      _logger.e('[ChatService] GET $endpoint => Error: $e');
       return {'success': false, 'message': 'Network error: $e'};
     }
   }
@@ -247,24 +261,24 @@ class ChatService {
     int page = 1,
     int limit = 50,
   }) async {
+    final endpoint = '$baseUrl/chat/messages/$conversationId?page=$page&limit=$limit';
     try {
       final headers = await _getHeaders();
       final response = await http.get(
-        Uri.parse(
-          '$baseUrl/chat/messages/$conversationId?page=$page&limit=$limit',
-        ),
+        Uri.parse(endpoint),
         headers: headers,
       );
+      final data = json.decode(response.body);
+      _logApi('GET', endpoint, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         final List<dynamic> messagesJson = data['data'] ?? [];
         return messagesJson.map((json) => Message.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load messages');
       }
     } catch (e) {
-      print('Error fetching messages: $e');
+      _logger.e('[ChatService] GET $endpoint => Error: $e');
       rethrow;
     }
   }
@@ -277,6 +291,7 @@ class ChatService {
     DealDetails? dealDetails,
     Map<String, dynamic>? dealDetailsMap,
   }) async {
+    final endpoint = '$baseUrl/chat/messages/$conversationId';
     try {
       final headers = await _getHeaders();
       final Map<String, dynamic> body = {
@@ -290,30 +305,21 @@ class ChatService {
         body['dealDetails'] = dealDetailsMap;
       }
 
-      debugPrint(
-        '[ChatService.sendMessage] conversationId=$conversationId messageType=$messageType hasDealDetails=${body['dealDetails'] != null}',
-      ); 
-
       final response = await http.post(
-        Uri.parse('$baseUrl/chat/messages/$conversationId'),
+        Uri.parse(endpoint),
         headers: headers,
         body: json.encode(body),
       );
+      final data = json.decode(response.body);
+      _logApi('POST', endpoint, request: body, status: response.statusCode, response: data);
 
-      if (response.statusCode == 201) {
-        final data = json.decode(response.body);
-        debugPrint(
-          '[ChatService.sendMessage] Message sent successfully: ${data['data']}',
-        );
+      if (response.statusCode == 201 || response.statusCode == 200) {
         return Message.fromJson(data['data']);
       } else {
-        debugPrint( 
-          '[ChatService.sendMessage] failed status=${response.statusCode} body=${response.body}',
-        );
         throw Exception('Failed to send message');
       }
     } catch (e) {
-      print('Error sending message: $e');
+      _logger.e('[ChatService] POST $endpoint => Error: $e');
       rethrow;
     }
   }
@@ -353,34 +359,39 @@ class ChatService {
     // Also notify via socket for real-time read receipts
     _socketService.markAsRead(conversationId);
 
+    final endpoint = '$baseUrl/chat/messages/$conversationId/read';
     try {
       final headers = await _getHeaders();
-      await http.patch(
-        Uri.parse('$baseUrl/chat/messages/$conversationId/read'),
+      final response = await http.patch(
+        Uri.parse(endpoint),
         headers: headers,
       );
+      final data = response.body.isNotEmpty ? json.decode(response.body) : null;
+      _logApi('PATCH', endpoint, status: response.statusCode, response: data);
     } catch (e) {
-      print('Error marking messages as read: $e');
+      _logger.e('[ChatService] PATCH $endpoint => Error: $e');
     }
   }
 
   /// Get online status for specific users
   Future<Map<String, bool>> getOnlineStatus(List<String> userIds) async {
+    final endpoint = '$baseUrl/chat/users/online?userIds=${userIds.join(',')}';
     try {
       final headers = await _getHeaders();
       final response = await http.get(
-        Uri.parse('$baseUrl/chat/users/online?userIds=${userIds.join(',')}'),
+        Uri.parse(endpoint),
         headers: headers,
       );
+      final data = json.decode(response.body);
+      _logApi('GET', endpoint, status: response.statusCode, response: data);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         final Map<String, dynamic> statuses = data['data'] ?? {};
         return statuses.map((key, value) => MapEntry(key, value as bool));
       }
       return {};
     } catch (e) {
-      print('Error getting online status: $e');
+      _logger.e('[ChatService] GET $endpoint => Error: $e');
       return {};
     }
   }
@@ -447,6 +458,8 @@ class ChatService {
     dynamic imageData, { // Can be File (mobile) or List<int> (web)
     String? caption,
   }) async {
+    final endpoint = '$baseUrl/chat/messages/$conversationId';
+    _logger.i('[ChatService] POST $endpoint (image) caption=${caption ?? ""}');
     try {
       String base64Image;
 
@@ -472,27 +485,21 @@ class ChatService {
         'messageType': 'image',
       };
 
-      debugPrint(
-        '[ChatService.sendImageMessage] conversationId=$conversationId caption=${caption ?? ''}',
-      );
-
       final response = await http.post(
-        Uri.parse('$baseUrl/chat/messages/$conversationId'),
+        Uri.parse(endpoint),
         headers: headers,
         body: json.encode(body),
       );
+      _logger.d('[ChatService] POST $endpoint (image) => status=${response.statusCode} body=${response.body}');
 
       if (response.statusCode == 201) {
         final data = json.decode(response.body);
         return Message.fromJson(data['data']);
       } else {
-        debugPrint(
-          '[ChatService.sendImageMessage] failed status=${response.statusCode} body=${response.body}',
-        );
         throw Exception('Failed to send image message');
       }
     } catch (e) {
-      print('Error sending image message: $e');
+      _logger.e('[ChatService] POST $endpoint (image) => Error: $e');
       rethrow;
     }
   }

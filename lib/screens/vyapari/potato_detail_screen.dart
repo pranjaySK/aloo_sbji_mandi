@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:logger/logger.dart';
+
 import 'package:aloo_sbji_mandi/core/models/chat_models.dart';
 import 'package:aloo_sbji_mandi/core/service/chat_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
@@ -25,6 +27,7 @@ class PotatoDetailsScreen extends StatefulWidget {
 
 class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
   final ChatService _chatService = ChatService();
+  final Logger _log = Logger();
   final PageController _pageController = PageController();
   bool _isLoadingChat = false;
   int _currentImageIndex = 0;
@@ -227,6 +230,8 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
     final sourceType = listing['sourceType'] ?? '';
     final coldStorageName = listing['coldStorageName'] ?? '';
     final captureLocation = listing['captureLocation'];
+
+    _log.i('[PotatoDetail] Raw listing data: ${json.encode(listing)}');
 
     return Scaffold(
       backgroundColor: AppColors.cardBg(context),
@@ -451,7 +456,7 @@ class _PotatoDetailsScreenState extends State<PotatoDetailsScreen> {
                           children: [
                             _infoColumn(
                               AppLocalizations.tr('quantity'),
-                              '$quantity ${unitPlural(unit).substring(0, 3)}',
+                              '$quantity ${unitAbbr(unit)}',
                             ),
                             Container(
                               width: 1,
