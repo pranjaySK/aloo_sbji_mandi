@@ -503,6 +503,12 @@ class _AlooMitraRegistrationScreenState
       }
     }
 
+    // Validate Business Photos (required for all non-majdoor types)
+    if (_selectedServiceType != 'majdoor' && _businessPhotos.isEmpty) {
+      _showError(tr('upload_photo_msg') != 'upload_photo_msg' ? tr('upload_photo_msg') : 'Please upload at least one photo');
+      return;
+    }
+
     setState(() => _isLoading = true);
 
     // Convert business photos to base64 (for non-majdoor types)
@@ -608,6 +614,8 @@ class _AlooMitraRegistrationScreenState
       // Ensure role is saved locally
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('userRole', 'aloo-mitra');
+      await prefs.remove('pending_aloo_mitra_registration');
+      await prefs.remove('pending_role_selection');
 
       setState(() => _isLoading = false);
 
@@ -616,8 +624,6 @@ class _AlooMitraRegistrationScreenState
           _showSuccessDialog();
         }
       } else {
-        // Even if profile update fails, role was updated successfully
-        // Show success and let user update profile later
         if (mounted) {
           _showSuccessDialog();
         }

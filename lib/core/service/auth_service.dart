@@ -489,6 +489,8 @@ class AuthService {
     await prefs.remove('user');
     await prefs.remove('userRole');
     await prefs.remove('userId');
+    await prefs.remove('pending_role_selection');
+    await prefs.remove('pending_aloo_mitra_registration');
     debugPrint('[AuthService] logout DONE');
   }
 }

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -539,6 +540,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (result['success'] == true) {
       if (mounted) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('pending_role_selection', true);
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(tr('registration_successful')),

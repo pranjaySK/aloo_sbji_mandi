@@ -383,70 +383,138 @@ class _AdvertiseWithUsScreenState extends State<AdvertiseWithUsScreen> {
       data: orderData,
     );
 
-    // Open Razorpay checkout
-    var options = {
-      'key': orderData['keyId'],
-      'amount': orderData['amount'],
-      'currency': orderData['currency'] ?? 'INR',
-      'name': 'Aloo Sabji Mandi',
-      'description': '${tr('advertisement')}: $title',
-      'order_id': orderData['orderId'],
-      'prefill': {
-        'name': _userName ?? '',
-        'email': _userEmail ?? '',
-        'contact': _userPhone ?? '',
-      },
-      'theme': {'color': '#4CAF50'},
-      'notes': {'advertisementId': adId, 'title': title},
-      'config': {
-        'display': {
-          'blocks': {
-            'utib': {
-              'name': tr('pay_upi_qr'),
-              'instruments': [
-                {
-                  'method': 'upi',
-                  'flows': ['qr'],
-                },
-                {
-                  'method': 'upi',
-                  'flows': ['collect', 'intent'],
-                },
-              ],
-            },
-            'other': {
-              'name': tr('other_payment_methods'),
-              'instruments': [
-                {'method': 'card'},
-                {'method': 'netbanking'},
-                {'method': 'wallet'},
-              ],
-            },
-          },
-          'sequence': ['block.utib', 'block.other'],
-          'preferences': {'show_default_blocks': false},
-        },
-      },
-    };
+    // Open Razorpay checkout (COMMENTED OUT — using cash payment flow)
+    // var options = {
+    //   'key': orderData['keyId'],
+    //   'amount': orderData['amount'],
+    //   'currency': orderData['currency'] ?? 'INR',
+    //   'name': 'Aloo Sabji Mandi',
+    //   'description': '${tr('advertisement')}: $title',
+    //   'order_id': orderData['orderId'],
+    //   'prefill': {
+    //     'name': _userName ?? '',
+    //     'email': _userEmail ?? '',
+    //     'contact': _userPhone ?? '',
+    //   },
+    //   'theme': {'color': '#4CAF50'},
+    //   'notes': {'advertisementId': adId, 'title': title},
+    //   'config': {
+    //     'display': {
+    //       'blocks': {
+    //         'utib': {
+    //           'name': tr('pay_upi_qr'),
+    //           'instruments': [
+    //             {
+    //               'method': 'upi',
+    //               'flows': ['qr'],
+    //             },
+    //             {
+    //               'method': 'upi',
+    //               'flows': ['collect', 'intent'],
+    //             },
+    //           ],
+    //         },
+    //         'other': {
+    //           'name': tr('other_payment_methods'),
+    //           'instruments': [
+    //             {'method': 'card'},
+    //             {'method': 'netbanking'},
+    //             {'method': 'wallet'},
+    //           ],
+    //         },
+    //       },
+    //       'sequence': ['block.utib', 'block.other'],
+    //       'preferences': {'show_default_blocks': false},
+    //     },
+    //   },
+    // };
+
+    // --- RAZORPAY SKIPPED: Direct cash payment flow ---
+    // The Razorpay checkout is commented out. Instead, we directly
+    // call the verify API with a mock paymentId to complete the
+    // payment flow without opening the payment gateway.
+    //
+    // try {
+    //   if (mounted) setState(() => _isLoading = false);
+    //   _razorpay.open(options);
+    // } catch (e, stackTrace) {
+    //   AppLogger.error(
+    //     'Failed to open Razorpay checkout for advertisement payment',
+    //     tag: 'AD_PAYMENT',
+    //     error: e,
+    //     stackTrace: stackTrace,
+    //     data: {'advertisementId': adId},
+    //   );
+    //   if (mounted) setState(() => _isLoading = false);
+    //   _pendingAdId = null;
+    //   _pendingOrderId = null;
+    //   Fluttertoast.showToast(
+    //     msg: tr('ad_payment_start_error'),
+    //     backgroundColor: Colors.red,
+    //   );
+    // }
 
     try {
-      if (mounted) setState(() => _isLoading = false);
-      _razorpay.open(options);
+      final mockPaymentId = 'pay_cash_${DateTime.now().millisecondsSinceEpoch}';
+
+      AppLogger.info(
+        'Skipping Razorpay — processing cash payment directly',
+        tag: 'AD_PAYMENT',
+        data: {
+          'orderId': _pendingOrderId,
+          'mockPaymentId': mockPaymentId,
+          'advertisementId': adId,
+        },
+      );
+
+      final result = await _adService.verifyAdPayment(
+        orderId: _pendingOrderId ?? '',
+        paymentId: mockPaymentId,
+        signature: '',
+        advertisementId: adId,
+      );
+
+      if (result['success']) {
+        AppLogger.success(
+          'Cash payment verified successfully',
+          tag: 'AD_PAYMENT',
+          data: result['data'],
+        );
+        Fluttertoast.showToast(
+          msg: tr('ad_payment_success'),
+          backgroundColor: Colors.green,
+          toastLength: Toast.LENGTH_LONG,
+        );
+        await _refreshAds();
+      } else {
+        AppLogger.warning(
+          'Cash payment verification failed',
+          tag: 'AD_PAYMENT',
+          data: result,
+        );
+        Fluttertoast.showToast(
+          msg: result['message'] ?? tr('ad_payment_verify_failed'),
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_LONG,
+        );
+      }
     } catch (e, stackTrace) {
       AppLogger.error(
-        'Failed to open Razorpay checkout for advertisement payment',
+        'Cash payment processing threw an exception',
         tag: 'AD_PAYMENT',
         error: e,
         stackTrace: stackTrace,
         data: {'advertisementId': adId},
       );
-      if (mounted) setState(() => _isLoading = false);
+      Fluttertoast.showToast(
+        msg: tr('ad_payment_verify_error'),
+        backgroundColor: Colors.orange,
+        toastLength: Toast.LENGTH_LONG,
+      );
+    } finally {
       _pendingAdId = null;
       _pendingOrderId = null;
-      Fluttertoast.showToast(
-        msg: tr('ad_payment_start_error'),
-        backgroundColor: Colors.red,
-      );
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -1992,7 +2060,7 @@ class _AdRequestCard extends StatelessWidget {
                   ),
                 ),
                 label: Text(
-                  tr('make_payment'),
+                  '${tr('make_payment')} (Cash)',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
