@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:aloo_sbji_mandi/core/service/location_service.dart';
 import 'package:aloo_sbji_mandi/core/service/receipt_photo_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 // Conditional import for web camera
@@ -82,6 +83,9 @@ class _MyReceiptPhotosScreenState extends State<MyReceiptPhotosScreen> {
     } else {
       // For mobile, use image_picker with camera
       try {
+        final hasCameraPermission = await LocationService().handleCameraPermission(context);
+        if (!hasCameraPermission) return;
+
         final XFile? image = await _picker.pickImage(
           source: ImageSource.camera,
           maxWidth: 1920,

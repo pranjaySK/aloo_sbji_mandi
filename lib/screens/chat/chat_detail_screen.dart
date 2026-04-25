@@ -11,6 +11,7 @@ import '../../core/models/chat_models.dart';
 import '../../core/models/deal_model.dart';
 import '../../core/service/chat_service.dart';
 import '../../core/service/deal_service.dart';
+import '../../core/service/location_service.dart';
 import '../../core/service/payment_service.dart';
 import '../../core/service/receipt_service.dart';
 import '../../core/utils/app_localizations.dart';
@@ -4842,6 +4843,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       ),
     );
     if (source == null) return;
+
+    if (source == ImageSource.camera) {
+      final hasCameraPermission = await LocationService().handleCameraPermission(context);
+      if (!hasCameraPermission) return;
+    }
+
     try {
       final XFile? image = await picker.pickImage(
         source: source,
@@ -6111,6 +6118,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     );
 
     if (source == null) return;
+
+    if (source == ImageSource.camera) {
+      final hasCameraPermission = await LocationService().handleCameraPermission(context);
+      if (!hasCameraPermission) return;
+    }
 
     try {
       final XFile? image = await picker.pickImage(

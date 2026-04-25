@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:aloo_sbji_mandi/core/constants/state_city_data.dart';
 import 'package:aloo_sbji_mandi/core/service/cold_storage_service.dart';
 import 'package:aloo_sbji_mandi/core/service/google_geocoding_service.dart';
+import 'package:aloo_sbji_mandi/core/service/location_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/core/utils/toast_helper.dart';
 import 'package:aloo_sbji_mandi/theme/app_colors.dart';
@@ -1134,6 +1135,18 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
 
   Future<void> _captureImage({int slot = 1}) async {
     try {
+      // For slot 1, we need both camera and location
+      // For other slots, just camera
+      final needsLocation = slot == 1;
+
+      final hasPermissions = await LocationService().handlePermissions(
+        context,
+        camera: true,
+        location: needsLocation,
+      );
+
+      if (!hasPermissions) return;
+
       final XFile? image = await _imagePicker.pickImage(
         source: ImageSource.camera,
         maxWidth: 1200,
@@ -1149,7 +1162,7 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
           }
         });
         // Capture GPS only for the first photo
-        if (slot == 1) _captureGPSLocation();
+        if (slot == 1) _captureGPSLocation(skipPermissionCheck: true);
       }
     } catch (e) {
       ToastHelper.showError(context, tr('failed_to_capture_image'));
@@ -1157,31 +1170,17 @@ class _AddEditStorageScreenState extends State<AddEditStorageScreen> {
   }
 
   /// Capture live GPS location and reverse geocode it
-  Future<void> _captureGPSLocation() async {
+  Future<void> _captureGPSLocation({bool skipPermissionCheck = false}) async {
     setState(() => _isCapturingGPS = true);
 
     try {
-      // Check location permission
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          if (mounted) {
-            ToastHelper.showError(context, tr('location_permission_denied'));
-          }
+      // Check location permission if not already checked
+      if (!skipPermissionCheck) {
+        final hasPermission = await LocationService().handleLocationPermission(context);
+        if (!hasPermission) {
           setState(() => _isCapturingGPS = false);
           return;
         }
-      }
-      if (permission == LocationPermission.deniedForever) {
-        if (mounted) {
-          ToastHelper.showError(
-            context,
-            tr('location_permission_permanently_denied'),
-          );
-        }
-        setState(() => _isCapturingGPS = false);
-        return;
       }
 
       // Get current position

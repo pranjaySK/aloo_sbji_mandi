@@ -125,7 +125,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() => _isLoadingLocation = true);
 
     try {
-      final locationData = await _locationService.getLocationData();
+      final locationData = await _locationService.getLocationData(context: context);
 
       if (mounted) {
         final fetchedState = locationData['state'];

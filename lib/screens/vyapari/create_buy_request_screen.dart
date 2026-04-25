@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aloo_sbji_mandi/core/constants/state_city_data.dart';
 import 'package:aloo_sbji_mandi/core/service/google_geocoding_service.dart';
+import 'package:aloo_sbji_mandi/core/service/location_service.dart';
 import 'package:aloo_sbji_mandi/core/service/trader_request_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/core/utils/toast_helper.dart';
@@ -210,24 +211,8 @@ class _CreateBuyRequestScreenState extends State<CreateBuyRequestScreen> {
 
     try {
       // Check location permission
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          if (mounted) {
-            ToastHelper.showError(context, 'Location permission denied');
-          }
-          setState(() => _isCapturingLocation = false);
-          return;
-        }
-      }
-      if (permission == LocationPermission.deniedForever) {
-        if (mounted) {
-          ToastHelper.showError(
-            context,
-            'Location permission permanently denied. Enable in settings.',
-          );
-        }
+      final hasPermission = await LocationService().handleLocationPermission(context);
+      if (!hasPermission) {
         setState(() => _isCapturingLocation = false);
         return;
       }

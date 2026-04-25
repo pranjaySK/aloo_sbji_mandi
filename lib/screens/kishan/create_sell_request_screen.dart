@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:aloo_sbji_mandi/core/service/cold_storage_service.dart';
 import 'package:aloo_sbji_mandi/core/service/google_geocoding_service.dart';
 import 'package:aloo_sbji_mandi/core/service/listing_service.dart';
+import 'package:aloo_sbji_mandi/core/service/location_service.dart';
 import 'package:aloo_sbji_mandi/core/utils/app_localizations.dart';
 import 'package:aloo_sbji_mandi/core/utils/custom_rounded_app_bar.dart';
 import 'package:aloo_sbji_mandi/core/utils/toast_helper.dart';
@@ -538,73 +539,79 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
       String locationString = 'Location not available';
       double? lat;
       double? lng;
+
+      // Check both location & camera permissions upfront (single dialog if both denied)
+      final hasAllPermissions = await LocationService().handlePermissions(
+        context,
+        location: true,
+        camera: true,
+      );
+      if (!hasAllPermissions) {
+        setState(() {
+          _isCapturing1 = false;
+          _isCapturing2 = false;
+        });
+        return;
+      }
+
       try {
-        // Check & request location permission
-        LocationPermission permission = await Geolocator.checkPermission();
-        if (permission == LocationPermission.denied) {
-          permission = await Geolocator.requestPermission();
+        final Position position = await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: Duration(seconds: 10),
+          ),
+        );
+
+        lat = position.latitude;
+        lng = position.longitude;
+
+        // Reverse geocode using Google Geocoding API (precise)
+        try {
+          final geocodeResult = await _googleGeocodingService.reverseGeocode(
+            latitude: position.latitude,
+            longitude: position.longitude,
+          );
+          if (geocodeResult != null) {
+            locationString = GoogleGeocodingService.buildCompactAddress(geocodeResult);
+            if (locationString.isEmpty) {
+              locationString = geocodeResult['formattedAddress'] ?? '';
+            }
+          }
+        } catch (e) {
+          debugPrint('Google Geocoding error: $e');
         }
 
-        if (permission == LocationPermission.whileInUse ||
-            permission == LocationPermission.always) {
-          final Position position = await Geolocator.getCurrentPosition(
-            locationSettings: const LocationSettings(
-              accuracy: LocationAccuracy.high,
-              timeLimit: Duration(seconds: 10),
-            ),
-          );
-
-          lat = position.latitude;
-          lng = position.longitude;
-
-          // Reverse geocode using Google Geocoding API (precise)
+        // Fallback: use Dart geocoding package if Google API failed
+        if (locationString == 'Location not available' || locationString.isEmpty) {
           try {
-            final geocodeResult = await _googleGeocodingService.reverseGeocode(
-              latitude: position.latitude,
-              longitude: position.longitude,
+            final placemarks = await geocoding.placemarkFromCoordinates(
+              position.latitude,
+              position.longitude,
             );
-            if (geocodeResult != null) {
-              locationString = GoogleGeocodingService.buildCompactAddress(geocodeResult);
-              if (locationString.isEmpty) {
-                locationString = geocodeResult['formattedAddress'] ?? '';
+            if (placemarks.isNotEmpty) {
+              final p = placemarks.first;
+              final parts = <String>[
+                if (p.subLocality != null && p.subLocality!.isNotEmpty) p.subLocality!,
+                if (p.locality != null && p.locality!.isNotEmpty) p.locality!,
+                if (p.subAdministrativeArea != null && p.subAdministrativeArea!.isNotEmpty) p.subAdministrativeArea!,
+                if (p.administrativeArea != null && p.administrativeArea!.isNotEmpty) p.administrativeArea!,
+                if (p.postalCode != null && p.postalCode!.isNotEmpty) p.postalCode!,
+              ];
+              if (parts.isNotEmpty) {
+                locationString = parts.join(', ');
               }
             }
           } catch (e) {
-            debugPrint('Google Geocoding error: $e');
+            debugPrint('Dart geocoding fallback error: $e');
           }
+        }
 
-          // Fallback: use Dart geocoding package if Google API failed
-          if (locationString == 'Location not available' || locationString.isEmpty) {
-            try {
-              final placemarks = await geocoding.placemarkFromCoordinates(
-                position.latitude,
-                position.longitude,
-              );
-              if (placemarks.isNotEmpty) {
-                final p = placemarks.first;
-                final parts = <String>[
-                  if (p.subLocality != null && p.subLocality!.isNotEmpty) p.subLocality!,
-                  if (p.locality != null && p.locality!.isNotEmpty) p.locality!,
-                  if (p.subAdministrativeArea != null && p.subAdministrativeArea!.isNotEmpty) p.subAdministrativeArea!,
-                  if (p.administrativeArea != null && p.administrativeArea!.isNotEmpty) p.administrativeArea!,
-                  if (p.postalCode != null && p.postalCode!.isNotEmpty) p.postalCode!,
-                ];
-                if (parts.isNotEmpty) {
-                  locationString = parts.join(', ');
-                }
-              }
-            } catch (e) {
-              debugPrint('Dart geocoding fallback error: $e');
-            }
-          }
-
-          // Final fallback: show coordinates if we have them, otherwise generic message
-          if (locationString == 'Location not available' || locationString.isEmpty) {
-            if (lat != null && lng != null) {
-              locationString = '${lat.toStringAsFixed(6)}, ${lng.toStringAsFixed(6)}';
-            } else {
-              locationString = 'Location captured';
-            }
+        // Final fallback: show coordinates if we have them, otherwise generic message
+        if (locationString == 'Location not available' || locationString.isEmpty) {
+          if (lat != null && lng != null) {
+            locationString = '${lat.toStringAsFixed(6)}, ${lng.toStringAsFixed(6)}';
+          } else {
+            locationString = 'Location captured';
           }
         }
       } catch (e) {
@@ -612,7 +619,6 @@ class _CreateSellRequestScreenState extends State<CreateSellRequestScreen> {
         locationString = 'Location not available';
       }
 
-      // Step 2: Open camera directly (rear camera, no dialog)
       final ImagePicker picker = ImagePicker();
       final XFile? photo = await picker.pickImage(
         source: ImageSource.camera,

@@ -407,7 +407,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   // Detect / auto location: GPS + geocode when possible; pincode first then India Post fill.
-  Future<void> _autoFetchLocation() async {
+  Future<void> _autoFetchLocation({bool manual = false}) async {
     setState(() => _isLoadingLocation = true);
 
     // ── OLD: IP-only snapshot, no pincode pipeline (kept for reference)
@@ -422,7 +422,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // }
 
     try {
-      final locationData = await _locationService.getLocationData();
+      final locationData = await _locationService.getLocationData(
+        context: manual ? context : null,
+      );
 
       if (!mounted) return;
 
@@ -730,7 +732,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                       GestureDetector(
-                        onTap: _isLoadingLocation ? null : _autoFetchLocation,
+                        onTap: _isLoadingLocation ? null : () => _autoFetchLocation(manual: true),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8,
